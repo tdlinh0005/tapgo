@@ -473,7 +473,7 @@ git commit -m "feat: add shared game session shell"
 - Consumes: progress functions and game registry.
 - Produces: end-to-end navigation without a router dependency.
 
-- [ ] **Step 1: Write failing navigation tests**
+- [x] **Step 1: Write failing navigation tests**
 
 Assert exact flows:
 - Home -> `Bắt đầu lộ trình` -> Learning Path.
@@ -481,13 +481,13 @@ Assert exact flows:
 - Home -> `Tiến độ` -> total best stars visible.
 - incomplete game 2 is disabled in Path but enabled in Free Play.
 
-- [ ] **Step 2: Run tests and verify failure**
+- [x] **Step 2: Run tests and verify failure**
 
 Run: `npm test -- src/App.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement view state**
+- [x] **Step 3: Implement view state**
 
 ```ts
 type AppView =
@@ -500,7 +500,7 @@ type AppView =
 
 Do not add React Router.
 
-- [ ] **Step 4: Implement desktop gate**
+- [x] **Step 4: Implement desktop gate**
 
 At `window.matchMedia('(max-width: 899px)')`, render:
 
@@ -510,7 +510,7 @@ Hãy mở TapGo trên máy tính để luyện bàn phím và chuột.
 
 Do not block 900 px and above.
 
-- [ ] **Step 5: Implement progress integration**
+- [x] **Step 5: Implement progress integration**
 
 On game completion:
 1. call `recordCompletion`
@@ -518,13 +518,13 @@ On game completion:
 3. call `saveProgress`
 4. leave session result visible until user chooses next action
 
-- [ ] **Step 6: Run app tests and build**
+- [x] **Step 6: Run app tests and build**
 
 Run: `npm test -- src/App.test.tsx && npm run build`
 
 Expected: PASS.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/App.tsx src/App.test.tsx src/components src/screens
