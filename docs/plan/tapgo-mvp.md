@@ -672,17 +672,17 @@ git commit -m "feat: add click target mouse game"
 **Interfaces:**
 - Produces: game id `numbers`, 10 rounds.
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 Round 0 target `1`; pressing `2` then `1` produces `{ correct: 1, attempts: 2 }`.
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/NumberKeyGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement number sequence**
+- [x] **Step 3: Implement number sequence**
 
 ```ts
 const NUMBERS = ['1', '5', '9', '2', '8', '3', '7', '4', '6', '0'] as const;
@@ -690,13 +690,13 @@ const NUMBERS = ['1', '5', '9', '2', '8', '3', '7', '4', '6', '0'] as const;
 
 Use the same keyboard-event pattern as LetterKeyGame without extracting a generic hook unless the duplicated code reaches a clear stable interface during implementation.
 
-- [ ] **Step 4: Register order 2 and run tests**
+- [x] **Step 4: Register order 2 and run tests**
 
 Run: `npm test -- src/games/NumberKeyGame.test.tsx src/game/registry.test.ts`
 
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/games/NumberKeyGame.tsx src/games/NumberKeyGame.test.tsx src/game/registry.ts
@@ -716,20 +716,20 @@ git commit -m "feat: add number keyboard game"
 - Produces: game id `words`, 8 rounds.
 - Words: `ME`, `BA`, `CON`, `MEO`, `CHO`, `NHA`, `XE`, `CA`.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 For `ME`:
 - `m` highlights second character but does not complete.
 - wrong `x` increments attempts and keeps same position.
 - `e` completes with correct count 2 and total attempts including mistakes.
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/WordTypingGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement character cursor**
+- [x] **Step 3: Implement character cursor**
 
 Keep:
 ```ts
@@ -739,13 +739,13 @@ const [attempts, setAttempts] = useState(0);
 
 A correct key advances `charIndex`; wrong key leaves it unchanged. Completion reports `correct: word.length`.
 
-- [ ] **Step 4: Register order 3 and run tests**
+- [x] **Step 4: Register order 3 and run tests**
 
 Run: `npm test -- src/games/WordTypingGame.test.tsx src/game/registry.test.ts`
 
 Expected: PASS.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add src/games/WordTypingGame.tsx src/games/WordTypingGame.test.tsx src/game/registry.ts
@@ -765,21 +765,21 @@ git commit -m "feat: add short word typing game"
 - Produces: game id `find-key`, 10 rounds.
 - Targets: `A M S L P E B C N T`.
 
-- [ ] **Step 1: Write failing test**
+- [x] **Step 1: Write failing test**
 
 Assert visible instruction `Hãy bấm chữ M` for the matching round and correct physical key completes it.
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/FindKeyGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement instruction-first presentation**
+- [x] **Step 3: Implement instruction-first presentation**
 
 The screen must show one large sentence and one large keycap visual. Call `speak('Hãy bấm chữ M')` when the game-specific listen control is activated; do not auto-loop speech after every wrong key.
 
-- [ ] **Step 4: Register order 4, run tests, commit**
+- [x] **Step 4: Register order 4, run tests, commit**
 
 Run: `npm test -- src/games/FindKeyGame.test.tsx src/game/registry.test.ts`
 
@@ -803,24 +803,24 @@ git commit -m "feat: add find key game"
 - Produces: game id `sequence`, 8 rounds.
 - Sequences: `ASD`, `JKL`, `QWE`, `RTY`, `ABC`, `MEO`, `CON`, `NHA`.
 
-- [ ] **Step 1: Write failing cursor behavior tests**
+- [x] **Step 1: Write failing cursor behavior tests**
 
 Assert:
 - correct key advances highlight
 - wrong key does not reset progress
 - final key completes round with `correct = sequence.length`
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/SequenceTypingGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement sequence cursor**
+- [x] **Step 3: Implement sequence cursor**
 
 Render each character as a large key chip. Apply `data-active="true"` only to current character so CSS owns the visual variant.
 
-- [ ] **Step 4: Register order 5, run tests, commit**
+- [x] **Step 4: Register order 5, run tests, commit**
 
 Run: `npm test -- src/games/SequenceTypingGame.test.tsx src/game/registry.test.ts`
 
