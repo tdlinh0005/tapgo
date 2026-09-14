@@ -277,7 +277,7 @@ git commit -m "chore: scaffold TapGo React app"
 - Produces: `loadProgress()`, `saveProgress(state)`, `recordCompletion(state, gameId, stars)`.
 - Produces: `isPathUnlocked(gameId, progress)`.
 
-- [ ] **Step 1: Write failing scoring tests**
+- [x] **Step 1: Write failing scoring tests**
 
 ```ts
 it('returns 1 star for completed low-accuracy session', () => {
@@ -293,7 +293,7 @@ it('returns 3 stars at 90 percent accuracy', () => {
 });
 ```
 
-- [ ] **Step 2: Write failing persistence and path tests**
+- [x] **Step 2: Write failing persistence and path tests**
 
 Cover these exact cases:
 
@@ -310,13 +310,13 @@ expect(isPathUnlocked('numbers', createDefaultProgress())).toBe(false);
 expect(isPathUnlocked('numbers', completed)).toBe(true);
 ```
 
-- [ ] **Step 3: Run tests and verify failures**
+- [x] **Step 3: Run tests and verify failures**
 
 Run: `npm test -- src/game/scoring.test.ts src/game/progress.test.ts src/game/path.test.ts`
 
 Expected: FAIL because functions do not exist.
 
-- [ ] **Step 4: Implement exact progress schema**
+- [x] **Step 4: Implement exact progress schema**
 
 ```ts
 export type GameProgress = {
@@ -337,7 +337,7 @@ export const PROGRESS_KEY = 'tapgo.progress.v1';
 
 `saveProgress` wraps `localStorage.setItem` in `try/catch`; a write failure must not throw into UI.
 
-- [ ] **Step 5: Implement scoring and unlock rules**
+- [x] **Step 5: Implement scoring and unlock rules**
 
 ```ts
 export function calculateStars(outcomes: RoundOutcome[]): 1 | 2 | 3 {
@@ -352,13 +352,13 @@ export function calculateStars(outcomes: RoundOutcome[]): 1 | 2 | 3 {
 
 Path order is the exact ten-game order from the spec. Game 1 is always unlocked; each later game checks `completed` on its immediate predecessor.
 
-- [ ] **Step 6: Run tests**
+- [x] **Step 6: Run tests**
 
 Run: `npm test -- src/game`
 
 Expected: PASS.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add src/game
