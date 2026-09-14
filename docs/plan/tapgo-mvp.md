@@ -252,7 +252,7 @@ Run: `npm test -- src/App.test.tsx && npm run build`
 
 Expected: PASS and Vite build succeeds.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add package.json package-lock.json tsconfig.json vite.config.ts index.html src
