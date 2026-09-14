@@ -545,7 +545,7 @@ git commit -m "feat: add TapGo learning navigation"
 - Produces: game id `letters`, 10 rounds.
 - Consumes: `MiniGameProps`.
 
-- [ ] **Step 1: Write failing interaction tests**
+- [x] **Step 1: Write failing interaction tests**
 
 Round 0 target is `A`.
 
@@ -557,13 +557,13 @@ await user.keyboard('a');
 expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
 ```
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/LetterKeyGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement deterministic target sequence**
+- [x] **Step 3: Implement deterministic target sequence**
 
 ```ts
 const LETTERS = ['A', 'M', 'S', 'L', 'P', 'E', 'B', 'C', 'N', 'T'] as const;
@@ -571,7 +571,7 @@ const LETTERS = ['A', 'M', 'S', 'L', 'P', 'E', 'B', 'C', 'N', 'T'] as const;
 
 Listen on `window.keydown` only while mounted. Normalize with `event.key.toUpperCase()`. Ignore modifier-only keys.
 
-- [ ] **Step 4: Register game**
+- [x] **Step 4: Register game**
 
 ```ts
 {
@@ -586,13 +586,13 @@ Listen on `window.keydown` only while mounted. Normalize with `event.key.toUpper
 }
 ```
 
-- [ ] **Step 5: Run game tests and registry tests**
+- [x] **Step 5: Run game tests and registry tests**
 
 Run: `npm test -- src/games/LetterKeyGame.test.tsx src/game/registry.test.ts`
 
 Expected: PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/games/LetterKeyGame.tsx src/games/LetterKeyGame.test.tsx src/game/registry.ts src/game/registry.test.ts
