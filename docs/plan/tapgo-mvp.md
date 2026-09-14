@@ -383,7 +383,7 @@ git commit -m "feat: add TapGo game progress model"
 - Produces: `useFeedbackTone(): { correct(): void; retry(): void }`.
 - Produces: `GameShell` consuming one `GameDefinition` and completing a session.
 
-- [ ] **Step 1: Write failing speech fallback tests**
+- [x] **Step 1: Write failing speech fallback tests**
 
 ```ts
 it('does not throw when speechSynthesis is unavailable', () => {
@@ -394,7 +394,7 @@ it('does not throw when speechSynthesis is unavailable', () => {
 });
 ```
 
-- [ ] **Step 2: Write failing GameShell round-flow test**
+- [x] **Step 2: Write failing GameShell round-flow test**
 
 Use a fake mini-game that calls `onRoundComplete({ correct: 1, attempts: 1 })`. Assert:
 
@@ -406,13 +406,13 @@ expect(screen.getByText('2 / 2')).toBeInTheDocument();
 
 After second round, assert `3 sao` and an `onComplete` callback.
 
-- [ ] **Step 3: Run tests and verify failure**
+- [x] **Step 3: Run tests and verify failure**
 
 Run: `npm test -- src/hooks/useSpeech.test.ts src/game/GameShell.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 4: Implement speech wrapper**
+- [x] **Step 4: Implement speech wrapper**
 
 ```ts
 export function speakVietnamese(text: string) {
@@ -425,11 +425,11 @@ export function speakVietnamese(text: string) {
 }
 ```
 
-- [ ] **Step 5: Implement feedback tones without audio assets**
+- [x] **Step 5: Implement feedback tones without audio assets**
 
 Use a lazily-created `AudioContext`. `correct()` plays two short oscillator tones; `retry()` plays one short low-volume tone. Every Audio API call is inside `try/catch` and returns silently on unsupported browsers.
 
-- [ ] **Step 6: Implement GameShell**
+- [x] **Step 6: Implement GameShell**
 
 GameShell must:
 - speak `definition.intro` from the listen button
@@ -440,13 +440,13 @@ GameShell must:
 - call `onComplete(gameId, stars)`
 - render buttons `Chơi lại`, `Bài tiếp theo`, `Về nhà`
 
-- [ ] **Step 7: Run tests**
+- [x] **Step 7: Run tests**
 
 Run: `npm test -- src/hooks src/game/GameShell.test.tsx`
 
 Expected: PASS.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 git add src/hooks src/components src/game/GameShell.tsx src/game/GameShell.test.tsx
