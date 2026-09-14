@@ -612,7 +612,7 @@ git commit -m "feat: add letter keyboard game"
 - Produces: game id `click-target`, 12 rounds.
 - Validates: pointer gameplay, attempt counting, shared GameShell flow.
 
-- [ ] **Step 1: Write failing tests**
+- [x] **Step 1: Write failing tests**
 
 Assert background click increments attempt but does not complete; target click completes:
 
@@ -624,13 +624,13 @@ await user.click(screen.getByRole('button', { name: 'Mục tiêu' }));
 expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
 ```
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/ClickTargetGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement safe target positions**
+- [x] **Step 3: Implement safe target positions**
 
 Use a fixed normalized position table indexed by round, not `Math.random()`, so tests and repeat sessions are deterministic:
 
@@ -643,17 +643,17 @@ const POSITIONS = [
 
 Use percentages within an inset play area so the 72 px target never clips.
 
-- [ ] **Step 4: Register game**
+- [x] **Step 4: Register game**
 
 Set order 6, 12 rounds, intro `Hãy click vào ngôi sao.`, emoji `⭐`.
 
-- [ ] **Step 5: Run tests and full vertical-slice flow**
+- [x] **Step 5: Run tests and full vertical-slice flow**
 
 Run: `npm test && npm run build`
 
 Expected: all current tests PASS.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add src/games/ClickTargetGame.tsx src/games/ClickTargetGame.test.tsx src/game/registry.ts
