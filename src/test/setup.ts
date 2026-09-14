@@ -21,3 +21,9 @@ if (typeof window.matchMedia !== 'function') {
     }),
   });
 }
+if (typeof document.elementFromPoint !== 'function') {
+  Object.defineProperty(document, 'elementFromPoint', {
+    configurable: true,
+    value: () => null,
+  });
+}

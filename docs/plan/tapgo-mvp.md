@@ -843,7 +843,7 @@ git commit -m "feat: add key sequence game"
 **Interfaces:**
 - Produces: game id `pick-picture`, 10 rounds.
 
-- [ ] **Step 1: Write failing choice tests**
+- [x] **Step 1: Write failing choice tests**
 
 Use exact first round:
 
@@ -857,13 +857,13 @@ Use exact first round:
 
 Wrong choice does not complete; correct choice reports attempts including the wrong click.
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/PickPictureGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement ten deterministic rounds**
+- [x] **Step 3: Implement ten deterministic rounds**
 
 Use these prompts/answers:
 
@@ -882,7 +882,7 @@ Use these prompts/answers:
 ]
 ```
 
-- [ ] **Step 4: Register order 7, run tests, commit**
+- [x] **Step 4: Register order 7, run tests, commit**
 
 Run: `npm test -- src/games/PickPictureGame.test.tsx src/game/registry.test.ts`
 
@@ -906,21 +906,21 @@ git commit -m "feat: add picture choice mouse game"
 - Produces: game id `mouse-trail`, 6 rounds.
 - Uses pointer enter/move only; no mouse button required.
 
-- [ ] **Step 1: Write failing checkpoint test**
+- [x] **Step 1: Write failing checkpoint test**
 
 Render five checkpoints with `data-checkpoint="0"..."4"`. Entering checkpoint 1 before checkpoint 0 must not advance. Entering 0,1,2,3,4 in order completes with `{ correct: 5, attempts: 5 }`.
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/MouseTrailGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement normalized trail patterns**
+- [x] **Step 3: Implement normalized trail patterns**
 
 Create six arrays of 5 points using percentage coordinates. Only the next checkpoint is active. Leaving the visual path does not reset progress.
 
-- [ ] **Step 4: Register order 8, run tests, commit**
+- [x] **Step 4: Register order 8, run tests, commit**
 
 Run: `npm test -- src/games/MouseTrailGame.test.tsx src/game/registry.test.ts`
 
@@ -945,17 +945,17 @@ git commit -m "feat: add mouse trail game"
 - Produces: `usePointerDrag` with `onPointerDown`, `onPointerMove`, `onPointerUp`, `onPointerCancel`, and current translation.
 - Produces: game id `drag-sort`, 8 rounds.
 
-- [ ] **Step 1: Write failing pointer tests**
+- [x] **Step 1: Write failing pointer tests**
 
 Assert pointer down -> move -> pointer up over wrong zone resets transform and does not complete. Repeating over correct zone completes with attempts 2.
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/DragSortGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement reusable drag hook**
+- [x] **Step 3: Implement reusable drag hook**
 
 The hook must:
 - call `setPointerCapture(pointerId)`
@@ -964,7 +964,7 @@ The hook must:
 - on cancel, reset to `0,0`
 - never know game-specific target rules
 
-- [ ] **Step 4: Implement deterministic sort rounds**
+- [x] **Step 4: Implement deterministic sort rounds**
 
 ```ts
 [
@@ -979,7 +979,7 @@ The hook must:
 ]
 ```
 
-- [ ] **Step 5: Register order 9, run tests, commit**
+- [x] **Step 5: Register order 9, run tests, commit**
 
 Run: `npm test -- src/games/DragSortGame.test.tsx src/game/registry.test.ts`
 
@@ -1003,17 +1003,17 @@ git commit -m "feat: add drag sorting game"
 - Consumes: `usePointerDrag`.
 - Produces: game id `drag-match`, 8 rounds.
 
-- [ ] **Step 1: Write failing match test**
+- [x] **Step 1: Write failing match test**
 
 First round has source `🐱` and three destination cards labeled `Mèo`, `Chó`, `Thỏ`. Wrong drop resets; correct drop completes and includes both attempts.
 
-- [ ] **Step 2: Run and verify failure**
+- [x] **Step 2: Run and verify failure**
 
 Run: `npm test -- src/games/DragMatchGame.test.tsx`
 
 Expected: FAIL.
 
-- [ ] **Step 3: Implement eight pair rounds**
+- [x] **Step 3: Implement eight pair rounds**
 
 Use:
 - 🐱 -> Mèo
@@ -1027,7 +1027,7 @@ Use:
 
 Each round shows three large destination cards with exactly one correct label.
 
-- [ ] **Step 4: Register order 10, run tests, commit**
+- [x] **Step 4: Register order 10, run tests, commit**
 
 Run: `npm test -- src/games/DragMatchGame.test.tsx src/game/registry.test.ts`
 
