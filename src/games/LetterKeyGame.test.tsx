@@ -30,4 +30,17 @@ describe('LetterKeyGame', () => {
     await user.keyboard('a');
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
   });
+
+  it('does not count Space as a mistake', async () => {
+    const user = userEvent.setup();
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<LetterKeyGame roundIndex={0} totalRounds={10} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={() => {}} />);
+
+    fireEvent.keyDown(window, { key: ' ' });
+    expect(onRetry).not.toHaveBeenCalled();
+
+    await user.keyboard('a');
+    expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 1 });
+  });
 });

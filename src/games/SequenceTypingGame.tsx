@@ -11,6 +11,8 @@ export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetr
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.key.length !== 1) return;
+      event.preventDefault();
+      if (event.key === ' ' && sequence[keyIndex] !== ' ') return;
 
       attempts.current += 1;
       if (event.key.toUpperCase() !== sequence[keyIndex]) {

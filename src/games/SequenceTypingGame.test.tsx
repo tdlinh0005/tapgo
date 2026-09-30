@@ -23,4 +23,17 @@ describe('SequenceTypingGame', () => {
     await user.keyboard('sd');
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 3, attempts: 4 });
   });
+
+  it('ignores Space and blocks its default so a focused button is not pressed', async () => {
+    const user = userEvent.setup();
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<SequenceTypingGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={() => {}} />);
+
+    expect(fireEvent.keyDown(window, { key: ' ' })).toBe(false);
+    expect(onRetry).not.toHaveBeenCalled();
+
+    await user.keyboard('asd');
+    expect(onRoundComplete).toHaveBeenCalledWith({ correct: 3, attempts: 3 });
+  });
 });

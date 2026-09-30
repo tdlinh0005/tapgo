@@ -11,6 +11,7 @@ export function useExpectedKey(
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.key.length !== 1) return;
+      if (event.key === ' ' && expectedKey !== ' ') return;
 
       attempts.current += 1;
       if (event.key.toUpperCase() === expectedKey.toUpperCase()) {

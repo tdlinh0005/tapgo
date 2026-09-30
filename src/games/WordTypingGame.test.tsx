@@ -22,4 +22,17 @@ describe('WordTypingGame', () => {
     await user.keyboard('e');
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 2, attempts: 3 });
   });
+
+  it('ignores Space and blocks its default so a focused button is not pressed', async () => {
+    const user = userEvent.setup();
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<WordTypingGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={() => {}} />);
+
+    expect(fireEvent.keyDown(window, { key: ' ' })).toBe(false);
+    expect(onRetry).not.toHaveBeenCalled();
+
+    await user.keyboard('me');
+    expect(onRoundComplete).toHaveBeenCalledWith({ correct: 2, attempts: 2 });
+  });
 });

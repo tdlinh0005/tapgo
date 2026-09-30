@@ -302,7 +302,7 @@ Files: `src/hooks/usePointerDrag.ts`
 - **Fix:** Thêm `if (event.button !== 0 || !event.isPrimary) return;` và trả thêm `onLostPointerCapture: reset`.
 - **Done when:** Test: pointerDown với `button: 2` thì `isDragging` vẫn false.
 
-### [~] T20 · Phím Space bị tính là lỗi và kích hoạt nút đang được focus — đang làm: Lane C
+### [x] T20 · Phím Space bị tính là lỗi và kích hoạt nút đang được focus
 
 **P3 · Effort S · Flow/Logic** · Review: B-19  
 Files: `src/hooks/useExpectedKey.ts, src/games/WordTypingGame.tsx, src/games/SequenceTypingGame.tsx`
@@ -324,7 +324,7 @@ Files: `src/App.tsx`
 - **Fix:** Giữ updater thuần, thêm `useEffect(() => saveProgress(progress), [progress])`, bỏ qua lần mount đầu nếu cần.
 - **Done when:** Test với StrictMode và spy: mỗi lần hoàn thành chỉ save 1 lần.
 
-### [ ] T22 · Xoá nhánh "game definition thiếu" không thể xảy ra
+### [~] T22 · Xoá nhánh "game definition thiếu" không thể xảy ra — đang làm: Lane A
 
 **P3 · Effort S · Flow/Logic** · Review: A-7, C-7  
 Files: `src/App.tsx, src/game/registry.ts, docs/feat/tapgo-mvp.md`

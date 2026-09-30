@@ -31,3 +31,4 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Mouse trail counts entering a checkpoint out of order as a mistake, so it reports real attempts and triggers retry hints and assist.
 - Home, replay, `Xem cách chơi` and `Nghe yêu cầu` buttons are at least 72px.
 - The desktop gate no longer scrolls sideways on screens narrower than 900px.
+- Space no longer counts as a mistake in keyboard games, and in word and sequence games it no longer presses the focused button.
