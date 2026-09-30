@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import CoachBubble from '../components/CoachBubble';
 import ProgressBar from '../components/ProgressBar';
 import StarRating from '../components/StarRating';
 import { useFeedbackTone } from '../hooks/useFeedbackTone';
@@ -6,6 +7,11 @@ import { useSpeech } from '../hooks/useSpeech';
 import { DEFAULT_RETRY_HINT } from './retryCopy';
 import { calculateStars } from './scoring';
 import type { GameDefinition, GameId, RoundOutcome } from './types';
+
+const GUIDES = {
+  keyboard: { title: '⌨️ Dùng bàn phím', body: 'Nhìn chữ hoặc số lớn, rồi bấm đúng phím trên bàn phím.' },
+  mouse: { title: '🖱️ Dùng chuột', body: 'Làm theo hình minh họa. Con có thể thử lại, không cần vội.' },
+} as const;
 
 type GameShellProps = {
   definition: GameDefinition;
@@ -39,6 +45,7 @@ export default function GameShell({
   const MiniGame = definition.component;
   const sessionRounds = Math.max(1, Math.min(roundLimit ?? definition.rounds, definition.rounds));
   const assistLevel: 0 | 1 | 2 = retryCount >= 3 ? 2 : retryCount >= 2 ? 1 : 0;
+  const guideLabel = guideOpen ? 'Ẩn cách chơi' : 'Xem cách chơi';
 
   useEffect(() => {
     speak(definition.intro);
@@ -142,32 +149,24 @@ export default function GameShell({
         <ProgressBar current={roundIndex + 1} total={sessionRounds} />
       </div>
 
-      <p className="game-intro">{definition.intro}</p>
-      <button
-        type="button"
-        className="guide-toggle"
-        onClick={() => setGuideOpen((open) => !open)}
-        aria-expanded={guideOpen}
-      >
-        {guideOpen ? 'Ẩn cách chơi' : 'Xem cách chơi'}
-      </button>
-      {guideOpen && (
-        <aside className="game-guide" aria-label="Cách chơi">
-          <strong>{definition.category === 'keyboard' ? '⌨️ Dùng bàn phím' : '🖱️ Dùng chuột'}</strong>
-          <span>
-            {definition.category === 'keyboard'
-              ? 'Nhìn chữ hoặc số lớn, rồi bấm đúng phím trên bàn phím.'
-              : 'Làm theo hình minh họa. Con có thể thử lại, không cần vội.'}
-          </span>
-        </aside>
-      )}
-
-      {visibleHint && (
-        <p className="retry-hint" role="status">{visibleHint}</p>
-      )}
-      {reviewMessage && (
-        <p className="review-message" role="status">{reviewMessage}</p>
-      )}
+      <div className="coach-row">
+        <CoachBubble
+          intro={definition.intro}
+          hint={visibleHint}
+          review={reviewMessage}
+          guide={guideOpen ? GUIDES[definition.category] : null}
+        />
+        <button
+          type="button"
+          className="guide-toggle"
+          onClick={() => setGuideOpen((open) => !open)}
+          aria-expanded={guideOpen}
+          aria-label={guideLabel}
+          title={guideLabel}
+        >
+          ❓
+        </button>
+      </div>
 
       <div
         className={`game-stage${feedbackState ? ` is-${feedbackState}` : ''}`}

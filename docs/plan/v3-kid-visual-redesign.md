@@ -111,7 +111,7 @@
 
 ## Phase A — Nền tảng hình ảnh
 
-### [~] V01 · Vùng chơi luôn nằm trọn trong màn hình (cả 10 game) — đang làm: lane-layout
+### [x] V01 · Vùng chơi luôn nằm trọn trong màn hình (cả 10 game)
 
 - Vấn đề: T47 chỉ cố định `100vh` cho 2 game chuột; khi hint + guide cùng mở, sàn `min-height: 320px` thắng (817/911px ở 768). 8 game còn lại (`.typing-game`, `.picture-game`, `.drag-game` `min-height: 460px`) chưa có ràng buộc viewport; ảnh baseline cho thấy vật kéo thả bị cắt.
 - Làm:
@@ -119,6 +119,7 @@
   - `Xem cách chơi` thành nút icon cạnh nút 🔊 trong header hoặc cạnh bong bóng, vẫn ≥ 72px, giữ class `.guide-toggle` và `aria-expanded` (test đang ghim).
   - Áp `height: 100vh` + stage `1fr` cho mọi `.game-shell` đang chơi (không chỉ 2 game chuột); game phím/kéo thả dùng `min-height` theo `min(460px, 100%)` thay cho sàn cứng. Cập nhật regex `.game-shell:has(...)` trong `app.test.ts` theo selector mới.
 - Xong khi: ở 1366×768 và 1280×720, với hint + guide cùng mở, đáy vùng chơi (và vật kéo) ≤ `innerHeight` cho cả 10 game (đo CDP `getBoundingClientRect`, ghi số đo vào task); `app.test.ts` cập nhật tương ứng; test GameShell về guide/hint/review pass.
+- Kết quả: đo CDP (iframe 1366×768 và 1280×720 trong Chrome port 9222, dev server 5181; mỗi game gây 1 lần sai để hiện hint rồi bấm ❓ mở guide): cả 10 game đáy `.game-stage` = 744/768 và 696/720, mọi target/listen/drop zone ≤ đáy stage, card không tràn (`scrollHeight ≤ clientHeight`), trang không cuộn (`scrollHeight = innerHeight`); vật kéo ở 2 game kéo thả đáy 644/768 và 620/720 (đo lại sau rebase lên V02 + V03, font Nunito đã tải; trước: 817/911px ở 768 với game chuột). Selector mới `.game-shell:has(> .game-stage)` (màn kết quả không bị ép 100vh); `.drag-stage` bỏ `min-height: 330px`, padding card 32→24px, padding dọc shell khi chơi 40→24px. Lệch plan: khi hint và guide cùng mở (sau 2 lần sai), bong bóng hiện cả hai dòng thay vì chỉ hint — test “opens guidance after two retries” cần guide hiện cùng hint, và nút ❓ phải luôn có tác dụng thấy được; vẫn vừa màn hình theo số đo trên. Nút `Xem cách chơi` thành nút tròn ❓ 72px cạnh bong bóng, tên truy cập qua `aria-label`.
 
 ### [x] V02 · Bảng màu vui theo vai trò + màu theo nhóm
 
