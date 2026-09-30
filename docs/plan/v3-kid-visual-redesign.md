@@ -203,7 +203,7 @@
 - pick-picture ~30 mục chia đều 4 chủ đề, xáo vị trí đáp án theo seed; drag-sort xáo thứ tự 2 zone theo seed (test dùng `data-testid` nên không phụ thuộc thứ tự); drag-match ~20 cặp; mouse-trail 10–12 đường (chữ U, bậc thang, dọc), mỗi đường vẫn 4–6 checkpoint giữa.
 - Xong khi: mỗi game (trừ numbers, click-target) có kho > số lượt; test dùng seed cố định; test ràng buộc kho (FindKey không trùng Letters, độ dài chuỗi, số điểm đường, polyline `TRAILS[2]`) vẫn đúng hoặc được viết lại theo luật mới trong cùng commit.
 
-### [ ] V13 · Chủ đề hoá game chuột
+### [~] V13 · Chủ đề hoá game chuột — đang làm: lane-color
 
 - click-target đổi mục tiêu mỗi lượt (🎈 🦋 🐞 🪐 …) chọn bằng `pickRound`, prompt + `Nghe yêu cầu` đọc đúng mục tiêu; sửa `intro` trong `registry.ts` (đang là “Hãy click vào ngôi sao.”) thành câu chung.
 - mouse-trail có điểm đầu/đích theo cặp (🐭→🧀, 🚀→🌙, 🚗→🏠); sequence gắn hình (ASDF = 🐾 bước chân).
