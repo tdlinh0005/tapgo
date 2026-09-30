@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import GameShell from './GameShell';
@@ -16,6 +16,12 @@ function FakeGame({ onRoundComplete, onRetry }: MiniGameProps) {
       <button onClick={() => onRetry?.()}>Thử lại lượt</button>
     </>
   );
+}
+
+// React listens to webkitAnimationEnd when jsdom lacks AnimationEvent.
+function endAnimation(element: HTMLElement) {
+  fireEvent(element, new Event('animationend', { bubbles: true }));
+  fireEvent(element, new Event('webkitAnimationEnd', { bubbles: true }));
 }
 
 const definition = {
@@ -58,6 +64,42 @@ describe('GameShell', () => {
 
     await user.click(screen.getByRole('button', { name: 'Thử lại lượt' }));
     expect(screen.getByRole('status')).toHaveTextContent('Thử lại nhé');
+  });
+
+  it('keeps the retry hint after the shake animation until the round completes', async () => {
+    const user = userEvent.setup();
+    render(
+      <GameShell
+        definition={definition}
+        onComplete={() => {}}
+        onHome={() => {}}
+        onNext={() => {}}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Thử lại lượt' }));
+    endAnimation(screen.getByTestId('game-stage'));
+    expect(screen.getByTestId('game-stage')).toHaveAttribute('data-feedback', 'idle');
+    expect(screen.getByRole('status')).toHaveTextContent('Thử lại nhé');
+
+    await user.click(screen.getByRole('button', { name: 'Hoàn thành lượt' }));
+    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
+  it('ignores animation end events bubbling from children', async () => {
+    const user = userEvent.setup();
+    render(
+      <GameShell
+        definition={definition}
+        onComplete={() => {}}
+        onHome={() => {}}
+        onNext={() => {}}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Thử lại lượt' }));
+    endAnimation(screen.getByRole('button', { name: 'Thử lại lượt' }));
+    expect(screen.getByTestId('game-stage')).toHaveAttribute('data-feedback', 'retry');
   });
 
   it('uses the supplied final action label', async () => {

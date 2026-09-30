@@ -94,7 +94,7 @@ Files: `git (35 M + 3 untracked)`
   Sau mỗi commit chạy `npx tsc --noEmit && npm test`.
 - **Done when:** `git status` sạch; checkout từng commit riêng thì tsc và test đều pass; message không có trailer model-credit.
 
-### [~] T02 · Ghim version dependency thay cho "latest" — đang làm: Lane C
+### [x] T02 · Ghim version dependency thay cho "latest"
 
 **P2 · Effort S · Build/Release** · Review: C-12  
 Files: `package.json, package-lock.json`
@@ -118,7 +118,7 @@ Files: `CHANGELOG.md (mới)`
 
 ## Phase 1 · P1 gameplay/UX
 
-### [~] T04 · Lời nhắc "Thử lại" biến mất sau ~420ms (và ngay lập tức khi reduced-motion) — đang làm: Lane A
+### [x] T04 · Lời nhắc "Thử lại" biến mất sau ~420ms (và ngay lập tức khi reduced-motion)
 
 **P1 · Effort S · UI/UX** · Review: A-1, B-1  
 Files: `src/game/GameShell.tsx, src/styles/app.css`

@@ -27,7 +27,7 @@ export default function GameShell({
   const [outcomes, setOutcomes] = useState<RoundOutcome[]>([]);
   const [stars, setStars] = useState<1 | 2 | 3 | null>(null);
   const [feedbackState, setFeedbackState] = useState<'correct' | 'retry' | null>(null);
-  const [retryHint, setRetryHint] = useState('Thử lại nhé, con làm chậm thôi.');
+  const [visibleHint, setVisibleHint] = useState<string | null>(null);
   const [reviewPending, setReviewPending] = useState(false);
   const [reviewCycle, setReviewCycle] = useState(0);
   const [reviewMessage, setReviewMessage] = useState<string | null>(null);
@@ -48,6 +48,7 @@ export default function GameShell({
     const nextOutcomes = completingReview ? outcomes : [...outcomes, outcome];
     feedback.correct();
     setFeedbackState('correct');
+    setVisibleHint(null);
     setRetryCount(0);
 
     if (!completingReview) {
@@ -79,7 +80,7 @@ export default function GameShell({
     const nextRetryCount = retryCount + 1;
     feedback.retry();
     setRetryCount(nextRetryCount);
-    setRetryHint(safeHint);
+    setVisibleHint(safeHint);
     setFeedbackState('retry');
 
     if (nextRetryCount >= 2) {
@@ -93,7 +94,7 @@ export default function GameShell({
     setOutcomes([]);
     setStars(null);
     setFeedbackState(null);
-    setRetryHint('Thử lại nhé, con làm chậm thôi.');
+    setVisibleHint(null);
     setReviewPending(false);
     setReviewCycle(0);
     setReviewMessage(null);
@@ -160,8 +161,8 @@ export default function GameShell({
         </aside>
       )}
 
-      {feedbackState === 'retry' && (
-        <p className="retry-hint" role="status">{retryHint}</p>
+      {visibleHint && (
+        <p className="retry-hint" role="status">{visibleHint}</p>
       )}
       {reviewMessage && (
         <p className="review-message" role="status">{reviewMessage}</p>
@@ -171,7 +172,9 @@ export default function GameShell({
         className={`game-stage assist-level-${assistLevel}${feedbackState ? ` is-${feedbackState}` : ''}`}
         data-testid="game-stage"
         data-feedback={feedbackState ?? 'idle'}
-        onAnimationEnd={() => setFeedbackState(null)}
+        onAnimationEnd={(event) => {
+          if (event.target === event.currentTarget) setFeedbackState(null);
+        }}
       >
         <MiniGame
           key={`${roundIndex}-${reviewCycle}`}
