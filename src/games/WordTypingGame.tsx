@@ -1,38 +1,12 @@
-import { useEffect, useRef, useState } from 'react';
 import ListenButton from '../components/ListenButton';
-import { keyRetryHint } from '../game/retryCopy';
 import type { MiniGameProps } from '../game/types';
+import { useKeySequence } from '../hooks/useKeySequence';
 
 export const WORDS = ['ME', 'BA', 'CON', 'MEO', 'CHO', 'NHA', 'XE', 'CA'] as const;
 
 export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const word = WORDS[roundIndex % WORDS.length];
-  const [charIndex, setCharIndex] = useState(0);
-  const attempts = useRef(0);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.key.length !== 1) return;
-      event.preventDefault();
-      if (event.key === ' ' && word[charIndex] !== ' ') return;
-
-      attempts.current += 1;
-      if (event.key.toUpperCase() !== word[charIndex]) {
-        onRetry?.(keyRetryHint(word[charIndex]));
-        return;
-      }
-
-      const nextIndex = charIndex + 1;
-      if (nextIndex >= word.length) {
-        onRoundComplete({ correct: word.length, attempts: attempts.current });
-      } else {
-        setCharIndex(nextIndex);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [charIndex, word, onRoundComplete, onRetry]);
+  const charIndex = useKeySequence(word, onRoundComplete, onRetry);
 
   return (
     <section className="typing-game" aria-label="Gõ từ ngắn">

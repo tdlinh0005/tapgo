@@ -427,7 +427,7 @@ Files: `src/games/ClickTargetGame.tsx`
 
 ## Phase 4 · Refactor & dọn dẹp
 
-### [ ] T31 · Gom logic lặp: useKeySequence, ListenButton, resolveDrop, stage chung cho game phím
+### [x] T31 · Gom logic lặp: useKeySequence, ListenButton, resolveDrop, stage chung cho game phím
 
 **P2 · Effort M · Flow/Logic** · Review: B-11  
 Files: `src/hooks/*, src/games/*, src/components/ListenButton.tsx`

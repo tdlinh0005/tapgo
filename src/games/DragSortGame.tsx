@@ -1,7 +1,6 @@
-import { useRef } from 'react';
 import ListenButton from '../components/ListenButton';
 import type { MiniGameProps } from '../game/types';
-import { resolveDrop, usePointerDrag } from '../hooks/usePointerDrag';
+import { useDragRound } from '../hooks/usePointerDrag';
 
 const ROUNDS = [
   { item: '🍎', target: '🧺', targetLabel: 'Giỏ', label: 'Kéo quả táo vào giỏ', decoy: '📦', decoyLabel: 'Hộp' },
@@ -16,19 +15,13 @@ const ROUNDS = [
 
 export default function DragSortGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const round = ROUNDS[roundIndex % ROUNDS.length];
-  const attempts = useRef(0);
-
-  const handleDrop = (clientX: number, clientY: number) => {
-    attempts.current += 1;
-    const correctZone = document.querySelector<HTMLElement>('[data-drop-result="correct"]');
-    if (resolveDrop(clientX, clientY, '[data-drop-result]', correctZone, assistLevel)) {
-      onRoundComplete({ correct: 1, attempts: attempts.current });
-    } else {
-      onRetry?.();
-    }
-  };
-
-  const drag = usePointerDrag(handleDrop);
+  const drag = useDragRound({
+    zoneSelector: '[data-drop-result]',
+    correctSelector: '[data-drop-result="correct"]',
+    assistLevel,
+    onRoundComplete,
+    onRetry,
+  });
 
   return (
     <section className="drag-game">

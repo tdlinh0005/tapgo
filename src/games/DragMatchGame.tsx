@@ -1,7 +1,6 @@
-import { useRef } from 'react';
 import ListenButton from '../components/ListenButton';
 import type { MiniGameProps } from '../game/types';
-import { resolveDrop, usePointerDrag } from '../hooks/usePointerDrag';
+import { useDragRound } from '../hooks/usePointerDrag';
 
 const ROUNDS = [
   { source: '🐱', answer: 'Mèo', options: [['🐱', 'Mèo'], ['🐟', 'Cá'], ['🌳', 'Cây']] },
@@ -16,20 +15,15 @@ const ROUNDS = [
 
 export default function DragMatchGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const round = ROUNDS[roundIndex % ROUNDS.length];
-  const attempts = useRef(0);
   const instruction = `Kéo ${round.answer.toLowerCase()} vào đúng cái bóng của nó`;
 
-  const handleDrop = (clientX: number, clientY: number) => {
-    attempts.current += 1;
-    const correctZone = document.querySelector<HTMLElement>('[data-match-correct="true"]');
-    if (resolveDrop(clientX, clientY, '[data-match-label]', correctZone, assistLevel)) {
-      onRoundComplete({ correct: 1, attempts: attempts.current });
-    } else {
-      onRetry?.();
-    }
-  };
-
-  const drag = usePointerDrag(handleDrop);
+  const drag = useDragRound({
+    zoneSelector: '[data-match-label]',
+    correctSelector: '[data-match-correct="true"]',
+    assistLevel,
+    onRoundComplete,
+    onRetry,
+  });
 
   return (
     <section className="drag-game">

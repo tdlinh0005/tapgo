@@ -1,4 +1,5 @@
 import { useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
+import type { RoundOutcome } from '../game/types';
 
 type DropHandler = (clientX: number, clientY: number) => void;
 
@@ -33,6 +34,28 @@ export function resolveDrop(
   const zone = document.elementFromPoint?.(clientX, clientY)?.closest<HTMLElement>(zoneSelector);
   if (zone) return zone === correctZone;
   return isPointNearElement(correctZone, clientX, clientY, SNAP_PADDING_PX + assistLevel * SNAP_PADDING_PER_ASSIST_PX);
+}
+
+type DragRoundOptions = {
+  zoneSelector: string;
+  correctSelector: string;
+  assistLevel: number;
+  onRoundComplete: (outcome: RoundOutcome) => void;
+  onRetry?: (hint?: string) => void;
+};
+
+/** Drag one item onto the zone matching `correctSelector`; counts attempts and judges each drop. */
+export function useDragRound({ zoneSelector, correctSelector, assistLevel, onRoundComplete, onRetry }: DragRoundOptions) {
+  const attempts = useRef(0);
+  return usePointerDrag((clientX, clientY) => {
+    attempts.current += 1;
+    const correctZone = document.querySelector<HTMLElement>(correctSelector);
+    if (resolveDrop(clientX, clientY, zoneSelector, correctZone, assistLevel)) {
+      onRoundComplete({ correct: 1, attempts: attempts.current });
+    } else {
+      onRetry?.();
+    }
+  });
 }
 
 export function usePointerDrag(onDrop: DropHandler) {
