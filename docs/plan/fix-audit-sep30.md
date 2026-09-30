@@ -197,7 +197,7 @@ Files: `src/games/MouseTrailGame.tsx`
 - **Fix:** Định nghĩa thao tác sai: đi vào checkpoint *không phải* checkpoint kế tiếp thì `attempts += 1` và gọi `onRetry(hint)`, không reset tiến độ (khớp spec "ra ngoài không reset"). Report `attempts` thật.
 - **Done when:** Test: đi vào checkpoint 2 trước checkpoint 1 thì `onRetry` được gọi; outcome `{correct: n, attempts: n+1}`.
 
-### [~] T11 · Ghép cặp: đổi từ hình–chữ sang hình–hình (bóng/màu/nhóm) — đang làm: Lane B
+### [x] T11 · Ghép cặp: đổi từ hình–chữ sang hình–hình (bóng/màu/nhóm)
 
 **P1 · Effort M · UI/UX** · Review: B-6  
 Files: `src/games/DragMatchGame.tsx, src/styles/app.css`
