@@ -4,6 +4,7 @@ import {
   loadProgressFrom,
   recordCompletion,
 } from './progress';
+import { GAME_IDS } from './types';
 
 describe('progress', () => {
   it('uses defaults for missing or corrupt storage', () => {
@@ -19,6 +20,35 @@ describe('progress', () => {
     const fractionalStars = createDefaultProgress();
     fractionalStars.games.letters.bestStars = 2.5 as 2;
     expect(loadProgressFrom(JSON.stringify(fractionalStars))).toEqual(createDefaultProgress());
+  });
+
+  it('keeps valid games when one saved game entry is corrupt', () => {
+    let saved = createDefaultProgress();
+    for (const gameId of GAME_IDS.slice(1)) saved = recordCompletion(saved, gameId, 2);
+    const raw = JSON.parse(JSON.stringify(saved));
+    raw.games[GAME_IDS[0]] = { plays: 'x' };
+
+    const loaded = loadProgressFrom(JSON.stringify(raw));
+    expect(loaded.games[GAME_IDS[0]]).toEqual(createDefaultProgress().games[GAME_IDS[0]]);
+    for (const gameId of GAME_IDS.slice(1)) expect(loaded.games[gameId]).toEqual(saved.games[gameId]);
+    expect(loaded.lastGameId).toBe(saved.lastGameId);
+  });
+
+  it('fills games missing from saved state and drops an unknown last game', () => {
+    const saved = recordCompletion(createDefaultProgress(), 'letters', 3);
+    const raw = JSON.parse(JSON.stringify(saved));
+    delete raw.games.numbers;
+    raw.lastGameId = 'removed-game';
+
+    const loaded = loadProgressFrom(JSON.stringify(raw));
+    expect(loaded.games.letters).toEqual(saved.games.letters);
+    expect(loaded.games.numbers).toEqual(createDefaultProgress().games.numbers);
+    expect(loaded.lastGameId).toBeNull();
+  });
+
+  it('rejects state from another version', () => {
+    const saved = { ...recordCompletion(createDefaultProgress(), 'letters', 3), version: 2 };
+    expect(loadProgressFrom(JSON.stringify(saved))).toEqual(createDefaultProgress());
   });
 
   it('keeps the best star result', () => {

@@ -34,41 +34,51 @@ export function createDefaultProgress(): ProgressState {
   };
 }
 
-function isProgressState(value: unknown): value is ProgressState {
+function isGameProgress(value: unknown): value is GameProgress {
   if (!value || typeof value !== 'object') return false;
-  const candidate = value as Partial<ProgressState>;
-  if (candidate.version !== 1 || !candidate.games || typeof candidate.games !== 'object') {
-    return false;
-  }
-  if (
-    candidate.lastGameId !== null &&
-    (typeof candidate.lastGameId !== 'string' || !GAME_IDS.includes(candidate.lastGameId as GameId))
-  ) {
-    return false;
-  }
+  const { plays, bestStars, completed, lastPlayedAt } = value as Record<string, unknown>;
+  return (
+    typeof plays === 'number' &&
+    Number.isInteger(plays) &&
+    plays >= 0 &&
+    typeof bestStars === 'number' &&
+    Number.isInteger(bestStars) &&
+    bestStars >= 0 &&
+    bestStars <= 3 &&
+    typeof completed === 'boolean' &&
+    (lastPlayedAt === null || typeof lastPlayedAt === 'string')
+  );
+}
 
-  return GAME_IDS.every((gameId) => {
-    const game = candidate.games?.[gameId];
-    return Boolean(
-      game &&
-      typeof game === 'object' &&
-      Number.isInteger(game.plays) &&
-      game.plays >= 0 &&
-      Number.isInteger(game.bestStars) &&
-      game.bestStars >= 0 &&
-      game.bestStars <= 3 &&
-      typeof game.completed === 'boolean' &&
-      (game.lastPlayedAt === null || typeof game.lastPlayedAt === 'string'),
-    );
-  });
+function isGameId(value: unknown): value is GameId {
+  return typeof value === 'string' && GAME_IDS.includes(value as GameId);
+}
+
+function normalizeProgress(raw: unknown): ProgressState {
+  if (!raw || typeof raw !== 'object') return createDefaultProgress();
+  const candidate = raw as { version?: unknown; lastGameId?: unknown; games?: unknown };
+  if (candidate.version !== 1) return createDefaultProgress();
+
+  const savedGames = (candidate.games && typeof candidate.games === 'object' ? candidate.games : {}) as Record<string, unknown>;
+  const games = Object.fromEntries(
+    GAME_IDS.map((gameId) => {
+      const saved = savedGames[gameId];
+      return [gameId, isGameProgress(saved) ? saved : createEmptyGameProgress()];
+    }),
+  ) as Record<GameId, GameProgress>;
+
+  return {
+    version: 1,
+    lastGameId: isGameId(candidate.lastGameId) ? candidate.lastGameId : null,
+    games,
+  };
 }
 
 export function loadProgressFrom(raw: string | null): ProgressState {
   if (!raw) return createDefaultProgress();
 
   try {
-    const parsed: unknown = JSON.parse(raw);
-    return isProgressState(parsed) ? parsed : createDefaultProgress();
+    return normalizeProgress(JSON.parse(raw));
   } catch {
     return createDefaultProgress();
   }
