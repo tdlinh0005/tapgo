@@ -226,7 +226,7 @@ Chung cho V15, V16:
 - Mỗi game có `src/games/<Tên>Game.test.tsx` theo spec § test mini-game (dòng 318) và mẫu test của game phím hiện có.
 - Xong khi (chung): vùng chơi vừa 1366×768 và 1280×720 như V01 (đo CDP); `npx tsc --noEmit && npm test && npm run build` pass; spec `docs/feat/tapgo-mvp.md` có mục mô tả game mới trong cùng commit.
 
-### [ ] V15 · Game mới 11: Space/Enter tên lửa (`space-enter`)
+### [~] V15 · Game mới 11: Space/Enter tên lửa (`space-enter`) — đang làm: lane-layout
 
 - Luật: mỗi lượt hiện một phím lớn — `Space` (thanh dài, 🚀 bay lên) hoặc `Enter` (📮 gửi thư); bé bấm đúng phím. 10 lượt, xáo theo seed, cả hai loại đều xuất hiện ≥ 3 lần mỗi session (không để 10 lượt toàn Space).
 - Sửa `useKeySequence`: nhận `event.key === 'Enter'` thành ký tự mong đợi `'\n'`; khi chuỗi mong đợi có `'\n'` hoặc `' '` thì `preventDefault` để không kích hoạt nút đang focus (cùng lý do T20). Game khác không mong đợi Enter → hành vi cũ giữ nguyên (test T20 pass không sửa).
