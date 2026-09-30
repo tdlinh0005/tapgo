@@ -10,6 +10,8 @@
 - Số dòng `file:line` tính theo commit `fa28cb4`. Code đã sửa thì số dòng có thể lệch; khi đó tìm theo đoạn code được trích trong phần Evidence.
 - Task có ⚠️ **Cần owner chốt**: làm theo *Mặc định đề xuất*, trừ khi owner đã quyết định khác. Quyết định cuối cùng phải ghi lại vào `docs/feat/tapgo-mvp.md`.
 - Làm xong task nào thì đánh `[x]` ở dòng tiêu đề của task đó, và cập nhật Status bên Notion.
+- **Trạng thái ở dòng tiêu đề task:** `[ ]` chưa ai nhận · `[~]` đang làm (kèm `— đang làm: <người/lane>` cuối tiêu đề) · `[x]` xong. Nhận task bằng cách sửa đúng chuỗi `### [ ] Txx` thành `### [~] Txx`; nếu chuỗi `[ ]` không còn thì task đã có người nhận, chọn task khác. Không sửa task đang `[~]` của người khác.
+- Khi nhận task: đổi Status bên Notion sang In progress. Khi xong: đổi tiêu đề sang `[x]` (bỏ phần `— đang làm`), Status Notion sang Done, và commit file plan cùng commit của task.
 
 ## Phụ thuộc giữa các task
 
