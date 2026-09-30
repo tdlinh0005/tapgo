@@ -15,6 +15,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 
 ### Changed
 
+- Tests pin the assist thresholds (level 1 after 2 retries, level 2 after 3), the spoken intro on mount and the spoken hint on the second retry.
 - Tests cover the recommendation fallback, a throwing `localStorage`, and Path sessions of 10 rounds versus 5 in Guided Play.
 - Find-key and number games are tested for wrong keys: the round stays, and the retry hint names the key.
 - Assistance after repeated mistakes works the same way in all 10 games: the real target gets `data-assist="1"` (outline) or `"2"` (outline and enlarged), including word, sequence, key and picture games.

@@ -202,11 +202,35 @@ describe('GameShell', () => {
       />,
     );
 
-    await user.click(screen.getByRole('button', { name: 'Thử lại lượt' }));
-    await user.click(screen.getByRole('button', { name: 'Thử lại lượt' }));
+    const retry = screen.getByRole('button', { name: 'Thử lại lượt' });
+    const target = screen.getByTestId('fake-target');
 
+    await user.click(retry);
+    expect(target).not.toHaveAttribute('data-assist');
+
+    await user.click(retry);
     expect(screen.getByRole('complementary', { name: 'Cách chơi' })).toBeInTheDocument();
-    expect(screen.getByTestId('fake-target')).toHaveAttribute('data-assist', '1');
+    expect(target).toHaveAttribute('data-assist', '1');
+
+    await user.click(retry);
+    expect(target).toHaveAttribute('data-assist', '2');
+  });
+
+  it('reads the intro on mount and the hint on the second retry', async () => {
+    const user = userEvent.setup();
+    speak.mockClear();
+    render(<GameShell definition={definition} onComplete={() => {}} onHome={() => {}} onNext={() => {}} />);
+
+    expect(speak).toHaveBeenCalledWith(definition.intro);
+    speak.mockClear();
+
+    const retry = screen.getByRole('button', { name: 'Thử lại lượt' });
+    await user.click(retry);
+    expect(speak).not.toHaveBeenCalled();
+
+    await user.click(retry);
+    expect(speak).toHaveBeenCalledTimes(1);
+    expect(speak.mock.calls[0][0]).toContain('Thử lại nhé');
   });
 
   it('speaks the hint and opens the guide only on the second retry', async () => {

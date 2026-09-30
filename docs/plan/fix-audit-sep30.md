@@ -462,7 +462,7 @@ Files: `src/games/PlaceholderGame.tsx, src/styles/app.css`
 
 ## Phase 5 · Test
 
-### [ ] T34 · Test assistLevel 0/1/2, đọc intro, đọc hint ở GameShell và game chuột
+### [x] T34 · Test assistLevel 0/1/2, đọc intro, đọc hint ở GameShell và game chuột
 
 **P1 · Effort M · Tests** · Review: C-1  
 Files: `src/game/GameShell.test.tsx, src/games/*.test.tsx`
