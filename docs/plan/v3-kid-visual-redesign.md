@@ -111,7 +111,7 @@
 
 ## Phase A — Nền tảng hình ảnh
 
-### [ ] V01 · Vùng chơi luôn nằm trọn trong màn hình (cả 10 game)
+### [~] V01 · Vùng chơi luôn nằm trọn trong màn hình (cả 10 game) — đang làm: lane-layout
 
 - Vấn đề: T47 chỉ cố định `100vh` cho 2 game chuột; khi hint + guide cùng mở, sàn `min-height: 320px` thắng (817/911px ở 768). 8 game còn lại (`.typing-game`, `.picture-game`, `.drag-game` `min-height: 460px`) chưa có ràng buộc viewport; ảnh baseline cho thấy vật kéo thả bị cắt.
 - Làm:
@@ -120,14 +120,14 @@
   - Áp `height: 100vh` + stage `1fr` cho mọi `.game-shell` đang chơi (không chỉ 2 game chuột); game phím/kéo thả dùng `min-height` theo `min(460px, 100%)` thay cho sàn cứng. Cập nhật regex `.game-shell:has(...)` trong `app.test.ts` theo selector mới.
 - Xong khi: ở 1366×768 và 1280×720, với hint + guide cùng mở, đáy vùng chơi (và vật kéo) ≤ `innerHeight` cho cả 10 game (đo CDP `getBoundingClientRect`, ghi số đo vào task); `app.test.ts` cập nhật tương ứng; test GameShell về guide/hint/review pass.
 
-### [ ] V02 · Bảng màu vui theo vai trò + màu theo nhóm
+### [~] V02 · Bảng màu vui theo vai trò + màu theo nhóm — đang làm: lane-color
 
 - Thêm token vai trò trong `theme.css`: `--color-keyboard` (cam/san hô) và `--color-mouse` (xanh ngọc), mỗi màu có `-soft` (nền) và `-strong` (chữ/viền); `--color-reward` (vàng sao); giữ `--color-primary` cho CTA chính.
 - Thêm `data-category={definition.category}` trên `.game-shell` (GameShell) và `.game-card` (GameCard); CSS chọn màu qua `[data-category="keyboard"]` / `"mouse"`, không viết màu cứng trong `app.css`.
 - Chữ trắng trên cam/xanh ngọc sáng thường không đạt 4.5:1 → nền màu nhóm dùng `-soft` + chữ `--color-text`/`-strong`; chỉ dùng chữ trắng trên `-strong`.
 - Xong khi: tương phản chữ/nền ≥ 4.5:1 cho mọi cặp token dùng cho chữ (ghi tỉ lệ vào task); `index.html` `theme-color` vẫn khớp `--color-bg`.
 
-### [ ] V03 · Font bo tròn tiếng Việt
+### [~] V03 · Font bo tròn tiếng Việt — đang làm: lane-font
 
 - Thêm một gói `@fontsource-variable/*` (subset `vietnamese` + `latin`), import trong `main.tsx`, khai báo `--font-family` trong `theme.css`; `html` trong `app.css` dùng token thay cho danh sách system-ui cứng.
 - Xong khi: dấu tiếng Việt hiển thị đúng trên mọi màn (so ảnh CDP); `npm run build` pass và `dist/` chứa file font; tab Network không có request ra domain ngoài.
