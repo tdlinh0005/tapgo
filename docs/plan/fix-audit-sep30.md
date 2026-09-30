@@ -473,7 +473,7 @@ Files: `src/game/GameShell.test.tsx, src/games/*.test.tsx`
 - **Fix:** (a) Retry 3 lần thì có level 2. (b) `vi.mock('../hooks/useSpeech')`, assert đọc intro khi mount và đọc hint ở lỗi thứ 2. (c) Mỗi game chuột có case `assistLevel={2}`. Làm cùng hoặc sau T12.
 - **Done when:** Suite pass; đổi ngưỡng ở `GameShell.tsx:40` thì test fail.
 
-### [ ] T35 · Test thao tác sai cho FindKey, NumberKey (MouseTrail theo T10)
+### [x] T35 · Test thao tác sai cho FindKey, NumberKey (MouseTrail theo T10)
 
 **P2 · Effort S · Tests** · Review: C-2  
 Files: `src/games/FindKeyGame.test.tsx, NumberKeyGame.test.tsx, MouseTrailGame.test.tsx`

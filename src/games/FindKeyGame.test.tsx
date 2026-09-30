@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
+import { keyRetryHint } from '../game/retryCopy';
 import FindKeyGame, { TARGETS } from './FindKeyGame';
 import { LETTERS } from './LetterKeyGame';
 
@@ -23,5 +24,19 @@ describe('FindKeyGame', () => {
 
     await user.keyboard('g');
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 1 });
+  });
+
+  it('retries with a hint on a wrong key and stays on the round', async () => {
+    const user = userEvent.setup();
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<FindKeyGame roundIndex={1} totalRounds={10} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={() => {}} />);
+
+    await user.keyboard('x');
+    expect(onRoundComplete).not.toHaveBeenCalled();
+    expect(onRetry).toHaveBeenCalledWith(keyRetryHint('G'));
+
+    await user.keyboard('g');
+    expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
   });
 });
