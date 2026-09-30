@@ -7,6 +7,6 @@ export default defineConfig({
     environment: 'jsdom',
     pool: 'vmThreads',
     setupFiles: './src/test/setup.ts',
-    css: { include: [/app\.css/] },
+    css: { include: [/(app|theme)\.css/] },
   },
 });

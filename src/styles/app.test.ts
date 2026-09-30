@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import css from './app.css?raw';
+import theme from './theme.css?raw';
 
 describe('app visual acceptance rules', () => {
   it('keeps primary actions and game targets large enough for a child', () => {
@@ -18,7 +19,14 @@ describe('app visual acceptance rules', () => {
 
   it('makes the round prompt larger than the game title', () => {
     expect(css).toMatch(/\.game-heading h1\s*\{[^}]*font-size:\s*28px/s);
-    expect(css).toMatch(/\.game-prompt\s*\{[^}]*font-size:\s*clamp\(44px/s);
+    expect(css).toMatch(/\.game-prompt\s*\{[^}]*font-size:\s*var\(--font-prompt\)/s);
+    expect(theme).toMatch(/--font-prompt:\s*clamp\(44px/);
+  });
+
+  it('takes radius and feedback timing from theme tokens', () => {
+    expect(css).not.toMatch(/border-radius:\s*\d+px/);
+    expect(css).toMatch(/animation:\s*tapgo-pop var\(--motion-pop\)/);
+    expect(css).toMatch(/animation:\s*tapgo-shake var\(--motion-shake\)/);
   });
 
   it('creates positioned play areas for click and trail games', () => {

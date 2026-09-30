@@ -11,9 +11,18 @@
   --color-muted: #687078;
   --color-border: #cfd3dc;
   --color-focus: #f59e0b;
+  --radius-sm: 20px;
   --radius-card: 24px;
+  --radius-lg: 32px;
   --radius-pill: 999px;
   --shadow-card: 0 10px 30px rgb(32 33 36 / 10%);
+  --font-title: clamp(34px, 4vw, 48px);
+  --font-prompt: clamp(44px, 5vw, 56px);
+  --font-target: 92px;
+  --space-sm: 12px;
+  --space-md: 24px;
+  --space-lg: 32px;
   --motion-fast: 180ms;
-  --motion-feedback: 520ms;
+  --motion-pop: 360ms;
+  --motion-shake: 420ms;
 }

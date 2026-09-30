@@ -153,7 +153,7 @@ button:disabled {
 .screen-header h1,
 .game-heading h1 {
   margin: 0;
-  font-size: clamp(34px, 4vw, 48px);
+  font-size: var(--font-title);
 }
 
 .game-heading h1 {
@@ -165,7 +165,7 @@ button:disabled {
   width: 72px;
   height: 72px;
   border: 0;
-  border-radius: 20px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
   font-size: 28px;
@@ -175,7 +175,7 @@ button:disabled {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: var(--space-sm);
 }
 
 .game-heading > span {
@@ -217,7 +217,7 @@ button:disabled {
   place-items: center;
   width: 64px;
   height: 64px;
-  border-radius: 20px;
+  border-radius: var(--radius-sm);
   background: var(--color-primary-soft);
   font-size: 36px;
 }
@@ -235,7 +235,7 @@ button:disabled {
 .game-card button {
   min-height: 72px;
   border: 0;
-  border-radius: 18px;
+  border-radius: var(--radius-sm);
   padding: 12px 18px;
   background: var(--color-primary);
   color: var(--color-on-primary);
@@ -304,7 +304,7 @@ button:disabled {
   max-width: 620px;
   margin: 12px auto 0;
   border: 2px solid var(--color-primary-soft);
-  border-radius: 18px;
+  border-radius: var(--radius-sm);
   padding: 14px 18px;
   background: var(--color-surface);
   color: var(--color-text);
@@ -334,7 +334,7 @@ button:disabled {
 
 .game-prompt {
   margin: 0;
-  font-size: clamp(44px, 5vw, 56px);
+  font-size: var(--font-prompt);
   line-height: 1.15;
 }
 
@@ -346,11 +346,11 @@ button:disabled {
 }
 
 .game-stage.is-correct {
-  animation: tapgo-pop 360ms ease-out;
+  animation: tapgo-pop var(--motion-pop) ease-out;
 }
 
 .game-stage.is-retry {
-  animation: tapgo-shake 420ms ease-in-out;
+  animation: tapgo-shake var(--motion-shake) ease-in-out;
 }
 
 /* Assist: level 1 outlines the real target, level 2 also enlarges it. */
@@ -375,7 +375,7 @@ button:disabled {
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 24px;
+  gap: var(--space-md);
   min-height: 460px;
   border-radius: var(--radius-card);
   padding: 32px;
@@ -389,9 +389,9 @@ button:disabled {
   min-width: 180px;
   min-height: 180px;
   border: 5px solid var(--color-primary);
-  border-radius: 36px;
+  border-radius: var(--radius-lg);
   background: var(--color-primary-soft);
-  font-size: 92px;
+  font-size: var(--font-target);
   font-weight: 900;
   line-height: 1;
 }
@@ -409,7 +409,7 @@ button:disabled {
   width: 84px;
   height: 96px;
   border: 3px solid var(--color-border);
-  border-radius: 22px;
+  border-radius: var(--radius-sm);
   background: var(--color-surface-muted);
   font-size: 48px;
   font-weight: 900;
@@ -451,7 +451,7 @@ button:disabled {
   width: 132px;
   height: 132px;
   border: 4px solid var(--color-border);
-  border-radius: 30px;
+  border-radius: var(--radius-lg);
   background: var(--color-surface-muted);
   font-size: 68px;
   transition:
@@ -609,7 +609,7 @@ button:disabled {
   justify-self: center;
   touch-action: none;
   border: 4px solid var(--color-primary);
-  border-radius: 30px;
+  border-radius: var(--radius-lg);
   background: var(--color-primary-soft);
   box-shadow: var(--shadow-card);
   font-size: 64px;
@@ -625,7 +625,7 @@ button:disabled {
   place-items: center;
   gap: 8px;
   border: 4px dashed var(--color-border);
-  border-radius: 28px;
+  border-radius: var(--radius-lg);
   padding: 20px;
   background: var(--color-surface-muted);
   text-align: center;
@@ -695,7 +695,7 @@ button:disabled {
 .result-actions button {
   min-height: 72px;
   border: 2px solid var(--color-border);
-  border-radius: 20px;
+  border-radius: var(--radius-sm);
   padding: 14px 24px;
   background: var(--color-surface);
   color: var(--color-primary);
@@ -767,7 +767,7 @@ button:disabled {
   grid-template-columns: 56px 1fr auto;
   align-items: center;
   gap: 14px;
-  border-radius: 22px;
+  border-radius: var(--radius-sm);
   padding: 18px;
   background: var(--color-surface);
   box-shadow: var(--shadow-card);

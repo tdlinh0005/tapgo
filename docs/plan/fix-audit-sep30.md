@@ -438,7 +438,7 @@ Files: `src/hooks/*, src/games/*, src/components/ListenButton.tsx`
 - **Fix:** Viết `useKeySequence(target, onComplete, onRetry, hintFor)` (useExpectedKey là trường hợp dài 1); dùng `ListenButton` (T25) và `resolveDrop` (T08); cho 3 game phím dùng chung một stage. Làm sau T08, T12, T23, T25.
 - **Done when:** `grep "event.repeat" src` còn 1 hit; `grep "Nghe yêu cầu" src/games` còn 0 hit; vitest pass.
 
-### [ ] T32 · Design token là nguồn duy nhất (radius, font, motion)
+### [x] T32 · Design token là nguồn duy nhất (radius, font, motion)
 
 **P2 · Effort M · UI/UX** · Review: B-12  
 Files: `src/styles/theme.css, src/styles/app.css, index.html`
