@@ -73,8 +73,16 @@ button:disabled {
   line-height: 1;
 }
 
-.home-subtitle {
+.home-greeting {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
   margin: 18px 0 30px;
+}
+
+.home-subtitle {
+  margin: 0;
   color: var(--color-muted);
   font-size: 24px;
   font-weight: 700;
@@ -290,8 +298,9 @@ button:disabled {
 
 .coach-bubble {
   display: grid;
-  align-content: center;
-  gap: 4px;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--space-sm);
   min-height: 72px;
   border: 2px solid var(--color-primary-soft);
   border-radius: var(--radius-sm);
@@ -311,8 +320,27 @@ button:disabled {
   background: var(--color-success-soft);
 }
 
-.coach-bubble:not([data-tone]) > .coach-message {
+.coach-bubble:not([data-tone]) .coach-message {
   color: var(--color-muted);
+}
+
+.coach-text {
+  display: grid;
+  gap: 4px;
+}
+
+.mascot {
+  display: inline-block;
+  font-size: 44px;
+  line-height: 1;
+}
+
+.mascot[data-moving][data-mood="cheer"] {
+  animation: tapgo-mascot-bounce var(--motion-pop) ease-out;
+}
+
+.mascot[data-moving][data-mood="encourage"] {
+  animation: tapgo-mascot-wave var(--motion-shake) ease-in-out;
 }
 
 .coach-message {
@@ -859,6 +887,32 @@ button:disabled {
 
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes tapgo-mascot-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  45% {
+    transform: translateY(-10px) scale(1.08);
+  }
+}
+
+@keyframes tapgo-mascot-wave {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+
+  30% {
+    transform: rotate(-12deg);
+  }
+
+  65% {
+    transform: rotate(12deg);
   }
 }
 

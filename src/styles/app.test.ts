@@ -60,6 +60,11 @@ describe('app visual acceptance rules', () => {
     expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)/);
   });
 
+  it('animates the mascot with the short feedback motion tokens', () => {
+    expect(css).toMatch(/\.mascot\[data-moving\]\[data-mood="cheer"\]\s*\{[^}]*animation:\s*tapgo-mascot-bounce var\(--motion-pop\)/s);
+    expect(css).toMatch(/\.mascot\[data-moving\]\[data-mood="encourage"\]\s*\{[^}]*animation:\s*tapgo-mascot-wave var\(--motion-shake\)/s);
+  });
+
   it('defines positive and retry feedback animations under the shared game stage', () => {
     expect(css).toMatch(/\.game-stage\.is-correct\s*\{[^}]*animation:/s);
     expect(css).toMatch(/\.game-stage\.is-retry\s*\{[^}]*animation:/s);

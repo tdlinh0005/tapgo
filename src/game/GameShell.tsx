@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import CoachBubble from '../components/CoachBubble';
+import type { MascotMood } from '../components/Mascot';
 import ProgressBar from '../components/ProgressBar';
 import StarRating from '../components/StarRating';
 import { useFeedbackTone } from '../hooks/useFeedbackTone';
@@ -45,6 +46,7 @@ export default function GameShell({
   const MiniGame = definition.component;
   const sessionRounds = Math.max(1, Math.min(roundLimit ?? definition.rounds, definition.rounds));
   const assistLevel: 0 | 1 | 2 = retryCount >= 3 ? 2 : retryCount >= 2 ? 1 : 0;
+  const mascotMood: MascotMood = feedbackState === 'correct' ? 'cheer' : feedbackState === 'retry' || visibleHint ? 'encourage' : 'idle';
   const guideLabel = guideOpen ? 'Ẩn cách chơi' : 'Xem cách chơi';
 
   useEffect(() => {
@@ -151,6 +153,8 @@ export default function GameShell({
 
       <div className="coach-row">
         <CoachBubble
+          mood={mascotMood}
+          moving={feedbackState !== null}
           intro={definition.intro}
           hint={visibleHint}
           review={reviewMessage}

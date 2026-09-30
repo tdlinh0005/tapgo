@@ -143,11 +143,12 @@
 
 ## Phase B — Nhân vật và phản hồi
 
-### [~] V05 · Nhân vật dẫn dắt (emoji mascot) — đang làm: lane-layout
+### [x] V05 · Nhân vật dẫn dắt (emoji mascot)
 
 - Component `Mascot` (một emoji, vd 🐱 “Mèo Tapi”) gắn vào `CoachBubble` (V01); trạng thái `idle | cheer | encourage` do `GameShell` điều khiển (đúng → cheer, `onRetry` → encourage, copy giữ “Thử lại nhé!” từ `retryCopy.ts`); Home có lời chào (không thêm nút, `Chơi ngay` vẫn là hành động chính).
 - Chỉ dùng CSS keyframes (nảy, vẫy), mỗi animation < 700ms, tắt khi reduced-motion. Mascot `aria-hidden`; lời thoại đã có trong bong bóng.
 - Xong khi: test component cho 3 trạng thái; mascot không che target (nằm ngoài vùng chơi); không thêm dependency.
+- Kết quả: `src/components/Mascot.tsx` (🐱 idle / 😸 cheer / 😺 encourage, `aria-hidden`) nằm bên trái chữ trong `CoachBubble`; `GameShell` suy trạng thái từ `feedbackState` (đúng → cheer, sai → encourage, còn hint → vẫn encourage, hết hiệu ứng → idle) và `data-moving` chạy animation khi có phản hồi: `tapgo-mascot-bounce` `--motion-pop` 360ms, `tapgo-mascot-wave` `--motion-shake` 420ms, tắt bởi rule reduced-motion chung. Home: mèo + lời chào “Chào con, mình là Mèo Tapi! Bấm Chơi ngay để bắt đầu nhé!” thay dòng phụ cũ, bỏ 🐱 khỏi hàng emoji hero, không thêm nút. Test: `Mascot.test.tsx` (3 trạng thái + moving), GameShell “drives the mascot”, `app.test.ts` ghim animation dùng token motion. Đo CDP sau rebase lên `730459a` (V06), hint + guide cùng mở: cả 10 game đáy `.game-stage` 744/768 và 696/720, card không tràn, trang không cuộn, vật kéo đáy 644/768 và 620/720; đáy mascot cách đỉnh `.game-stage` 28px ở mọi game (nảy −10px vẫn ngoài vùng chơi). Home vừa 768/720 không cuộn, lời chào cách nút `Chơi ngay` 30px. Không thêm dependency.
 
 ### [x] V06 · Phím mục tiêu giống phím thật
 

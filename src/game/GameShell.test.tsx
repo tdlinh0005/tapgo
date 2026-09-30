@@ -106,6 +106,30 @@ describe('GameShell', () => {
     expect(screen.getByTestId('game-stage')).toHaveAttribute('data-feedback', 'retry');
   });
 
+  it('drives the mascot: cheer on a correct round, encourage on retry, idle after the feedback ends', async () => {
+    const user = userEvent.setup();
+    const { container } = render(
+      <GameShell definition={{ ...definition, rounds: 3 }} onComplete={() => {}} onHome={() => {}} onNext={() => {}} />,
+    );
+    const mascot = () => container.querySelector('.coach-bubble .mascot');
+
+    expect(mascot()).toHaveAttribute('data-mood', 'idle');
+    expect(mascot()).toHaveAttribute('aria-hidden', 'true');
+    expect(container.querySelector('.game-stage .mascot')).toBeNull();
+
+    await user.click(screen.getByRole('button', { name: 'Thử lại lượt' }));
+    expect(mascot()).toHaveAttribute('data-mood', 'encourage');
+    expect(mascot()).toHaveAttribute('data-moving', 'true');
+    expect(screen.getByRole('status')).toHaveTextContent('Thử lại nhé');
+
+    await user.click(screen.getByRole('button', { name: 'Hoàn thành lượt' }));
+    expect(mascot()).toHaveAttribute('data-mood', 'cheer');
+
+    endAnimation(screen.getByTestId('game-stage'));
+    expect(mascot()).toHaveAttribute('data-mood', 'idle');
+    expect(mascot()).not.toHaveAttribute('data-moving');
+  });
+
   it('uses the supplied final action label', async () => {
     const user = userEvent.setup();
     render(
