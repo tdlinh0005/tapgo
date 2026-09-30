@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-09-30 · 1f13228
+> updated 2026-09-30 · d7d14de
 
 ## Goal
 
@@ -197,7 +197,7 @@ export type GameDefinition = {
 - số sao
 - gọi lưu progress
 
-Mini-game không tự đọc/ghi localStorage và không tự điều hướng. `GameShell` giữ retry count và truyền `assistLevel` xuống mini-game để tăng trợ giúp sau lỗi mà không làm mỗi game tự xây một state machine riêng. Lượt ôn lại không được ghi thêm vào `outcomes` nên không thay đổi scoring của lượt gốc.
+Mini-game không tự đọc/ghi localStorage và không tự điều hướng. `GameShell` giữ retry count và truyền `assistLevel` xuống mini-game để tăng trợ giúp sau lỗi mà không làm mỗi game tự xây một state machine riêng. Lượt ôn lại không được ghi thêm vào `outcomes` nên không thay đổi scoring của lượt gốc. Lượt ôn chỉ có ở Lộ trình và Chơi tự do; quick session của Guided Play (có `roundLimit`) không sinh lượt ôn để giữ đúng tối đa 5 lượt.
 
 ## Star scoring
 

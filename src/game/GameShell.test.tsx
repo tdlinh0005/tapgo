@@ -167,6 +167,28 @@ describe('GameShell', () => {
     expect(onComplete).toHaveBeenCalledWith('letters', 1);
   });
 
+  it('does not add review rounds to a quick session', async () => {
+    const user = userEvent.setup();
+    const onComplete = vi.fn();
+
+    render(
+      <GameShell
+        definition={{ ...definition, rounds: 10 }}
+        roundLimit={5}
+        onComplete={onComplete}
+        onHome={() => {}}
+        onNext={() => {}}
+      />,
+    );
+
+    for (let round = 0; round < 5; round += 1) {
+      await user.click(screen.getByRole('button', { name: 'Hoàn thành có lỗi' }));
+    }
+
+    expect(screen.getByText('Con nhận được 1 sao')).toBeInTheDocument();
+    expect(onComplete).toHaveBeenCalledOnce();
+  });
+
   it('opens guidance and raises assistance after two retries', async () => {
     const user = userEvent.setup();
 

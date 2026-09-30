@@ -55,7 +55,7 @@ export default function GameShell({
       setOutcomes(nextOutcomes);
     }
 
-    if (outcome.attempts > outcome.correct && !completingReview) {
+    if (outcome.attempts > outcome.correct && !completingReview && roundLimit === undefined) {
       setReviewPending(true);
       setReviewCycle((current) => current + 1);
       setReviewMessage('Mình ôn lại lượt này một lần nhé!');

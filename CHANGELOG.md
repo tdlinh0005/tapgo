@@ -19,6 +19,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - In Guided Play, `Bài tiếp theo` opens the next recommended game (never the one just played) instead of the next game in path order.
 - Sequence typing uses 3 to 5 key sequences that differ from the word game, and find key uses letters the letter game does not teach.
 - Word and sequence games mark typed characters as done in green, so the child sees how far they have got.
+- Guided Play quick sessions no longer add review rounds, so they end after at most 5 rounds.
 
 ### Fixed
 
