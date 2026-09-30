@@ -187,7 +187,7 @@
 
 ## Phase C — Bài tập phong phú (không đổi GameId)
 
-### [ ] V11 · `sessionSeed` + helper `pickRound`
+### [~] V11 · `sessionSeed` + helper `pickRound` — đang làm: lane-layout
 
 - `GameShell` tạo seed bằng `useState(() => …)` một lần mỗi session, tạo seed mới khi `Chơi lại` (`restart`); truyền `sessionSeed?: number` qua `MiniGameProps`.
 - Helper `src/game/pickRound.ts`: `pickRound(pool, roundIndex, seed)` hoán vị kho theo seed (PRNG xác định, vd mulberry32) rồi lấy `perm[roundIndex % length]`. Lượt ôn tự dùng lại đúng mục vì GameShell giữ `roundIndex`. Thiếu seed → `pool[roundIndex % length]` (test cũ như `ListenButton.test` không phải sửa).
