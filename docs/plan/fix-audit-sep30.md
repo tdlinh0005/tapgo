@@ -105,7 +105,7 @@ Files: `package.json, package-lock.json`
 - **Fix:** Đổi mỗi dep sang `^<version trong lock>` (typescript dùng `~7.0.2`), chạy `npm install` để đồng bộ lock, rồi chạy tsc, test và build.
 - **Done when:** `grep -c '"latest"' package.json` ra 0; test và build vẫn xanh.
 
-### [ ] T03 · Tạo CHANGELOG.md với mục [Unreleased]
+### [x] T03 · Tạo CHANGELOG.md với mục [Unreleased]
 
 **P2 · Effort S · Build/Release** · Review: C-11  
 Files: `CHANGELOG.md (mới)`
@@ -280,7 +280,7 @@ Files: `src/game/GameShell.tsx, docs/feat/tapgo-mvp.md`
 - **Fix:** Không sinh lượt ôn khi có `roundLimit`, hoặc ghi vào spec rằng lượt ôn không tính vào giới hạn 5. Thêm test tương ứng.
 - **Done when:** Spec ghi rõ và có test: guided với 5 lượt đều sai 1 lần vẫn kết thúc sau đúng 5 lượt.
 
-### [ ] T18 · Hint được đọc lại ở mọi lỗi từ lần thứ 2 trở đi
+### [~] T18 · Hint được đọc lại ở mọi lỗi từ lần thứ 2 trở đi — đang làm: Lane A
 
 **P3 · Effort S · Flow/Logic** · Review: A-8  
 Files: `src/game/GameShell.tsx`
@@ -291,7 +291,7 @@ Files: `src/game/GameShell.tsx`
 - **Fix:** Đổi thành `=== 2`.
 - **Done when:** Test: 4× `onRetry` thì `speak(hint)` được gọi 1 lần và guide mở 1 lần.
 
-### [ ] T19 · Drag bắt đầu cả với chuột phải hoặc pointer phụ; thiếu lostpointercapture
+### [x] T19 · Drag bắt đầu cả với chuột phải hoặc pointer phụ; thiếu lostpointercapture
 
 **P3 · Effort S · Flow/Logic** · Review: A-9, B-20  
 Files: `src/hooks/usePointerDrag.ts`
