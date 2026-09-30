@@ -164,7 +164,7 @@
 - Giữ tên keyframe `tapgo-pop` / `tapgo-shake` (test đang ghim); `onAnimationEnd` của stage vẫn chỉ nhận event của chính stage (test “ignores animation end events bubbling from children”).
 - Xong khi: `.game-stage.is-correct` / `.is-retry` vẫn có animation; tổng thời lượng < 700ms; reduced-motion không hiện burst.
 
-### [ ] V08 · Màn hoàn thành ăn mừng
+### [~] V08 · Màn hoàn thành ăn mừng — đang làm: lane-layout
 
 - Confetti CSS (emoji rơi, 1 lần, < 700ms mỗi hạt, tối đa ~1.5s tổng, `pointer-events: none`), sao hiện lần lượt, mascot cheer; `Bài tiếp theo` vẫn là nút chính duy nhất nổi bật.
 - Spec chỉ giới hạn *animation feedback* < 700ms; hiệu ứng ăn mừng màn kết quả là quy tắc mới → ghi vào spec § UX rules trong V17 (“ăn mừng màn kết quả ≤ 1.5s, không chặn nút, tĩnh khi reduced-motion”).
