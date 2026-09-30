@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-09-30 · d7d14de
+> updated 2026-09-30 · 7ed33c3
 
 ## Goal
 

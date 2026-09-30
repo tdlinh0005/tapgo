@@ -563,7 +563,7 @@ Files: `docs/research/tapgo-learning-improvements.md, docs/index.md`
 - **Fix:** Viết lại theo B2 (Start time / Initial purpose / Strategy / Checklist / Result+Verification / Decision); tách phần Guided thành `…-2.md`, doc gốc ghi `Status: superseded by …`; thêm cả hai vào index.
 - **Done when:** Mọi file trong docs/ đều có trong index; research có đủ 6 trường.
 
-### [~] T43 · Stamp `updated` dùng commit hash hoặc semver — đang làm: Notion AI (lead)
+### [x] T43 · Stamp `updated` dùng commit hash hoặc semver
 
 **P3 · Effort S · Docs** · Review: C-10  
 Files: `docs/feat/tapgo-mvp.md, docs/research/*`
