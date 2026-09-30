@@ -140,7 +140,7 @@ Files: `src/styles/app.css, src/styles/app.test.ts`
 - **Fix:** Đặt `.screen-header > button` 72×72, và `min-height: 72px` cho `.guide-toggle` và `.listen-button`. Thêm assertion vào `app.test.ts`.
 - **Done when:** `app.test.ts` kiểm 72px cho 3 selector trên và pass.
 
-### [ ] T06 · Prompt game không nổi bật nhất; Click và Rê chuột không có prompt
+### [x] T06 · Prompt game không nổi bật nhất; Click và Rê chuột không có prompt
 
 **P1 · Effort S · UI/UX** · Review: B-3  
 Files: `src/styles/app.css, src/games/ClickTargetGame.tsx, src/games/MouseTrailGame.tsx`

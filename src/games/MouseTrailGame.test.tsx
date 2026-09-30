@@ -18,6 +18,7 @@ describe('MouseTrailGame', () => {
     expect(container.querySelector('.trail-guide polyline')).toHaveAttribute('points', TRAILS[2].map(([x, y]) => `${x},${y}`).join(' '));
     expect(screen.getByLabelText('Điểm bắt đầu')).toBeInTheDocument();
     expect(screen.getByLabelText('Đích')).toBeInTheDocument();
+    expect(screen.getByText('Đưa chuột qua các điểm tới 🏁')).toHaveClass('game-prompt');
   });
 
   it('completes when checkpoints are entered in order', () => {

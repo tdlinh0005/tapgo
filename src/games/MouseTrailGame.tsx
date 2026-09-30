@@ -39,23 +39,26 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, a
   };
 
   return (
-    <section className="trail-area" aria-label="Đường rê chuột">
-      <svg className="trail-guide" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-        <polyline points={trail.map(([x, y]) => `${x},${y}`).join(' ')} vectorEffect="non-scaling-stroke" />
-      </svg>
-      {trail.map(([left, top], index) => (
-        <div
-          key={index}
-          data-testid={`checkpoint-${index}`}
-          className={`trail-checkpoint${index < nextCheckpoint ? ' is-done' : ''}${index === nextCheckpoint ? ' is-next' : ''}${assistLevel > 0 && index === nextCheckpoint ? ' is-assisted' : ''}`}
-          style={{ left: `${left}%`, top: `${top}%` }}
-          onPointerEnter={() => visit(index)}
-          role="img"
-          aria-label={labelFor(index)}
-        >
-          <span>{index === 0 ? '🟢' : index === finishIndex ? '🏁' : index}</span>
-        </div>
-      ))}
-    </section>
+    <>
+      <p className="game-prompt">Đưa chuột qua các điểm tới 🏁</p>
+      <section className="trail-area" aria-label="Đường rê chuột">
+        <svg className="trail-guide" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          <polyline points={trail.map(([x, y]) => `${x},${y}`).join(' ')} vectorEffect="non-scaling-stroke" />
+        </svg>
+        {trail.map(([left, top], index) => (
+          <div
+            key={index}
+            data-testid={`checkpoint-${index}`}
+            className={`trail-checkpoint${index < nextCheckpoint ? ' is-done' : ''}${index === nextCheckpoint ? ' is-next' : ''}${assistLevel > 0 && index === nextCheckpoint ? ' is-assisted' : ''}`}
+            style={{ left: `${left}%`, top: `${top}%` }}
+            onPointerEnter={() => visit(index)}
+            role="img"
+            aria-label={labelFor(index)}
+          >
+            <span>{index === 0 ? '🟢' : index === finishIndex ? '🏁' : index}</span>
+          </div>
+        ))}
+      </section>
+    </>
   );
 }

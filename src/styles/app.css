@@ -156,6 +156,10 @@ button:disabled {
   font-size: clamp(34px, 4vw, 48px);
 }
 
+.game-heading h1 {
+  font-size: 28px;
+}
+
 .screen-header > button,
 .game-header > button {
   width: 72px;
@@ -330,7 +334,7 @@ button:disabled {
 
 .game-prompt {
   margin: 0;
-  font-size: clamp(28px, 4vw, 42px);
+  font-size: clamp(44px, 5vw, 56px);
   line-height: 1.15;
 }
 

@@ -25,6 +25,7 @@ describe('ClickTargetGame', () => {
       />,
     );
 
+    await user.click(screen.getByText('Click vào ngôi sao'));
     await user.click(screen.getByTestId('play-area'));
     expect(onRoundComplete).not.toHaveBeenCalled();
     expect(onRetry).toHaveBeenCalledTimes(1);

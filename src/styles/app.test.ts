@@ -16,6 +16,11 @@ describe('app visual acceptance rules', () => {
     expect(css).toMatch(/\.listen-button\s*\{[^}]*min-height:\s*72px/s);
   });
 
+  it('makes the round prompt larger than the game title', () => {
+    expect(css).toMatch(/\.game-heading h1\s*\{[^}]*font-size:\s*28px/s);
+    expect(css).toMatch(/\.game-prompt\s*\{[^}]*font-size:\s*clamp\(44px/s);
+  });
+
   it('creates positioned play areas for click and trail games', () => {
     expect(css).toMatch(/\.click-play-area\s*\{[^}]*position:\s*relative/s);
     expect(css).toMatch(/\.click-target\s*\{[^}]*position:\s*absolute/s);

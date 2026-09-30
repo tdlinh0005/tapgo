@@ -20,21 +20,24 @@ export default function ClickTargetGame({ onRoundComplete, onRetry, assistLevel 
   };
 
   return (
-    <section
-      className="click-play-area"
-      data-testid="play-area"
-      onClick={handleMiss}
-      aria-label="Khu vực luyện click"
-    >
-      <button
-        type="button"
-        className={`click-target${assistLevel > 0 ? ' is-assisted' : ''}`}
-        aria-label="Mục tiêu"
-        onClick={handleTarget}
-        style={{ left: `${left}%`, top: `${top}%` }}
+    <>
+      <p className="game-prompt">Click vào ngôi sao</p>
+      <section
+        className="click-play-area"
+        data-testid="play-area"
+        onClick={handleMiss}
+        aria-label="Khu vực luyện click"
       >
-        <span className="click-target-visual" aria-hidden="true">⭐</span>
-      </button>
-    </section>
+        <button
+          type="button"
+          className={`click-target${assistLevel > 0 ? ' is-assisted' : ''}`}
+          aria-label="Mục tiêu"
+          onClick={handleTarget}
+          style={{ left: `${left}%`, top: `${top}%` }}
+        >
+          <span className="click-target-visual" aria-hidden="true">⭐</span>
+        </button>
+      </section>
+    </>
   );
 }

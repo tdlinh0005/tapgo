@@ -15,6 +15,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 
 ### Changed
 
+- The round prompt is now the largest text in every game (44px+, title 28px); click and mouse-trail games show their own prompt above the play area.
 - Vitest runs in the `vmThreads` pool so jsdom setup no longer dominates test time (~2s full run).
 - Dependencies are pinned to caret ranges of the locked versions instead of `latest`.
 - In Guided Play, `Bài tiếp theo` opens the next recommended game (never the one just played) instead of the next game in path order.
