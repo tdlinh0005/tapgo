@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import ListenButton from '../components/ListenButton';
 import type { MiniGameProps } from '../game/types';
 
 const ROUNDS = [
@@ -31,9 +32,7 @@ export default function PickPictureGame({ roundIndex, onRoundComplete, onRetry, 
   return (
     <section className="picture-game">
       <p className="game-prompt">{round.prompt}</p>
-      <button type="button" className="listen-button" onClick={() => speak(round.prompt)}>
-        <span aria-hidden="true">🔊</span> Nghe yêu cầu
-      </button>
+      <ListenButton text={round.prompt} speak={speak} />
       <div className="picture-options">
         {round.options.map((option) => (
           <button

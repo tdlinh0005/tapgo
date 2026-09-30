@@ -15,6 +15,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 
 ### Changed
 
+- Every game has a `Nghe yêu cầu` button that reads the goal of the current round; the header speaker button is now labelled `Nghe lại cách chơi`.
 - The round prompt is now the largest text in every game (44px+, title 28px); click and mouse-trail games show their own prompt above the play area.
 - Vitest runs in the `vmThreads` pool so jsdom setup no longer dominates test time (~2s full run).
 - Dependencies are pinned to caret ranges of the locked versions instead of `latest`.

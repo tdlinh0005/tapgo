@@ -1,3 +1,4 @@
+import ListenButton from '../components/ListenButton';
 import type { MiniGameProps } from '../game/types';
 import { useExpectedKey } from '../hooks/useExpectedKey';
 
@@ -12,9 +13,7 @@ export default function FindKeyGame({ roundIndex, onRoundComplete, onRetry, spea
     <section className="typing-game find-key-game" aria-label="Tìm phím đúng">
       <p className="game-prompt">{instruction}</p>
       <div className="key-target" aria-hidden="true">{target}</div>
-      <button type="button" className="listen-button" onClick={() => speak(instruction)}>
-        <span aria-hidden="true">🔊</span> Nghe yêu cầu
-      </button>
+      <ListenButton text={instruction} speak={speak} />
     </section>
   );
 }

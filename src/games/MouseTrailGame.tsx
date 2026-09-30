@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import ListenButton from '../components/ListenButton';
 import { RETRY_PREFIX } from '../game/retryCopy';
 import type { MiniGameProps } from '../game/types';
 
@@ -11,7 +12,7 @@ export const TRAILS = [
   [[10, 66], [26, 66], [42, 46], [58, 26], [74, 26], [90, 46]],
 ] as const;
 
-export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, assistLevel = 0 }: MiniGameProps) {
+export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const trail = TRAILS[roundIndex % TRAILS.length];
   const finishIndex = trail.length - 1;
   const [nextCheckpoint, setNextCheckpoint] = useState(0);
@@ -41,6 +42,7 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, a
   return (
     <>
       <p className="game-prompt">Đưa chuột qua các điểm tới 🏁</p>
+      <ListenButton text="Đưa chuột qua các điểm theo thứ tự tới lá cờ đích" speak={speak} />
       <section className="trail-area" aria-label="Đường rê chuột">
         <svg className="trail-guide" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <polyline points={trail.map(([x, y]) => `${x},${y}`).join(' ')} vectorEffect="non-scaling-stroke" />

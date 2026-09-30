@@ -359,7 +359,7 @@ Files: `src/games/SequenceTypingGame.tsx, src/games/FindKeyGame.tsx`
 - **Fix:** Chuỗi ví dụ `ASD, ASDF, JKL, JKLM, FGH, ASDFG, QWE, RTYU`; FindKey dùng các chữ mới như `Q G H K R U V Y D O`.
 - **Done when:** Unit test: độ dài trong [3,5], không giao với WORDS, và FindKey ≠ LETTERS.
 
-### [ ] T25 · Mỗi game có nút "Nghe yêu cầu" đọc prompt của lượt; đổi tên nút ở header
+### [x] T25 · Mỗi game có nút "Nghe yêu cầu" đọc prompt của lượt; đổi tên nút ở header
 
 **P2 · Effort M · UI/UX** · Review: B-16  
 Files: `src/games/*.tsx, src/game/GameShell.tsx, src/components/ListenButton.tsx (mới)`

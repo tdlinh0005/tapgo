@@ -131,7 +131,7 @@ export default function GameShell({
         <button
           type="button"
           onClick={() => speak(definition.intro)}
-          aria-label="Nghe lại hướng dẫn"
+          aria-label="Nghe lại cách chơi"
         >
           🔊
         </button>

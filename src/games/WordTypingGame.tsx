@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import ListenButton from '../components/ListenButton';
 import { keyRetryHint } from '../game/retryCopy';
 import type { MiniGameProps } from '../game/types';
 
 export const WORDS = ['ME', 'BA', 'CON', 'MEO', 'CHO', 'NHA', 'XE', 'CA'] as const;
 
-export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry }: MiniGameProps) {
+export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry, speak }: MiniGameProps) {
   const word = WORDS[roundIndex % WORDS.length];
   const [charIndex, setCharIndex] = useState(0);
   const attempts = useRef(0);
@@ -43,6 +44,7 @@ export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry }:
           </span>
         ))}
       </div>
+      <ListenButton text={`Gõ từ ${word}`} speak={speak} />
     </section>
   );
 }

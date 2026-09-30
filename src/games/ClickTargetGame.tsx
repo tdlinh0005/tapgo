@@ -1,11 +1,12 @@
 import { useState, type MouseEvent } from 'react';
+import ListenButton from '../components/ListenButton';
 import type { MiniGameProps } from '../game/types';
 
 export const SAFE_AREA = { left: [14, 80], top: [18, 72] } as const;
 
 const randomBetween = ([min, max]: readonly [number, number]) => min + Math.random() * (max - min);
 
-export default function ClickTargetGame({ onRoundComplete, onRetry, assistLevel = 0 }: MiniGameProps) {
+export default function ClickTargetGame({ onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const [attempts, setAttempts] = useState(0);
   const [{ left, top }] = useState(() => ({ left: randomBetween(SAFE_AREA.left), top: randomBetween(SAFE_AREA.top) }));
 
@@ -22,6 +23,7 @@ export default function ClickTargetGame({ onRoundComplete, onRetry, assistLevel 
   return (
     <>
       <p className="game-prompt">Click vào ngôi sao</p>
+      <ListenButton text="Click vào ngôi sao" speak={speak} />
       <section
         className="click-play-area"
         data-testid="play-area"

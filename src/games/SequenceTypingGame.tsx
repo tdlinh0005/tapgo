@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import ListenButton from '../components/ListenButton';
 import { keyRetryHint } from '../game/retryCopy';
 import type { MiniGameProps } from '../game/types';
 
 export const SEQUENCES = ['ASD', 'ASDF', 'JKL', 'JKLM', 'FGH', 'ASDFG', 'QWE', 'RTYU'] as const;
 
-export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetry }: MiniGameProps) {
+export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetry, speak }: MiniGameProps) {
   const sequence = SEQUENCES[roundIndex % SEQUENCES.length];
   const [keyIndex, setKeyIndex] = useState(0);
   const attempts = useRef(0);
@@ -43,6 +44,7 @@ export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetr
           </span>
         ))}
       </div>
+      <ListenButton text={`Gõ theo thứ tự ${sequence.split('').join(' ')}`} speak={speak} />
     </section>
   );
 }

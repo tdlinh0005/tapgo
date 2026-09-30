@@ -1,4 +1,5 @@
 import { useRef } from 'react';
+import ListenButton from '../components/ListenButton';
 import type { MiniGameProps } from '../game/types';
 import { resolveDrop, usePointerDrag } from '../hooks/usePointerDrag';
 
@@ -32,9 +33,7 @@ export default function DragSortGame({ roundIndex, onRoundComplete, onRetry, spe
   return (
     <section className="drag-game">
       <p className="game-prompt">{round.label}</p>
-      <button type="button" className="listen-button" onClick={() => speak(round.label)}>
-        <span aria-hidden="true">🔊</span> Nghe yêu cầu
-      </button>
+      <ListenButton text={round.label} speak={speak} />
       <div className="drag-stage">
         <button
           type="button"
