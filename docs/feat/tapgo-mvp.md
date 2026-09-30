@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-09-30 · 4608d6a
+> updated 2026-09-30 · 1f13228
 
 ## Goal
 
@@ -14,7 +14,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 - Luyện gõ: A-Z, 0-9, Space/Enter khi cần, và từ tiếng Việt không dấu như `ME`, `BA`, `CON`, `MEO`, `CHO`, `NHA`, `XE`.
 - Luyện chuột: click, rê chuột, kéo thả.
 - Điều hướng học: Home ưu tiên một CTA `Chơi ngay` để vào Guided Play; vẫn có Lộ trình và Chơi tự do mở toàn bộ game.
-- Guided Play: tự chọn bài đầu tiên chưa hoàn thành, chạy quick session tối đa 5 lượt rồi ưu tiên CTA `Bài tiếp theo`.
+- Guided Play: tự chọn bài đầu tiên chưa hoàn thành, chạy quick session tối đa 5 lượt rồi ưu tiên CTA `Bài tiếp theo`. Trong Guided Play, `Bài tiếp theo` mở bài được gợi ý theo cùng logic với `Chơi ngay` (`getRecommendedGameId`), loại trừ bài vừa chơi — chơi lại đã có nút `Chơi lại`; Lộ trình và Chơi tự do giữ bài kế theo thứ tự.
 - Phản hồi: hoàn thành bài là thông điệp chính; 1-3 sao là tín hiệu phụ, kèm âm thanh nhẹ và animation ngắn; không dùng thông báo thất bại nặng nề.
 - Hướng dẫn: chữ ngắn + icon + giọng đọc.
 - Speech: Web Speech API (`speechSynthesis`) với locale `vi-VN`; luôn có nút nghe lại.

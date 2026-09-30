@@ -9,11 +9,12 @@ export function isPathUnlocked(gameId: GameId, progress: ProgressState): boolean
   return progress.games[PATH_ORDER[index - 1]].completed;
 }
 
-export function getRecommendedGameId(progress: ProgressState): GameId {
+export function getRecommendedGameId(progress: ProgressState, excludeGameId?: GameId): GameId {
+  const candidates = PATH_ORDER.filter((gameId) => gameId !== excludeGameId);
   return (
-    PATH_ORDER.find((gameId) => !progress.games[gameId].completed)
-    ?? PATH_ORDER.find((gameId) => progress.games[gameId].bestStars < 3)
-    ?? PATH_ORDER[0]
+    candidates.find((gameId) => !progress.games[gameId].completed)
+    ?? candidates.find((gameId) => progress.games[gameId].bestStars < 3)
+    ?? candidates[0]
   );
 }
 

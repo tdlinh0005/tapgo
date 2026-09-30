@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { createDefaultProgress, recordCompletion } from './progress';
-import { getNextGameId, getRecommendedGameId, isPathUnlocked } from './path';
+import { getNextGameId, getRecommendedGameId, isPathUnlocked, PATH_ORDER } from './path';
 
 describe('path unlock', () => {
   it('unlocks the first game only by default', () => {
@@ -17,6 +17,16 @@ describe('path unlock', () => {
   it('recommends the first unfinished game', () => {
     const completed = recordCompletion(createDefaultProgress(), 'letters', 2);
     expect(getRecommendedGameId(completed)).toBe('numbers');
+  });
+
+  it('never recommends the excluded game', () => {
+    let progress = createDefaultProgress();
+    for (const gameId of PATH_ORDER) progress = recordCompletion(progress, gameId, 3);
+    progress = { ...progress, games: { ...progress.games, words: { ...progress.games.words, bestStars: 2 } } };
+
+    expect(getRecommendedGameId(progress)).toBe('words');
+    expect(getRecommendedGameId(progress, 'words')).toBe('letters');
+    expect(getRecommendedGameId(createDefaultProgress(), 'letters')).toBe('numbers');
   });
 
   it('uses the same canonical order for next-game navigation', () => {

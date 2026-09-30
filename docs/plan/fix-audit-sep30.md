@@ -254,7 +254,7 @@ Files: `src/hooks/useSpeech.ts, src/hooks/useSpeech.test.ts`
 - **Fix:** Thêm `useEffect(() => () => window.speechSynthesis?.cancel(), [])`, và gom `isSpeechSupported()` thành một helper.
 - **Done when:** Test: unmount hook thì `speechSynthesis.cancel` được gọi.
 
-### [~] T16 · Guided: "Bài tiếp theo" nên đi tới bài được gợi ý, không phải bài kế theo thứ tự — đang làm: Lane A
+### [x] T16 · Guided: "Bài tiếp theo" nên đi tới bài được gợi ý, không phải bài kế theo thứ tự
 
 **P2 · Effort S · Flow/Logic** · Review: B (out-of-lane), lead verified  
 Files: `src/App.tsx, src/App.test.tsx`
@@ -370,7 +370,7 @@ Files: `src/games/*.tsx, src/game/GameShell.tsx, src/components/ListenButton.tsx
 - **Fix:** Tạo `components/ListenButton.tsx` nhận prop `text`, dùng trong mọi game. Đổi aria-label nút header thành "Nghe lại cách chơi".
 - **Done when:** Test mỗi game: bấm "Nghe yêu cầu" thì `speak` được gọi với text chứa mục tiêu của lượt.
 
-### [ ] T26 · Game Từ/Chuỗi đánh dấu ký tự đã gõ xong
+### [~] T26 · Game Từ/Chuỗi đánh dấu ký tự đã gõ xong — đang làm: Lane C
 
 **P2 · Effort S · UI/UX** · Review: B-17  
 Files: `src/games/WordTypingGame.tsx, src/games/SequenceTypingGame.tsx, src/styles/app.css`

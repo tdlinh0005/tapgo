@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { StrictMode } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
-import { PROGRESS_KEY } from './game/progress';
+import { createDefaultProgress, PROGRESS_KEY, recordCompletion } from './game/progress';
 
 const originalSpeechSynthesis = window.speechSynthesis;
 
@@ -145,6 +145,24 @@ describe('App integration', () => {
     expect(screen.getByRole('heading', { name: 'Gõ số' })).toBeInTheDocument();
     expect(screen.getByText('1 / 5')).toBeInTheDocument();
     expect(screen.queryByText('Con nhận được 3 sao')).not.toBeInTheDocument();
+  });
+
+  it('sends guided next to the recommended game instead of the next one in order', async () => {
+    const user = userEvent.setup();
+    let saved = createDefaultProgress();
+    for (const gameId of ['letters', 'numbers', 'find-key'] as const) saved = recordCompletion(saved, gameId, 3);
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(saved));
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Chơi ngay' }));
+    expect(screen.getByRole('heading', { name: 'Gõ từ ngắn' })).toBeInTheDocument();
+    for (const word of ['me', 'ba', 'con', 'meo', 'cho']) {
+      await user.keyboard(word);
+    }
+
+    expect(screen.getByText('Con nhận được 3 sao')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Bài tiếp theo' }));
+    expect(screen.getByRole('heading', { name: 'Gõ chuỗi phím' })).toBeInTheDocument();
   });
 
   it('opens drag match from Free Play even when the path is locked', async () => {

@@ -40,8 +40,11 @@ export default function App() {
     setProgress((current) => recordCompletion(current, gameId, stars));
   };
 
+  const getFollowingGameId = (gameId: GameId, mode: GameMode) =>
+    mode === 'guided' ? getRecommendedGameId(progress, gameId) : getNextGameId(gameId);
+
   const openNext = (gameId: GameId, mode: GameMode) => {
-    const nextGameId = getNextGameId(gameId);
+    const nextGameId = getFollowingGameId(gameId, mode);
     if (nextGameId) {
       openGame(nextGameId, mode);
     } else {
@@ -65,7 +68,7 @@ export default function App() {
         onComplete={handleComplete}
         onHome={goHome}
         onNext={() => openNext(view.gameId, view.mode)}
-        nextLabel={getNextGameId(view.gameId) ? 'Bài tiếp theo' : 'Xem tiến độ'}
+        nextLabel={getFollowingGameId(view.gameId, view.mode) ? 'Bài tiếp theo' : 'Xem tiến độ'}
       />
     );
   } else {
