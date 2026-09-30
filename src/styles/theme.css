@@ -25,6 +25,11 @@
   --radius-card: 24px;
   --radius-lg: 32px;
   --radius-pill: 999px;
+  --toy-depth: 6px;
+  --toy-depth-hover: 3px;
+  --decor-size: 40px;
+  --decor-inset: 12px;
+  --decor-opacity: 0.35;
   --shadow-card: 0 10px 30px rgb(32 33 36 / 10%);
   --shadow-sticker: 0 6px 14px rgb(32 33 36 / 18%);
   --font-family: "Nunito Variable", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;

@@ -135,11 +135,12 @@
 - Xong khi: dấu tiếng Việt hiển thị đúng trên mọi màn (so ảnh CDP); `npm run build` pass và `dist/` chứa file font; tab Network không có request ra domain ngoài.
 - Kết quả: `@fontsource-variable/nunito` 5.3.0 (trục wght 200–1000, đủ các weight 650–900 đang dùng; Baloo 2 chỉ tới 800). CDP (vite 5183) ở Home, Lộ trình, Chơi tự do, Tiến độ, game Gõ chữ cái: `font-family` tính ra `"Nunito Variable"`, `document.fonts.check` với toàn bộ chữ trên màn = true, trình duyệt chỉ tải 3 file `latin`, `latin-ext`, `vietnamese` (woff2, cùng origin), 0 request ra domain ngoài. Build pass, `dist/assets/` có 5 file `nunito-*-wght-normal.woff2`. Lệch plan: `index.css` của gói khai báo cả `cyrillic`/`cyrillic-ext` (gói không có CSS theo từng subset) nên 2 file đó vẫn nằm trong `dist/` nhưng không bao giờ được tải nhờ `unicode-range`; chỉ import kiểu normal, không italic.
 
-### [~] V04 · Nền và card sinh động — đang làm: lane-color
+### [x] V04 · Nền và card sinh động
 
 - Nền: gradient nhẹ + vài hình trang trí emoji mờ cố định (☁️ ⭐ 🎈) ở rìa, `pointer-events: none`, `aria-hidden`, không động khi `prefers-reduced-motion`.
 - Card: viền dày bo tròn (radius từ token), bóng “nổi” kiểu nút đồ chơi, nhấn xuống khi hover/active (≤ `--motion-fast`); màu theo `data-category` (V02).
 - Xong khi: không trang trí nào chồng lên target/vùng chơi (kiểm ở 1280×720); token mới nằm trong `theme.css`.
+- Kết quả: `BackgroundDecor` (6 emoji ☁️ ⭐ 🎈 tĩnh ở rìa trái/phải, `position: fixed`, `pointer-events: none`, `aria-hidden`, không animation) render trong `App` ngoài `DesktopGate`; body thêm 2 gradient `--color-mouse-soft` / `--color-keyboard-soft`. Card: viền 4px `--color-category`, `--radius-lg`, bóng đồ chơi `0 var(--toy-depth) 0 var(--color-category)`, hover lún `--toy-depth-hover`, active lún hết, transition `--motion-fast` (180ms), card khoá không lún. Token mới trong `theme.css`: `--toy-depth` 6px, `--toy-depth-hover` 3px, `--decor-size` 40px, `--decor-inset` 12px, `--decor-opacity` 0.35. Lệch plan: đo ở 900px thấy rãnh bên hẹp làm emoji chồng lên header/card → ẩn trang trí khi viewport < 1240px. Đo CDP (iframe đúng kích thước, Home + Lộ trình/Tiến độ/Chơi tự do cuộn từng 300px + 10 game mở guide, 23 lần kiểm mỗi cỡ): 1366×768 0 chồng lấn, khe nhỏ nhất 86px; 1280×720 0 chồng lấn, khe 43px; 1240×720 0 chồng lấn, khe 23px; 1239×720 trang trí ẩn.
 
 ## Phase B — Nhân vật và phản hồi
 

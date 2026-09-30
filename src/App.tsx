@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BackgroundDecor from './components/BackgroundDecor';
 import DesktopGate from './components/DesktopGate';
 import GameShell from './game/GameShell';
 import { getNextGameId, getRecommendedGameId } from './game/path';
@@ -82,5 +83,10 @@ export default function App() {
     );
   }
 
-  return <DesktopGate>{content}</DesktopGate>;
+  return (
+    <>
+      <BackgroundDecor />
+      <DesktopGate>{content}</DesktopGate>
+    </>
+  );
 }
