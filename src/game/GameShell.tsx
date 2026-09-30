@@ -113,8 +113,8 @@ export default function GameShell({
         <p className="result-label">Con nhận được {stars} sao</p>
         <div className="result-actions">
           <button className="result-primary-action" type="button" onClick={onNext}>{nextLabel}</button>
-          <button className="result-secondary-action" type="button" onClick={restart}>Chơi lại</button>
-          <button className="result-secondary-action" type="button" onClick={onHome}>Về nhà</button>
+          <button type="button" onClick={restart}>Chơi lại</button>
+          <button type="button" onClick={onHome}>Về nhà</button>
         </div>
       </main>
     );

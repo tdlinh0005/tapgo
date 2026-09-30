@@ -711,10 +711,6 @@ button:disabled {
   font-size: 22px;
 }
 
-.result-actions .result-secondary-action {
-  box-shadow: none;
-}
-
 .progress-summary {
   display: flex;
   align-items: center;

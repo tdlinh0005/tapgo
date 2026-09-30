@@ -449,7 +449,7 @@ Files: `src/styles/theme.css, src/styles/app.css, index.html`
 - **Fix:** Thêm `--radius-sm` (20px), `--radius-lg` (32px), `--motion-pop`, `--motion-shake`, `--font-prompt`, `--font-target`, `--font-title`, token spacing; thay toàn bộ chỗ dùng; `theme-color` trong `index.html` trùng `--color-bg`.
 - **Done when:** `grep -E "border-radius: [0-9]+px" src/styles/app.css` ra 0; keyframes dùng `var(--motion-*)`.
 
-### [ ] T33 · Xoá code và CSS chết
+### [x] T33 · Xoá code và CSS chết
 
 **P2 · Effort S · UI/UX** · Review: B-18  
 Files: `src/games/PlaceholderGame.tsx, src/styles/app.css`

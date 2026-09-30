@@ -10,7 +10,7 @@ export default function FindKeyGame({ roundIndex, onRoundComplete, onRetry, spea
   useExpectedKey(target, onRoundComplete, onRetry);
 
   return (
-    <section className="typing-game find-key-game" aria-label="Tìm phím đúng">
+    <section className="typing-game" aria-label="Tìm phím đúng">
       <p className="game-prompt">{instruction}</p>
       <div className="key-target" data-assist={assistLevel || undefined} aria-hidden="true">{target}</div>
       <ListenButton text={instruction} speak={speak} />

@@ -30,6 +30,10 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Every retry hint starts with `Thử lại nhé!`; keyboard games point to the key on the keyboard, and the sequence game now gives a hint for the current key.
 - Game cards show a `Chơi` button labelled with the game title, and locked cards say `Xong bài trước để mở`.
 
+### Removed
+
+- Unused `PlaceholderGame` and dead CSS/class names (`result-secondary-action`, `find-key-game`, `progress-screen`).
+
 ### Fixed
 
 - The retry hint stays visible after the shake animation until the round completes.

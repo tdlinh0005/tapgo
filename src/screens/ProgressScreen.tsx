@@ -21,7 +21,7 @@ export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
   const recommended = getGameDefinition(getRecommendedGameId(progress));
 
   return (
-    <main className="screen-shell progress-screen">
+    <main className="screen-shell">
       <header className="screen-header">
         <button type="button" onClick={onHome} aria-label="Về nhà">🏠</button>
         <h1>Tiến độ</h1>
