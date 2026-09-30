@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import type { MiniGameProps } from '../game/types';
-import { isPointNearElement, usePointerDrag } from '../hooks/usePointerDrag';
+import { resolveDrop, usePointerDrag } from '../hooks/usePointerDrag';
 
 const ROUNDS = [
   { source: '🐱', answer: 'Mèo', options: ['Mèo', 'Chó', 'Thỏ'] },
@@ -20,14 +20,8 @@ export default function DragMatchGame({ roundIndex, onRoundComplete, onRetry, sp
 
   const handleDrop = (clientX: number, clientY: number) => {
     attempts.current += 1;
-    const element = document.elementFromPoint?.(clientX, clientY);
-    const zone = element?.closest<HTMLElement>('[data-match-label]');
     const correctZone = document.querySelector<HTMLElement>('[data-match-correct="true"]');
-    const snapPadding = 24 + assistLevel * 16;
-    if (
-      zone?.dataset.matchLabel === round.answer
-      || isPointNearElement(correctZone, clientX, clientY, snapPadding)
-    ) {
+    if (resolveDrop(clientX, clientY, '[data-match-label]', correctZone, assistLevel)) {
       onRoundComplete({ correct: 1, attempts: attempts.current });
     } else {
       onRetry?.();

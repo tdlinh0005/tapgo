@@ -62,6 +62,21 @@ describe('DragSortGame', () => {
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 1 });
   });
 
+  it('counts a drop inside the wrong zone as wrong even near the correct zone', () => {
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<DragSortGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={vi.fn()} />);
+    const item = screen.getByTestId('drag-item');
+    vi.spyOn(screen.getByTestId('correct-zone'), 'getBoundingClientRect').mockReturnValue({ left: 100, right: 200, top: 100, bottom: 200, width: 100, height: 100 } as DOMRect);
+    vi.spyOn(document, 'elementFromPoint').mockReturnValue(screen.getByTestId('wrong-zone'));
+
+    fireEvent.pointerDown(item, { pointerId: 1, isPrimary: true, clientX: 10, clientY: 10 });
+    fireEvent.pointerUp(item, { pointerId: 1, clientX: 210, clientY: 150 });
+
+    expect(onRetry).toHaveBeenCalledTimes(1);
+    expect(onRoundComplete).not.toHaveBeenCalled();
+  });
+
   it('does not start a drag from a non-primary button or pointer', () => {
     render(<DragSortGame roundIndex={0} totalRounds={8} onRoundComplete={vi.fn()} speak={vi.fn()} />);
     const item = screen.getByTestId('drag-item');

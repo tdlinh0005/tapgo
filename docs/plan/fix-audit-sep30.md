@@ -162,7 +162,7 @@ Files: `src/hooks/usePointerDrag.ts`
 - **Fix:** Trong `onPointerUp`: nếu `Math.hypot(dx, dy) < 10` thì chỉ `reset()`, không gọi `onDrop`.
 - **Done when:** Test: pointerDown rồi pointerUp tại cùng toạ độ thì `onRetry` không được gọi; sau đó thả đúng thì outcome có `attempts: 1`.
 
-### [~] T08 · Kéo thả: thả lên ô sai gần ô đúng vẫn được tính là đúng (snap quá rộng) — đang làm: Lane B
+### [x] T08 · Kéo thả: thả lên ô sai gần ô đúng vẫn được tính là đúng (snap quá rộng)
 
 **P2 · Effort S · Flow/Logic** · Review: B-8, C (out-of-lane)  
 Files: `src/games/DragSortGame.tsx, src/games/DragMatchGame.tsx, src/hooks/usePointerDrag.ts`
@@ -232,7 +232,7 @@ Files: `src/game/progress.ts, src/game/progress.test.ts`
 - **Fix:** Thay `isProgressState` bằng `normalizeProgress(raw)`: chỉ reject khi không phải object hoặc `version !== 1`. Với mỗi GAME_ID, giữ entry nếu hợp lệ, không thì dùng entry rỗng. `lastGameId` sai thì thành `null`.
 - **Done when:** Test: dữ liệu có 9 game hợp lệ và 1 game hỏng thì vẫn giữ được 9 game; test JSON hỏng cũ vẫn pass.
 
-### [ ] T14 · AudioContext mới cho mỗi tone (có thể leak khi bị suspended)
+### [~] T14 · AudioContext mới cho mỗi tone (có thể leak khi bị suspended) — đang làm: Lane A
 
 **P2 · Effort S · Flow/Logic** · Review: A-3  
 Files: `src/hooks/useFeedbackTone.ts`
@@ -403,7 +403,7 @@ Files: `src/screens/ProgressScreen.tsx, src/App.tsx`
 - **Fix:** Thêm `ActionButton` "Chơi {title}" gọi `onPlay(recommended.id)` (App truyền prop này), bỏ "—", dùng `StarRating`.
 - **Done when:** `ProgressScreen.test.tsx`: bấm nút gợi ý thì `onPlay` được gọi đúng id.
 
-### [ ] T29 · Desktop gate dưới 900px bị cuộn ngang
+### [~] T29 · Desktop gate dưới 900px bị cuộn ngang — đang làm: Lane C
 
 **P2 · Effort S · UI/UX** · Review: B-13  
 Files: `src/styles/app.css`

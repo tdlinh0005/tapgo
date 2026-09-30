@@ -3,8 +3,10 @@ import { useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 type DropHandler = (clientX: number, clientY: number) => void;
 
 const TAP_SLOP_PX = 10;
+const SNAP_PADDING_PX = 24;
+const SNAP_PADDING_PER_ASSIST_PX = 16;
 
-export function isPointNearElement(
+function isPointNearElement(
   element: Element | null | undefined,
   clientX: number,
   clientY: number,
@@ -19,6 +21,18 @@ export function isPointNearElement(
     && clientY >= rect.top - padding
     && clientY <= rect.bottom + padding
   );
+}
+
+export function resolveDrop(
+  clientX: number,
+  clientY: number,
+  zoneSelector: string,
+  correctZone: HTMLElement | null,
+  assistLevel: number,
+): boolean {
+  const zone = document.elementFromPoint?.(clientX, clientY)?.closest<HTMLElement>(zoneSelector);
+  if (zone) return zone === correctZone;
+  return isPointNearElement(correctZone, clientX, clientY, SNAP_PADDING_PX + assistLevel * SNAP_PADDING_PER_ASSIST_PX);
 }
 
 export function usePointerDrag(onDrop: DropHandler) {

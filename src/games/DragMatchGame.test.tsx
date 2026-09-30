@@ -31,4 +31,19 @@ describe('DragMatchGame', () => {
 
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
   });
+
+  it('counts a drop inside a wrong zone as wrong even near the correct zone', () => {
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<DragMatchGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={vi.fn()} />);
+    const item = screen.getByTestId('drag-match-item');
+    vi.spyOn(screen.getByTestId('match-Mèo'), 'getBoundingClientRect').mockReturnValue({ left: 100, right: 200, top: 100, bottom: 200, width: 100, height: 100 } as DOMRect);
+    vi.spyOn(document, 'elementFromPoint').mockReturnValue(screen.getByTestId('match-Chó'));
+
+    fireEvent.pointerDown(item, { pointerId: 1, isPrimary: true, clientX: 0, clientY: 0 });
+    fireEvent.pointerUp(item, { pointerId: 1, clientX: 210, clientY: 150 });
+
+    expect(onRetry).toHaveBeenCalledTimes(1);
+    expect(onRoundComplete).not.toHaveBeenCalled();
+  });
 });

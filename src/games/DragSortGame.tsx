@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import type { MiniGameProps } from '../game/types';
-import { isPointNearElement, usePointerDrag } from '../hooks/usePointerDrag';
+import { resolveDrop, usePointerDrag } from '../hooks/usePointerDrag';
 
 const ROUNDS = [
   { item: '🍎', target: '🧺', targetLabel: 'Giỏ', label: 'Kéo quả táo vào giỏ', decoy: '📦', decoyLabel: 'Hộp' },
@@ -19,14 +19,8 @@ export default function DragSortGame({ roundIndex, onRoundComplete, onRetry, spe
 
   const handleDrop = (clientX: number, clientY: number) => {
     attempts.current += 1;
-    const element = document.elementFromPoint?.(clientX, clientY);
-    const zone = element?.closest<HTMLElement>('[data-drop-result]');
     const correctZone = document.querySelector<HTMLElement>('[data-drop-result="correct"]');
-    const snapPadding = 24 + assistLevel * 16;
-    if (
-      zone?.dataset.dropResult === 'correct'
-      || isPointNearElement(correctZone, clientX, clientY, snapPadding)
-    ) {
+    if (resolveDrop(clientX, clientY, '[data-drop-result]', correctZone, assistLevel)) {
       onRoundComplete({ correct: 1, attempts: attempts.current });
     } else {
       onRetry?.();
