@@ -37,7 +37,7 @@ export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetr
       <p className="game-prompt">Gõ theo thứ tự</p>
       <div className="typing-sequence">
         {sequence.split('').map((character, index) => (
-          <span key={`${character}-${index}`} data-active={index === keyIndex ? 'true' : 'false'}>
+          <span key={`${character}-${index}`} data-state={index < keyIndex ? 'done' : index === keyIndex ? 'active' : 'todo'}>
             {character}
           </span>
         ))}

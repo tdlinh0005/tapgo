@@ -10,13 +10,15 @@ describe('WordTypingGame', () => {
     const onRetry = vi.fn();
     render(<WordTypingGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={() => {}} />);
 
-    expect(screen.getByText('M')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByText('M')).toHaveAttribute('data-state', 'active');
+    expect(screen.getByText('E')).toHaveAttribute('data-state', 'todo');
     await user.keyboard('m');
-    expect(screen.getByText('E')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByText('M')).toHaveAttribute('data-state', 'done');
+    expect(screen.getByText('E')).toHaveAttribute('data-state', 'active');
     fireEvent.keyDown(window, { key: 'm', repeat: true });
 
     await user.keyboard('x');
-    expect(screen.getByText('E')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByText('E')).toHaveAttribute('data-state', 'active');
     expect(onRetry).toHaveBeenCalledTimes(1);
 
     await user.keyboard('e');

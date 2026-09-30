@@ -413,10 +413,16 @@ button:disabled {
   font-weight: 900;
 }
 
-.typing-sequence span[data-active="true"] {
+.typing-sequence span[data-state="active"] {
   border-color: var(--color-primary);
   background: var(--color-primary-soft);
   transform: translateY(-4px);
+}
+
+.typing-sequence span[data-state="done"] {
+  border-color: var(--color-success);
+  background: var(--color-success-soft);
+  color: var(--color-success);
 }
 
 .listen-button {

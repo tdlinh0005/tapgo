@@ -267,7 +267,7 @@ Files: `src/App.tsx, src/App.test.tsx`
 - **Fix:** Khi `mode === 'guided'`, tính bài kế tiếp bằng `getRecommendedGameId(progressSauKhiGhi)`, loại trừ bài vừa chơi nếu nó đã đạt 3 sao. `nextLabel` tính theo cùng logic.
 - **Done when:** Test App: đã xong letters và numbers, Chơi ngay rồi xong bài words thì "Bài tiếp theo" mở find-key (bài đầu tiên chưa xong).
 
-### [ ] T17 · Lượt ôn lại làm quick session vượt quá 5 lượt
+### [~] T17 · Lượt ôn lại làm quick session vượt quá 5 lượt — đang làm: Lane A
 
 **P3 · Effort S · Flow/Logic** · Review: A-10, B (out-of-lane)  
 Files: `src/game/GameShell.tsx, docs/feat/tapgo-mvp.md`
@@ -370,7 +370,7 @@ Files: `src/games/*.tsx, src/game/GameShell.tsx, src/components/ListenButton.tsx
 - **Fix:** Tạo `components/ListenButton.tsx` nhận prop `text`, dùng trong mọi game. Đổi aria-label nút header thành "Nghe lại cách chơi".
 - **Done when:** Test mỗi game: bấm "Nghe yêu cầu" thì `speak` được gọi với text chứa mục tiêu của lượt.
 
-### [~] T26 · Game Từ/Chuỗi đánh dấu ký tự đã gõ xong — đang làm: Lane C
+### [x] T26 · Game Từ/Chuỗi đánh dấu ký tự đã gõ xong
 
 **P2 · Effort S · UI/UX** · Review: B-17  
 Files: `src/games/WordTypingGame.tsx, src/games/SequenceTypingGame.tsx, src/styles/app.css`
@@ -414,7 +414,7 @@ Files: `src/styles/app.css`
 - **Fix:** Bỏ `min-width` khỏi body; nếu cần thì chỉ đặt cho `.home-screen`, `.screen-shell`, `.game-shell`.
 - **Done when:** Ở viewport 600px, `scrollWidth === innerWidth`.
 
-### [ ] T30 · Click mục tiêu: xáo vị trí mỗi session (spec ghi "ngẫu nhiên an toàn")
+### [~] T30 · Click mục tiêu: xáo vị trí mỗi session (spec ghi "ngẫu nhiên an toàn") — đang làm: Lane B
 
 **P3 · Effort S · UI/UX** · Review: B-21  
 Files: `src/games/ClickTargetGame.tsx`

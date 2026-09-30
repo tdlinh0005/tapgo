@@ -22,13 +22,15 @@ describe('SequenceTypingGame', () => {
 
     render(<SequenceTypingGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={() => {}} />);
 
-    expect(screen.getByText('A')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByText('A')).toHaveAttribute('data-state', 'active');
     await user.keyboard('a');
-    expect(screen.getByText('S')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByText('A')).toHaveAttribute('data-state', 'done');
+    expect(screen.getByText('S')).toHaveAttribute('data-state', 'active');
+    expect(screen.getByText('D')).toHaveAttribute('data-state', 'todo');
     fireEvent.keyDown(window, { key: 'a', repeat: true });
 
     await user.keyboard('x');
-    expect(screen.getByText('S')).toHaveAttribute('data-active', 'true');
+    expect(screen.getByText('S')).toHaveAttribute('data-state', 'active');
     expect(onRetry).toHaveBeenCalledTimes(1);
 
     await user.keyboard('sd');
