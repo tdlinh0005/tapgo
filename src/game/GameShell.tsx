@@ -6,6 +6,7 @@ import ProgressBar from '../components/ProgressBar';
 import StarRating from '../components/StarRating';
 import { useFeedbackTone } from '../hooks/useFeedbackTone';
 import { useSpeech } from '../hooks/useSpeech';
+import { createSessionSeed } from './pickRound';
 import { DEFAULT_RETRY_HINT } from './retryCopy';
 import { calculateStars } from './scoring';
 import type { GameDefinition, GameId, RoundOutcome } from './types';
@@ -45,6 +46,7 @@ export default function GameShell({
   const [retryCount, setRetryCount] = useState(0);
   const [guideOpen, setGuideOpen] = useState(false);
   const [burstKey, setBurstKey] = useState<number | null>(null);
+  const [sessionSeed, setSessionSeed] = useState(createSessionSeed);
   const { speak } = useSpeech();
   const feedback = useFeedbackTone();
   const MiniGame = definition.component;
@@ -116,6 +118,7 @@ export default function GameShell({
     setReviewMessage(null);
     setRetryCount(0);
     setGuideOpen(false);
+    setSessionSeed(createSessionSeed());
   };
 
   if (stars !== null) {
@@ -195,6 +198,7 @@ export default function GameShell({
           onRetry={handleRetry}
           speak={speak}
           assistLevel={assistLevel}
+          sessionSeed={sessionSeed}
         />
         {burstKey !== null && (
           <span

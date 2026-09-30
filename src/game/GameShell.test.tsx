@@ -7,10 +7,10 @@ import type { MiniGameProps } from './types';
 const speak = vi.hoisted(() => vi.fn());
 vi.mock('../hooks/useSpeech', () => ({ useSpeech: () => ({ speak, supported: true }) }));
 
-function FakeGame({ onRoundComplete, onRetry, assistLevel = 0 }: MiniGameProps) {
+function FakeGame({ onRoundComplete, onRetry, assistLevel = 0, roundIndex, sessionSeed }: MiniGameProps) {
   return (
     <>
-      <div data-testid="fake-target" data-assist={assistLevel || undefined} />
+      <div data-testid="fake-target" data-assist={assistLevel || undefined} data-round={roundIndex} data-seed={sessionSeed} />
       <button onClick={() => onRoundComplete({ correct: 1, attempts: 1 })}>
         Hoàn thành lượt
       </button>
@@ -185,6 +185,30 @@ describe('GameShell', () => {
 
     await user.click(screen.getByRole('button', { name: 'Bài tiếp theo' }));
     expect(onNext).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the session seed and round for the review round and reseeds on replay', async () => {
+    const user = userEvent.setup();
+    const random = vi.spyOn(Math, 'random').mockReturnValueOnce(0.25).mockReturnValueOnce(0.75);
+    render(<GameShell definition={definition} onComplete={() => {}} onHome={() => {}} onNext={() => {}} />);
+    const target = () => screen.getByTestId('fake-target');
+    const firstSeed = target().dataset.seed;
+    expect(firstSeed).toBe(String(0.25 * 0x100000000));
+
+    await user.click(screen.getByRole('button', { name: 'Hoàn thành có lỗi' }));
+    expect(screen.getByText('Mình ôn lại lượt này một lần nhé!')).toBeInTheDocument();
+    expect(target()).toHaveAttribute('data-round', '0');
+    expect(target()).toHaveAttribute('data-seed', firstSeed);
+
+    await user.click(screen.getByRole('button', { name: 'Hoàn thành lượt' }));
+    expect(target()).toHaveAttribute('data-round', '1');
+    expect(target()).toHaveAttribute('data-seed', firstSeed);
+
+    await user.click(screen.getByRole('button', { name: 'Hoàn thành lượt' }));
+    await user.click(screen.getByRole('button', { name: 'Chơi lại' }));
+    expect(target()).toHaveAttribute('data-round', '0');
+    expect(target()).toHaveAttribute('data-seed', String(0.75 * 0x100000000));
+    random.mockRestore();
   });
 
   it('does not let the review round change the original score', async () => {

@@ -27,6 +27,7 @@ export type MiniGameProps = {
   onRetry?: (hint?: string) => void;
   speak: (text: string) => void;
   assistLevel?: 0 | 1 | 2;
+  sessionSeed?: number;
 };
 
 export type GameDefinition = {

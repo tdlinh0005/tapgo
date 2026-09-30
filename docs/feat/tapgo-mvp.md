@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-09-30 · 64600dc
+> updated 2026-09-30 · e9d91e6
 
 ## Goal
 
@@ -173,6 +173,7 @@ export type MiniGameProps = {
   onRetry?: (hint?: string) => void;
   speak: (text: string) => void;
   assistLevel?: 0 | 1 | 2;
+  sessionSeed?: number;
 };
 
 export type GameDefinition = {
@@ -200,6 +201,8 @@ export type GameDefinition = {
 - gọi lưu progress
 
 Mini-game không tự đọc/ghi localStorage và không tự điều hướng. `GameShell` giữ retry count và truyền `assistLevel` xuống mini-game để tăng trợ giúp sau lỗi mà không làm mỗi game tự xây một state machine riêng. Lượt ôn lại không được ghi thêm vào `outcomes` nên không thay đổi scoring của lượt gốc. Lượt ôn chỉ có ở Lộ trình và Chơi tự do; quick session của Guided Play (có `roundLimit`) không sinh lượt ôn để giữ đúng tối đa 5 lượt.
+
+`GameShell` tạo `sessionSeed` (số nguyên 32-bit không dấu) một lần mỗi session và tạo seed mới khi `Chơi lại`; mở game khác cũng là session mới. Mini-game chọn mục của lượt bằng `pickRound(pool, roundIndex, sessionSeed)` (`src/game/pickRound.ts`): kho được hoán vị xác định theo seed (mulberry32) rồi lấy `perm[roundIndex % pool.length]`, nên trong một session không lặp mục khi kho ≥ số lượt. Lượt ôn nhận cùng `sessionSeed` và `roundIndex` nên dùng lại đúng mục. Thiếu seed thì `pickRound` trả `pool[roundIndex % pool.length]` như thứ tự cũ. `shuffleWithSeed(items, seed)` dùng cùng PRNG để xáo vị trí đáp án.
 
 Assist dùng một cơ chế chung cho cả 10 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
 

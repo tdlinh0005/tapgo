@@ -189,11 +189,12 @@
 
 ## Phase C — Bài tập phong phú (không đổi GameId)
 
-### [~] V11 · `sessionSeed` + helper `pickRound` — đang làm: lane-layout
+### [x] V11 · `sessionSeed` + helper `pickRound`
 
 - `GameShell` tạo seed bằng `useState(() => …)` một lần mỗi session, tạo seed mới khi `Chơi lại` (`restart`); truyền `sessionSeed?: number` qua `MiniGameProps`.
 - Helper `src/game/pickRound.ts`: `pickRound(pool, roundIndex, seed)` hoán vị kho theo seed (PRNG xác định, vd mulberry32) rồi lấy `perm[roundIndex % length]`. Lượt ôn tự dùng lại đúng mục vì GameShell giữ `roundIndex`. Thiếu seed → `pool[roundIndex % length]` (test cũ như `ListenButton.test` không phải sửa).
 - Xong khi: unit test `pickRound` (xác định theo seed; không lặp trong một session khi kho ≥ số lượt; thiếu seed = thứ tự cũ); test GameShell: lượt ôn nhận cùng `sessionSeed` + `roundIndex`; cập nhật contract `MiniGameProps` trong spec.
+- Kết quả: `src/game/pickRound.ts` export `createSessionSeed()` (uint32 từ `Math.random`), `shuffleWithSeed(items, seed)` (Fisher–Yates + mulberry32, không đổi mảng gốc; dùng cho xáo vị trí đáp án ở V12) và `pickRound(pool, roundIndex, seed?)`. `GameShell` giữ seed trong state, tạo lại ở `restart`; đổi game đã remount qua `key` ở `App`. Chưa game nào dùng `pickRound` (để V12). Test: 7 unit test `pickRound.test.ts` + GameShell “keeps the session seed and round for the review round and reseeds on replay”; spec bổ sung `sessionSeed` và đoạn mô tả.
 
 ### [~] V12 · Mở rộng kho 10 game + xáo vị trí đáp án — đang làm: lane-font
 
