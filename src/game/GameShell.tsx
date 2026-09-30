@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import CoachBubble from '../components/CoachBubble';
-import type { MascotMood } from '../components/Mascot';
+import Confetti from '../components/Confetti';
+import Mascot, { type MascotMood } from '../components/Mascot';
 import ProgressBar from '../components/ProgressBar';
 import StarRating from '../components/StarRating';
 import { useFeedbackTone } from '../hooks/useFeedbackTone';
@@ -115,7 +116,8 @@ export default function GameShell({
   if (stars !== null) {
     return (
       <main className="game-shell game-result" data-category={definition.category}>
-        <div className="game-result-emoji" aria-hidden="true">🎉</div>
+        <Confetti />
+        <div className="game-result-emoji" aria-hidden="true"><Mascot mood="cheer" moving /> 🎉</div>
         <h1>Con làm xong rồi!</h1>
         <p className="result-celebration">🎉 Hoàn thành {definition.title}</p>
         <StarRating stars={stars} />

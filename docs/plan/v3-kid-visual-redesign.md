@@ -165,11 +165,12 @@
 - Giữ tên keyframe `tapgo-pop` / `tapgo-shake` (test đang ghim); `onAnimationEnd` của stage vẫn chỉ nhận event của chính stage (test “ignores animation end events bubbling from children”).
 - Xong khi: `.game-stage.is-correct` / `.is-retry` vẫn có animation; tổng thời lượng < 700ms; reduced-motion không hiện burst.
 
-### [~] V08 · Màn hoàn thành ăn mừng — đang làm: lane-layout
+### [x] V08 · Màn hoàn thành ăn mừng
 
 - Confetti CSS (emoji rơi, 1 lần, < 700ms mỗi hạt, tối đa ~1.5s tổng, `pointer-events: none`), sao hiện lần lượt, mascot cheer; `Bài tiếp theo` vẫn là nút chính duy nhất nổi bật.
 - Spec chỉ giới hạn *animation feedback* < 700ms; hiệu ứng ăn mừng màn kết quả là quy tắc mới → ghi vào spec § UX rules trong V17 (“ăn mừng màn kết quả ≤ 1.5s, không chặn nút, tĩnh khi reduced-motion”).
 - Xong khi: test hiện có của màn kết quả pass; bấm được `Bài tiếp theo` ngay khi confetti đang rơi; reduced-motion hiển thị tĩnh.
+- Kết quả: `Confetti` (14 emoji, `aria-hidden`, `position: fixed`, `pointer-events: none`) rơi 1 lần bằng token mới `--motion-celebrate: 650ms`, delay tối đa 780ms → kết thúc 1430ms; 3 sao của `.game-result` hiện lần lượt (delay 0/180/360ms, không ảnh hưởng `ProgressScreen`); mascot cheer cạnh 🎉; reduced-motion ẩn confetti và bỏ animation sao. CDP 1366×768 và 1280×720: ở 200ms `elementFromPoint` tâm `Bài tiếp theo` trúng nút, 14 hạt đang chạy; ở 1550ms còn 0 animation, 0 hạt hiện; `scrollHeight` = viewport; 1 nút chính.
 
 ### [~] V07 · Lộ trình dạng đường đi — đang làm: lane-font
 

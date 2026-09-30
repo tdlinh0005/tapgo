@@ -65,6 +65,17 @@ describe('app visual acceptance rules', () => {
     expect(css).toMatch(/\.mascot\[data-moving\]\[data-mood="encourage"\]\s*\{[^}]*animation:\s*tapgo-mascot-wave var\(--motion-shake\)/s);
   });
 
+  it('celebrates the result with short click-through confetti and sequential stars', () => {
+    const celebrate = Number(theme.match(/--motion-celebrate:\s*(\d+)ms/)?.[1]);
+    expect(celebrate).toBeGreaterThan(0);
+    expect(celebrate).toBeLessThan(700);
+    expect(css).toMatch(/\.confetti\s*\{[^}]*position:\s*fixed[^}]*pointer-events:\s*none/s);
+    expect(css).toMatch(/\.confetti-piece\s*\{[^}]*animation:\s*tapgo-confetti-fall var\(--motion-celebrate\) ease-in var\(--confetti-delay\) 1 both/s);
+    expect(css).toMatch(/\.game-result \.star-rating > span:nth-child\(3\)\s*\{[^}]*animation-delay:/s);
+    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{.*\.confetti\s*\{\s*display:\s*none/s);
+    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{.*\.game-result \.star-rating > span\s*\{\s*animation:\s*none/s);
+  });
+
   it('defines positive and retry feedback animations under the shared game stage', () => {
     expect(css).toMatch(/\.game-stage\.is-correct\s*\{[^}]*animation:/s);
     expect(css).toMatch(/\.game-stage\.is-retry\s*\{[^}]*animation:/s);

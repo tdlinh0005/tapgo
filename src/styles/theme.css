@@ -45,6 +45,7 @@
   --motion-fast: 180ms;
   --motion-pop: 360ms;
   --motion-shake: 420ms;
+  --motion-celebrate: 650ms;
 }
 
 [data-category="keyboard"] {

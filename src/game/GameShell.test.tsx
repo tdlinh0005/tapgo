@@ -171,6 +171,22 @@ describe('GameShell', () => {
     expect(onComplete).toHaveBeenCalledWith('letters', 3);
   });
 
+  it('celebrates the result without blocking the next lesson button', async () => {
+    const user = userEvent.setup();
+    const onNext = vi.fn();
+    const { container } = render(
+      <GameShell definition={{ ...definition, rounds: 1 }} onComplete={() => {}} onHome={() => {}} onNext={onNext} />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Hoàn thành lượt' }));
+    expect(container.querySelector('.confetti')).toHaveAttribute('aria-hidden', 'true');
+    expect(container.querySelector('.game-result-emoji .mascot')).toHaveAttribute('data-mood', 'cheer');
+    expect(container.querySelectorAll('.result-primary-action')).toHaveLength(1);
+
+    await user.click(screen.getByRole('button', { name: 'Bài tiếp theo' }));
+    expect(onNext).toHaveBeenCalledTimes(1);
+  });
+
   it('does not let the review round change the original score', async () => {
     const user = userEvent.setup();
     const onComplete = vi.fn();
