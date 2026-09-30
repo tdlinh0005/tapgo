@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { keyRetryHint } from '../game/retryCopy';
 import type { RoundOutcome } from '../game/types';
 
 export function useExpectedKey(
@@ -17,7 +18,7 @@ export function useExpectedKey(
       if (event.key.toUpperCase() === expectedKey.toUpperCase()) {
         onRoundComplete({ correct: 1, attempts: attempts.current });
       } else {
-        onRetry?.(`Hãy tìm phím ${expectedKey} trên bàn phím nhé.`);
+        onRetry?.(keyRetryHint(expectedKey));
       }
     };
 

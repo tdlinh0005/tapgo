@@ -32,6 +32,7 @@ describe('SequenceTypingGame', () => {
     await user.keyboard('x');
     expect(screen.getByText('S')).toHaveAttribute('data-state', 'active');
     expect(onRetry).toHaveBeenCalledTimes(1);
+    expect(onRetry).toHaveBeenCalledWith('Thử lại nhé! Tìm phím S trên bàn phím nhé.');
 
     await user.keyboard('sd');
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 3, attempts: 4 });

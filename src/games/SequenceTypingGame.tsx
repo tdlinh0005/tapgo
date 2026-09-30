@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { keyRetryHint } from '../game/retryCopy';
 import type { MiniGameProps } from '../game/types';
 
 export const SEQUENCES = ['ASD', 'ASDF', 'JKL', 'JKLM', 'FGH', 'ASDFG', 'QWE', 'RTYU'] as const;
@@ -16,7 +17,7 @@ export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetr
 
       attempts.current += 1;
       if (event.key.toUpperCase() !== sequence[keyIndex]) {
-        onRetry?.();
+        onRetry?.(keyRetryHint(sequence[keyIndex]));
         return;
       }
 

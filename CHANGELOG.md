@@ -23,6 +23,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Click target places each target at a random position inside the safe area instead of a fixed sequence.
 - Drag match asks the child to drop a picture on its shadow instead of on a written word.
 - The progress screen offers a `Chơi <bài>` button for the recommended game (opened as a quick session) and shows best stars with the star rating.
+- Every retry hint starts with `Thử lại nhé!`; keyboard games point to the key on the keyboard, and the sequence game now gives a hint for the current key.
 - Game cards show a `Chơi` button labelled with the game title, and locked cards say `Xong bài trước để mở`.
 
 ### Fixed

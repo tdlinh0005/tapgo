@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { RETRY_PREFIX } from '../game/retryCopy';
 import type { MiniGameProps } from '../game/types';
 
 export const TRAILS = [
@@ -26,7 +27,7 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, a
     if (index < nextCheckpoint) return;
     if (index > nextCheckpoint) {
       wrongEntries.current += 1;
-      onRetry?.(`Hãy đưa chuột tới ${labelFor(nextCheckpoint).toLowerCase()} trước nhé.`);
+      onRetry?.(`${RETRY_PREFIX} Đưa chuột tới ${labelFor(nextCheckpoint).toLowerCase()} trước nhé.`);
       return;
     }
     const next = nextCheckpoint + 1;

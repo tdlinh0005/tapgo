@@ -337,7 +337,7 @@ Files: `src/App.tsx, src/game/registry.ts, docs/feat/tapgo-mvp.md`
 
 ## Phase 3 · UX & nội dung
 
-### [ ] T23 · Chuẩn hoá copy lỗi "Thử lại nhé!" và sửa hint sai ngữ cảnh
+### [x] T23 · Chuẩn hoá copy lỗi "Thử lại nhé!" và sửa hint sai ngữ cảnh
 
 **P2 · Effort S · UI/UX** · Review: B-9  
 Files: `src/game/GameShell.tsx, src/hooks/useExpectedKey.ts, src/games/WordTypingGame.tsx, src/games/SequenceTypingGame.tsx`

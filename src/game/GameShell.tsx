@@ -3,6 +3,7 @@ import ProgressBar from '../components/ProgressBar';
 import StarRating from '../components/StarRating';
 import { useFeedbackTone } from '../hooks/useFeedbackTone';
 import { useSpeech } from '../hooks/useSpeech';
+import { DEFAULT_RETRY_HINT } from './retryCopy';
 import { calculateStars } from './scoring';
 import type { GameDefinition, GameId, RoundOutcome } from './types';
 
@@ -76,7 +77,7 @@ export default function GameShell({
   };
 
   const handleRetry = (hint?: string) => {
-    const safeHint = typeof hint === 'string' ? hint : 'Thử lại nhé, con làm chậm thôi.';
+    const safeHint = typeof hint === 'string' ? hint : DEFAULT_RETRY_HINT;
     const nextRetryCount = retryCount + 1;
     feedback.retry();
     setRetryCount(nextRetryCount);

@@ -20,6 +20,7 @@ describe('WordTypingGame', () => {
     await user.keyboard('x');
     expect(screen.getByText('E')).toHaveAttribute('data-state', 'active');
     expect(onRetry).toHaveBeenCalledTimes(1);
+    expect(onRetry).toHaveBeenCalledWith('Thử lại nhé! Tìm phím E trên bàn phím nhé.');
 
     await user.keyboard('e');
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 2, attempts: 3 });

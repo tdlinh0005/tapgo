@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { keyRetryHint } from '../game/retryCopy';
 import type { MiniGameProps } from '../game/types';
 
 export const WORDS = ['ME', 'BA', 'CON', 'MEO', 'CHO', 'NHA', 'XE', 'CA'] as const;
@@ -16,7 +17,7 @@ export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry }:
 
       attempts.current += 1;
       if (event.key.toUpperCase() !== word[charIndex]) {
-        onRetry?.(`Hãy tìm chữ ${word[charIndex]} trên màn hình nhé.`);
+        onRetry?.(keyRetryHint(word[charIndex]));
         return;
       }
 
