@@ -102,7 +102,7 @@ Chi tiết từng task (Where, Evidence, Fix, Done when) nằm trong [plan/fix-a
 
 ### Corroborating links
 
-- Spec: [feat/tapgo-mvp.md](../feat/tapgo-mvp.md) · Plan MVP: [plan/tapgo-mvp.md](../plan/tapgo-mvp.md) · Research guided play: [research/tapgo-learning-improvements.md](tapgo-learning-improvements.md)
+- Spec: [feat/tapgo-mvp.md](../feat/tapgo-mvp.md) · Plan MVP: [plan/done/tapgo-mvp.md](../plan/done/tapgo-mvp.md) · Research guided play: [research/tapgo-learning-improvements.md](tapgo-learning-improvements.md)
 - Theo dõi task: Notion “TapGo — Review & Fix Plan (2026-09-30)” (https://app.notion.com/p/185c1dc1605441f98e2198f45726880e)
 
 ## Decision

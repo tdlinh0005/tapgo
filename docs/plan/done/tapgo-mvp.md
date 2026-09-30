@@ -12,6 +12,8 @@
 
 > Việc guided play (quick session, retry hint, assist, lượt ôn, gợi ý phụ huynh) không nằm trong plan này; xem `docs/plan/v2-guided-play.md`. Plan này chỉ còn Step 6–8 của Task 15.
 
+> Đóng 2026-09-30 theo yêu cầu owner, trước khi manual QA xong (G19 trong `docs/plan/v2-guided-play.md`). Step 6 (manual QA) tiếp tục ở T44 trong `docs/plan/fix-audit-sep30.md` / G16; Step 7–8 không còn việc riêng. Các checkbox bên dưới giữ nguyên để làm lịch sử.
+
 ## Global Constraints
 
 - Target: desktop/laptop; viewport dưới 900 px hiện desktop gate.

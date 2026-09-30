@@ -15,7 +15,7 @@
 
 ## Phụ thuộc giữa các task
 
-- T08 → T31, T36 · T10 → T12 → T34 · T23 và T25 → T31 · T10, T12, T16, T17, T22 → T40 · T44 → chuyển `plan/tapgo-mvp.md` sang `plan/done/`.
+- T08 → T31, T36 · T10 → T12 → T34 · T23 và T25 → T31 · T10, T12, T16, T17, T22 → T40 · T44 → chuyển `plan/tapgo-mvp.md` sang `plan/done/` (đã chuyển trước 2026-09-30 theo yêu cầu owner, G19).
 
 ## Quyết định cần owner chốt
 
@@ -546,7 +546,7 @@ Files: `docs/feat/tapgo-mvp.md`
 
 ### [x] T41 · Plan mới docs/plan/v2-guided-play.md; plan cũ giữ Step 6–8
 
-> Đã làm 2026-09-30. Plan cũ vẫn ở `docs/plan/`, chỉ chuyển sang `docs/plan/done/` sau khi T44 xong (G19 trong plan mới).
+> Đã làm 2026-09-30. Plan cũ đã chuyển sang `docs/plan/done/tapgo-mvp.md` cùng ngày theo yêu cầu owner, trước khi T44 xong (G19 trong plan mới).
 
 **P2 · Effort M · Docs** · Review: C-8  
 Files: `docs/plan/, docs/index.md`

@@ -4,7 +4,7 @@
 
 **Spec:** `docs/feat/tapgo-mvp.md` · **Research:** `docs/research/tapgo-learning-improvements-2.md` · **Fix chi tiết:** `docs/plan/fix-audit-sep30.md`
 
-Plan MVP cũ (`docs/plan/tapgo-mvp.md`) chỉ còn Step 6–8 (manual QA, sync docs, đóng plan) của Task 15; không chứa việc guided. Plan cũ chỉ chuyển sang `docs/plan/done/` sau khi G16 (T44) xong.
+Plan MVP cũ đã đóng và nằm ở `docs/plan/done/tapgo-mvp.md` (G19); không chứa việc guided. Manual QA còn lại của nó (Step 6) được theo dõi ở G16 (T44).
 
 ## Global constraints
 
@@ -45,7 +45,7 @@ Chi tiết từng task nằm trong `docs/plan/fix-audit-sep30.md`.
   - Progress: nút `Chơi <bài>` mở đúng bài.
 - [x] **G17 · Rê chuột không tính lỗi trước khi chạm điểm bắt đầu 🟢:** mở game bằng chuột không bị tính sai ngay (T45), quay chuột về 🟢 của lượt mới không bị tính sai (T46). Commit `45c3d55`.
 - [x] **G18 · Vùng chơi Rê chuột / Click mục tiêu vừa màn hình laptop** (T47): ở 1366×768 đáy `.trail-area` và `.click-play-area` ≤ `innerHeight`; nút `Nghe yêu cầu` không kéo hết chiều ngang. Commit `b298a59`; cần đo lại trên Chrome/Edge thật trong G16.
-- [ ] **G19 · Đóng plan:** sau khi G16 pass, chuyển `docs/plan/tapgo-mvp.md` sang `docs/plan/done/` và cập nhật `docs/index.md`.
+- [x] **G19 · Đóng plan:** chuyển `docs/plan/tapgo-mvp.md` sang `docs/plan/done/` và cập nhật `docs/index.md`. Làm 2026-09-30 theo yêu cầu owner, trước khi G16 pass; G16 vẫn mở.
 
 ## Kết quả QA (G16 / T44)
 
