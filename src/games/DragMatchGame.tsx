@@ -53,6 +53,7 @@ export default function DragMatchGame({ roundIndex, onRoundComplete, onRetry, sp
           onPointerMove={drag.onPointerMove}
           onPointerUp={drag.onPointerUp}
           onPointerCancel={drag.onPointerCancel}
+          onLostPointerCapture={drag.onLostPointerCapture}
         >
           {round.source}
         </button>

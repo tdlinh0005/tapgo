@@ -34,6 +34,7 @@ export function usePointerDrag(onDrop: DropHandler) {
   };
 
   const onPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
+    if (event.button !== 0 || !event.isPrimary) return;
     dragging.current = true;
     setIsDragging(true);
     start.current = { x: event.clientX, y: event.clientY };
@@ -66,6 +67,7 @@ export function usePointerDrag(onDrop: DropHandler) {
     onPointerMove,
     onPointerUp,
     onPointerCancel,
+    onLostPointerCapture: reset,
     reset,
   };
 }

@@ -52,6 +52,7 @@ export default function DragSortGame({ roundIndex, onRoundComplete, onRetry, spe
           onPointerMove={drag.onPointerMove}
           onPointerUp={drag.onPointerUp}
           onPointerCancel={drag.onPointerCancel}
+          onLostPointerCapture={drag.onLostPointerCapture}
         >
           {round.item}
         </button>

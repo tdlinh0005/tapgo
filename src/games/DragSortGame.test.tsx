@@ -24,7 +24,7 @@ describe('DragSortGame', () => {
     const item = screen.getByTestId('drag-item');
     vi.spyOn(document, 'elementFromPoint').mockReturnValueOnce(screen.getByTestId('wrong-zone'));
 
-    fireEvent.pointerDown(item, { pointerId: 1, clientX: 10, clientY: 10 });
+    fireEvent.pointerDown(item, { pointerId: 1, isPrimary: true, clientX: 10, clientY: 10 });
     expect(item).toHaveClass('is-dragging');
     fireEvent.pointerMove(item, { pointerId: 1, clientX: 40, clientY: 30 });
     fireEvent.pointerUp(item, { pointerId: 1, clientX: 40, clientY: 30 });
@@ -35,7 +35,7 @@ describe('DragSortGame', () => {
     expect(item).toHaveStyle({ transform: 'translate(0px, 0px)' });
 
     vi.spyOn(document, 'elementFromPoint').mockReturnValueOnce(screen.getByTestId('correct-zone'));
-    fireEvent.pointerDown(item, { pointerId: 2, clientX: 10, clientY: 10 });
+    fireEvent.pointerDown(item, { pointerId: 2, isPrimary: true, clientX: 10, clientY: 10 });
     fireEvent.pointerUp(item, { pointerId: 2, clientX: 80, clientY: 50 });
 
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
@@ -48,7 +48,7 @@ describe('DragSortGame', () => {
     const item = screen.getByTestId('drag-item');
     const elementFromPoint = vi.spyOn(document, 'elementFromPoint').mockReturnValue(screen.getByTestId('correct-zone'));
 
-    fireEvent.pointerDown(item, { pointerId: 1, clientX: 10, clientY: 10 });
+    fireEvent.pointerDown(item, { pointerId: 1, isPrimary: true, clientX: 10, clientY: 10 });
     fireEvent.pointerUp(item, { pointerId: 1, clientX: 10, clientY: 10 });
 
     expect(onRetry).not.toHaveBeenCalled();
@@ -56,9 +56,32 @@ describe('DragSortGame', () => {
     expect(elementFromPoint).not.toHaveBeenCalled();
     expect(item).not.toHaveClass('is-dragging');
 
-    fireEvent.pointerDown(item, { pointerId: 2, clientX: 10, clientY: 10 });
+    fireEvent.pointerDown(item, { pointerId: 2, isPrimary: true, clientX: 10, clientY: 10 });
     fireEvent.pointerUp(item, { pointerId: 2, clientX: 80, clientY: 50 });
 
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 1 });
+  });
+
+  it('does not start a drag from a non-primary button or pointer', () => {
+    render(<DragSortGame roundIndex={0} totalRounds={8} onRoundComplete={vi.fn()} speak={vi.fn()} />);
+    const item = screen.getByTestId('drag-item');
+
+    fireEvent.pointerDown(item, { pointerId: 1, button: 2, isPrimary: true, clientX: 10, clientY: 10 });
+    expect(item).not.toHaveClass('is-dragging');
+
+    fireEvent.pointerDown(item, { pointerId: 2, button: 0, isPrimary: false, clientX: 10, clientY: 10 });
+    expect(item).not.toHaveClass('is-dragging');
+  });
+
+  it('resets when pointer capture is lost', () => {
+    render(<DragSortGame roundIndex={0} totalRounds={8} onRoundComplete={vi.fn()} speak={vi.fn()} />);
+    const item = screen.getByTestId('drag-item');
+
+    fireEvent.pointerDown(item, { pointerId: 1, isPrimary: true, clientX: 10, clientY: 10 });
+    fireEvent.pointerMove(item, { pointerId: 1, clientX: 40, clientY: 30 });
+    fireEvent.lostPointerCapture(item, { pointerId: 1 });
+
+    expect(item).not.toHaveClass('is-dragging');
+    expect(item).toHaveStyle({ transform: 'translate(0px, 0px)' });
   });
 });

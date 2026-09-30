@@ -20,13 +20,13 @@ describe('DragMatchGame', () => {
     const item = screen.getByTestId('drag-match-item');
 
     vi.spyOn(document, 'elementFromPoint').mockReturnValueOnce(screen.getByTestId('match-Chó'));
-    fireEvent.pointerDown(item, { pointerId: 1, clientX: 0, clientY: 0 });
+    fireEvent.pointerDown(item, { pointerId: 1, isPrimary: true, clientX: 0, clientY: 0 });
     fireEvent.pointerUp(item, { pointerId: 1, clientX: 20, clientY: 20 });
     expect(onRoundComplete).not.toHaveBeenCalled();
     expect(onRetry).toHaveBeenCalledTimes(1);
 
     vi.spyOn(document, 'elementFromPoint').mockReturnValueOnce(screen.getByTestId('match-Mèo'));
-    fireEvent.pointerDown(item, { pointerId: 2, clientX: 0, clientY: 0 });
+    fireEvent.pointerDown(item, { pointerId: 2, isPrimary: true, clientX: 0, clientY: 0 });
     fireEvent.pointerUp(item, { pointerId: 2, clientX: 30, clientY: 30 });
 
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
