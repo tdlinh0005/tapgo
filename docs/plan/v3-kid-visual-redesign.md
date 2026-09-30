@@ -5,7 +5,7 @@
 ## Cách dùng plan này
 
 - **Dev bắt đầu từ plan này.** `fix-audit-sep30.md` chỉ còn T44 (QA thủ công trên Chrome/Edge thật), dời sang sau phase B (xem Quyết định).
-- Làm theo thứ tự phase (A → C; D chờ owner; E đóng). Trong phase làm P1 trước P2 trước P3, trừ khi task ghi phụ thuộc.
+- Làm theo thứ tự phase (A → B → C → D → E; owner đã chốt làm D ngày 2026-09-30). Trong phase làm P1 trước P2 trước P3, trừ khi task ghi phụ thuộc.
 - Mỗi task một commit (`feat:` / `fix:` / `test:` / `docs:` / `refactor:`), không kèm trailer model-credit. Commit file plan cùng commit của task.
 - Trước khi commit: `npx tsc --noEmit && npm test`; task đụng deps/build chạy thêm `npm run build`.
 - Trạng thái ở dòng tiêu đề task: `[ ]` chưa nhận · `[~]` đang làm (kèm `— đang làm: <lane>`) · `[x]` xong. Nhận task bằng cách sửa đúng chuỗi `### [ ] Vxx`; không sửa task `[~]` của người khác.
@@ -20,7 +20,9 @@
 - V05 → V08, V10 (trạng thái mascot).
 - V11 → V12, V13, V14 (dùng `pickRound` và `sessionSeed`).
 - V12 → V14 (mức khó cần kho đủ lớn).
-- Owner duyệt → V15, V16. Mọi task → V17.
+- V02, V06, V11 → V15, V16 (màu nhóm, kiểu phím, `pickRound`); làm D sau khi xong C.
+- V15 → V16: thứ tự thêm vào `GAME_IDS` là cố định (`space-enter` là game 11, `count-keys` là game 12), đảo thứ tự sẽ đổi vị trí trên Lộ trình.
+- Mọi task → V17.
 
 ## Hiện trạng (FACT, đã đối chiếu code)
 
@@ -76,12 +78,14 @@
 - **Nhân vật dẫn dắt dùng emoji + CSS**, không vẽ asset — vì spec cấm asset pipeline ở v1 · bác bỏ: SVG/Lottie mascot (thêm pipeline + thư viện) · mở lại nếu: owner muốn nhân vật riêng có bản quyền.
 - **Font bo tròn tự host có hỗ trợ tiếng Việt** (một gói `@fontsource-variable/*`, vd Baloo 2 hoặc Nunito, subset `vietnamese` + `latin`), fallback system-ui — vì chữ bo tròn tăng cảm giác thân thiện nhiều nhất trên mỗi đơn vị công, và tự host thì không gọi domain ngoài · bác bỏ: Google Fonts CDN (request ra ngoài; spec không nói offline, nên đây là lựa chọn an toàn chứ không phải ràng buộc) · mở lại nếu: owner không muốn thêm dependency.
 - **Chia 26 chữ cho 2 game thay vì cho Gõ chữ cái cả 26.** Letters 14 chữ + FindKey 12 chữ, rời nhau, hợp lại đủ A–Z — vì · giữ quy tắc T24 (FindKey không dạy lại chữ của Letters, có test) · cả hai kho > số lượt (10) nên xáo có tác dụng · bác bỏ: Letters 26 chữ (vỡ test T24, FindKey mất vai trò) · mở lại nếu: owner muốn Gõ chữ cái dạy trọn bảng chữ.
-- **Làm phong phú bài tập trước bằng xáo trộn + mở rộng kho, không thêm GameId** (phase C) — vì giải quyết “chơi lại y hệt” mà không đụng dữ liệu tiến độ · game mới chỉ ở phase D, cần owner duyệt vì đổi con số “10 mini-game” trong spec.
+- **Làm phong phú bài tập trước bằng xáo trộn + mở rộng kho, không thêm GameId** (phase C) — vì giải quyết “chơi lại y hệt” mà không đụng dữ liệu tiến độ · game mới để ở phase D.
+- **Làm phase D: thêm 2 game vào cuối lộ trình (game 11–12), spec đổi “10 mini-game” → “12 mini-game”** — owner chốt 2026-09-30 · vì · luyện Space/Enter (spec dòng 14 có nhưng chưa game nào dạy) và nối đếm với bấm số · thêm vào cuối `GAME_IDS` nên tiến độ cũ không mất, bé đã xong 10 bài thì mở luôn bài 11 · bác bỏ: chèn vào giữa lộ trình (khoá lại bài của bé đang chơi dở); gộp Space/Enter vào game hiện có (đổi luật game cũ, vỡ test) · mở lại nếu: QA T44 lượt 2 thấy Enter vẫn kích hoạt nút trên trình duyệt thật.
+- **Tổng sao tự tăng 30 → 36.** `ProgressScreen` tính `gameRegistry.length * 3`, nên không sửa code, chỉ sửa test ghim `/ 30 sao` và `toHaveLength(10)`. Hai game mới đều nhóm `keyboard` (tỉ lệ 7 phím / 5 chuột) — chấp nhận vì bài chuột đã được làm phong phú ở V12–V13.
 - **T44/G16 lượt 2 (QA thủ công trên Chrome/Edge thật) dời sang sau phase B** — vì QA giao diện sắp thay là công bỏ đi · bác bỏ: chạy T44 trước làm baseline (ảnh CDP trong plan này đã là baseline hình ảnh) · mở lại nếu: owner cần kết quả giọng đọc tiếng Việt ngay. Đã ghi vào `fix-audit-sep30.md` T44 và `v2-guided-play.md` G16.
 
-## ⚠️ Cần owner chốt
+## Owner đã chốt
 
-- **Phase D · thêm game mới** (Space/Enter tên lửa, Đếm rồi bấm số): mặc định đề xuất là **có**, thêm vào cuối lộ trình (game 11–12), sửa spec từ “10 mini-game” sang “12 mini-game”. Không làm D cho đến khi owner đồng ý; phase A–C không phụ thuộc quyết định này.
+- 2026-09-30 · **Làm phase D** (Space/Enter tên lửa, Đếm rồi bấm số): thêm vào cuối lộ trình (game 11–12), spec đổi từ “10 mini-game” sang “12 mini-game”. Không còn câu hỏi mở cho owner.
 
 ## Tổng quan
 
@@ -101,8 +105,8 @@
 | V12 | Mở rộng kho 10 game + xáo vị trí đáp án | P1 | M | content |
 | V13 | Chủ đề hoá game chuột | P2 | M | content |
 | V14 | Mức khó theo tiến độ | P3 | M | framework |
-| V15 | ⚠️ Game mới: Space/Enter tên lửa | P2 | M | game |
-| V16 | ⚠️ Game mới: Đếm rồi bấm số | P3 | S | game |
+| V15 | Game mới 11: Space/Enter tên lửa | P2 | M | game |
+| V16 | Game mới 12: Đếm rồi bấm số | P3 | S | game |
 | V17 | Cập nhật spec, index, CHANGELOG + QA T44/G16 lượt 2 | P1 | S | docs |
 
 ## Phase A — Nền tảng hình ảnh
@@ -201,24 +205,35 @@
 - pick-picture 3→4 lựa chọn với mồi nhử cùng nhóm; drag-match bóng giống nhau hơn; sequence 3→5 phím.
 - Xong khi: test cho từng mức; test “bé chưa có sao không bao giờ gặp mức khó”; test Guided luôn mức dễ.
 
-## Phase D — Game mới (⚠️ chờ owner)
+## Phase D — Game mới (owner đã chốt 2026-09-30)
 
-### [ ] V15 · Game mới: Space/Enter tên lửa
+Chung cho V15, V16:
 
-- Bấm Space cho 🚀 bay lên, Enter để “gửi thư” 📮. Sửa `useKeySequence`: chấp nhận `event.key === 'Enter'` như một ký tự mong đợi (vd ký hiệu `'\n'`) và `preventDefault` cho Enter để không kích hoạt nút đang focus (cùng lý do T20). Space đã được nhận khi chuỗi mong đợi có `' '`.
-- Thêm vào cuối `GAME_IDS` (tự vào cuối `PATH_ORDER`).
-- Xong khi: tiến độ cũ load nguyên vẹn (test `loadProgressFrom` với state 10 game); test Enter không kích hoạt nút đang focus; cập nhật `registry.test`, `App.test` (số card, `/ 30 sao` → theo tổng mới), `ProgressScreen.test`, `assist.test`, `ListenButton.test`.
+- GameId mới chỉ **nối vào cuối** `GAME_IDS` trong `src/game/types.ts`, đúng thứ tự V15 rồi V16; thêm entry trong `registry.ts` (`category: 'keyboard'`, `rounds`, `intro`, `emoji`, `component`). Không đổi key `tapgo.progress.v1`.
+- Game dùng `pickRound` + `sessionSeed` (V11), kiểu phím V06, màu nhóm V02, `CoachBubble` V01; tự có lượt ôn, Guided 5 lượt, trợ giúp `assistLevel` như game phím khác.
+- Test phải sửa khi thêm mỗi game: `App.test` (Chơi tự do `toHaveLength(10)` → 11/12; `2 / 30 sao` → `/ 33` rồi `/ 36`), `ProgressScreen.test` (`toHaveLength(10)`), `registry.test`, `ListenButton.test` (thêm prompt lượt 0 của game mới); thêm test `loadProgressFrom` với state cũ chỉ có 10 game → game mới được điền rỗng, 10 game cũ giữ nguyên.
+- Mỗi game có `src/games/<Tên>Game.test.tsx` theo spec § test mini-game (dòng 318) và mẫu test của game phím hiện có.
+- Xong khi (chung): vùng chơi vừa 1366×768 và 1280×720 như V01 (đo CDP); `npx tsc --noEmit && npm test && npm run build` pass; spec `docs/feat/tapgo-mvp.md` có mục mô tả game mới trong cùng commit.
 
-### [ ] V16 · Game mới: Đếm rồi bấm số
+### [ ] V15 · Game mới 11: Space/Enter tên lửa (`space-enter`)
 
-- Hiện 1–9 emoji (🍎🍎🍎), bé bấm số tương ứng; dùng lại `KeyTargetStage`, `targetLabel` đọc số lượng.
-- Xong khi: như V15.
+- Luật: mỗi lượt hiện một phím lớn — `Space` (thanh dài, 🚀 bay lên) hoặc `Enter` (📮 gửi thư); bé bấm đúng phím. 10 lượt, xáo theo seed, cả hai loại đều xuất hiện ≥ 3 lần mỗi session (không để 10 lượt toàn Space).
+- Sửa `useKeySequence`: nhận `event.key === 'Enter'` thành ký tự mong đợi `'\n'`; khi chuỗi mong đợi có `'\n'` hoặc `' '` thì `preventDefault` để không kích hoạt nút đang focus (cùng lý do T20). Game khác không mong đợi Enter → hành vi cũ giữ nguyên (test T20 pass không sửa).
+- Hiển thị/đọc: nhãn `Space` / `Enter` trên phím; prompt + `Nghe yêu cầu` đọc “Bấm phím cách” / “Bấm phím Enter”. Phím Space vẽ rộng (≥ 3 lần chiều cao) nhưng vẫn ≥ 72px.
+- Xong khi: test hook “Enter được nhận khi mong đợi”, “Enter không click nút đang focus trong game”, “game cũ vẫn bỏ qua Enter”; test game đúng/sai; phần chung ở trên.
+
+### [ ] V16 · Game mới 12: Đếm rồi bấm số (`count-keys`)
+
+- Luật: hiện 1–9 emoji cùng loại (🍎🍎🍎) xếp lưới dễ đếm (tối đa 3 hàng × 3), bé bấm phím số bằng số lượng. 9 lượt (kho 1–9 = số lượt, chỉ xáo thứ tự như numbers); emoji đổi theo lượt bằng `pickRound`.
+- Dùng lại `KeyTargetStage`; `targetLabel` đọc “Có mấy quả táo? Bấm số đó”. Phím số hàng trên và numpad đều cho `event.key` là `'1'`…`'9'` nên `useKeySequence` nhận cả hai (thêm test numpad).
+- Assist: level 1 đánh số nhỏ dưới từng emoji, level 2 hiện đáp án trên phím (như `data-assist` các game phím khác).
+- Xong khi: test đúng/sai/assist; test không có lượt nào 0 hoặc > 9 emoji; phần chung ở trên.
 
 ## Phase E — Đóng
 
 ### [ ] V17 · Cập nhật spec, index, CHANGELOG + QA T44/G16 lượt 2
 
-- `docs/feat/tapgo-mvp.md`: Visual system (token vai trò, `data-category`, font, mascot, `CoachBubble`), UX rule mới cho ăn mừng màn kết quả (V08), contract `MiniGameProps` (`sessionSeed`, `level`), định nghĩa kho/chọn mục của từng game đã đổi, stamp `updated`.
+- `docs/feat/tapgo-mvp.md`: Visual system (token vai trò, `data-category`, font, mascot, `CoachBubble`), UX rule mới cho ăn mừng màn kết quả (V08), contract `MiniGameProps` (`sessionSeed`, `level`), định nghĩa kho/chọn mục của từng game đã đổi, “10 mini-game” → “12 mini-game” (dòng 7 và tiêu chí nghiệm thu dòng 343), tổng sao 36, Space/Enter trong `useKeySequence`, stamp `updated`.
 - `docs/index.md`: chuyển plan này sang Done plans khi đóng. `CHANGELOG.md` mục `[Unreleased]` (Added/Changed theo Keep a Changelog, không mint version).
 - Chạy T44/G16 lượt 2 (QA thủ công Chrome/Edge thật) trên giao diện mới; đóng T44 trong `fix-audit-sep30.md` và G16 trong `v2-guided-play.md`.
 - Xong khi: `npm run build` + toàn bộ test pass; ảnh CDP sau/trước đính vào plan; plan chuyển sang `docs/plan/done/`.
@@ -247,6 +262,7 @@
 | V13 | Prompt đọc theo mục tiêu | THIẾU | `registry.ts` intro “Hãy click vào ngôi sao.” | thêm sửa intro |
 | V14 | Guided luôn mức dễ | KHẢ THI | GameShell biết `roundLimit` | ghi cơ chế |
 | V15 | Thêm GameId cuối | KHẢ THI | `normalizeProgress` điền game thiếu; `PATH_ORDER = GAME_IDS` | thêm test Enter + focus |
+| Phase D | Chờ owner | ĐÃ CHỐT 2026-09-30 | owner đồng ý làm D | chi tiết V15/V16, ID cố định, tổng sao tự tăng (`ProgressScreen.tsx:20` `gameRegistry.length * 3`) |
 | Docs | `docs/index.md` ghi “dev bắt đầu từ” fix-audit | CŨ | fix-audit chỉ còn T44 mở | index chỉ sang plan này |
 | Docs | Ghi chú dời T44/G16 | CHƯA CÓ | `fix-audit-sep30.md` T44, `v2-guided-play.md` G16 | đã thêm |
 
