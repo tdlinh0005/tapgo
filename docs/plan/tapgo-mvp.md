@@ -10,6 +10,8 @@
 
 **Spec:** `docs/feat/tapgo-mvp.md`
 
+> Việc guided play (quick session, retry hint, assist, lượt ôn, gợi ý phụ huynh) không nằm trong plan này; xem `docs/plan/v2-guided-play.md`. Plan này chỉ còn Step 6–8 của Task 15.
+
 ## Global Constraints
 
 - Target: desktop/laptop; viewport dưới 900 px hiện desktop gate.
@@ -1115,6 +1117,8 @@ Expected: all tests PASS; TypeScript has no errors; Vite production build succee
 - [ ] **Step 6: Run manual desktop acceptance checklist**
 
 > Verification note 2026-09-14: automated suite passes (19 test files, 39 tests) and production build succeeds. Manual Chrome/Edge acceptance remains pending because the current agent environment has no Chrome, Edge, or Brave installation available.
+>
+> Update 2026-09-30: after guided play v1 and the sep30 fixes the suite has 23 test files and 116 tests (the 39 above is the 2026-09-14 count). Manual QA is tracked as T44 in `docs/plan/fix-audit-sep30.md`; results are recorded in `docs/plan/v2-guided-play.md`.
 
 Start: `npm run dev`
 

@@ -4,7 +4,7 @@
 
 ## Cách dùng plan này
 
-- Làm theo **thứ tự phase** (0 → 6). Trong mỗi phase, làm P1 trước P2 trước P3.
+- Làm theo **thứ tự phase** (0 → 7). Trong mỗi phase, làm P1 trước P2 trước P3.
 - Mỗi task là **một commit riêng**, message dạng `fix: …` / `test: …` / `docs: …` / `refactor: …` và không kèm trailer model-credit.
 - Trước khi commit, chạy `npx tsc --noEmit && npm test`. Riêng task có đụng build hoặc deps thì chạy thêm `npm run build`.
 - Số dòng `file:line` tính theo commit `fa28cb4`. Code đã sửa thì số dòng có thể lệch; khi đó tìm theo đoạn code được trích trong phần Evidence.
@@ -72,6 +72,9 @@
 | T42 | Research doc: đúng schema B2, tách doc kế nhiệm, thêm vào index | P2 | M | Docs |
 | T43 | Stamp `updated` dùng commit hash hoặc semver | P3 | S | Docs |
 | T44 | Manual QA trên Chrome/Edge desktop (Step 6 của plan cũ) | P1 | M | Docs |
+| T45 | Rê chuột: mở game bằng chuột thì bị tính sai ngay | P1 | S | Flow/Logic |
+| T46 | Rê chuột: quay về điểm bắt đầu của lượt mới bị tính sai | P1 | S | Flow/Logic |
+| T47 | Vùng chơi Rê chuột / Click mục tiêu tràn xuống dưới màn hình laptop | P2 | S | UI/UX |
 
 ## Phase 0 · Baseline
 
@@ -541,7 +544,9 @@ Files: `docs/feat/tapgo-mvp.md`
 - **Fix:** Cập nhật theo kết quả T10, T12, T16, T17, T22; mỗi dòng mới trong Testing strategy trỏ tới một test có thật.
 - **Done when:** Đọc spec rồi grep code thì mỗi mục khớp nhau.
 
-### [~] T41 · Plan mới docs/plan/v2-guided-play.md; plan cũ giữ Step 6–8 — đang làm: Notion AI (lead)
+### [x] T41 · Plan mới docs/plan/v2-guided-play.md; plan cũ giữ Step 6–8
+
+> Đã làm 2026-09-30. Plan cũ vẫn ở `docs/plan/`, chỉ chuyển sang `docs/plan/done/` sau khi T44 xong (G19 trong plan mới).
 
 **P2 · Effort M · Docs** · Review: C-8  
 Files: `docs/plan/, docs/index.md`
