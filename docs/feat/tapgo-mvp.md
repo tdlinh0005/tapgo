@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-09-22 · guided play v1
+> updated 2026-09-30 · 3b0e2b0
 
 ## Goal
 
@@ -128,7 +128,8 @@ Thứ tự:
 
 - Bé đưa con trỏ từ điểm bắt đầu qua 4-6 checkpoint tới đích.
 - Không yêu cầu giữ chuột.
-- Ra ngoài đường không reset; chỉ chưa kích hoạt checkpoint tiếp theo.
+- Ra ngoài đường không reset và không tính sai; chỉ chưa kích hoạt checkpoint tiếp theo.
+- Đi vào một checkpoint phía sau checkpoint kế tiếp (sai thứ tự) tính là một attempt sai và gọi `onRetry` kèm hint chỉ checkpoint cần tới; tiến độ không reset. Đi lại qua checkpoint đã xong không tính sai. Outcome là `{ correct: số checkpoint, attempts: số checkpoint + số lần sai thứ tự }`.
 - 6 lượt.
 
 ### 9. Kéo thả phân loại

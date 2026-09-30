@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { MiniGameProps } from '../game/types';
 
 const TRAILS = [
@@ -10,15 +10,21 @@ const TRAILS = [
   [[12, 66], [30, 66], [48, 44], [66, 22], [84, 22]],
 ] as const;
 
-export default function MouseTrailGame({ roundIndex, onRoundComplete, assistLevel = 0 }: MiniGameProps) {
+export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, assistLevel = 0 }: MiniGameProps) {
   const trail = TRAILS[roundIndex % TRAILS.length];
   const [nextCheckpoint, setNextCheckpoint] = useState(0);
+  const wrongEntries = useRef(0);
 
   const visit = (index: number) => {
-    if (index !== nextCheckpoint) return;
+    if (index < nextCheckpoint) return;
+    if (index > nextCheckpoint) {
+      wrongEntries.current += 1;
+      onRetry?.(`Hãy đưa chuột tới điểm ${nextCheckpoint + 1} trước nhé.`);
+      return;
+    }
     const next = nextCheckpoint + 1;
     if (next >= trail.length) {
-      onRoundComplete({ correct: trail.length, attempts: trail.length });
+      onRoundComplete({ correct: trail.length, attempts: trail.length + wrongEntries.current });
     } else {
       setNextCheckpoint(next);
     }

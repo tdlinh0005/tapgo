@@ -313,7 +313,7 @@ Files: `src/hooks/useExpectedKey.ts, src/games/WordTypingGame.tsx, src/games/Seq
 - **Fix:** Bỏ qua `' '` khi target không phải Space, và `preventDefault` cho phím ký tự trong game gõ.
 - **Done when:** Test: nhấn Space thì `onRetry` không được gọi.
 
-### [ ] T21 · saveProgress (side effect) chạy trong updater của setProgress
+### [~] T21 · saveProgress (side effect) chạy trong updater của setProgress — đang làm: Lane A
 
 **P3 · Effort S · Flow/Logic** · Review: A-6  
 Files: `src/App.tsx`

@@ -27,5 +27,6 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Speech stops when leaving a game instead of reading the intro to the end.
 - Drags start only from the primary mouse button and reset when pointer capture is lost.
 - A drop inside a wrong zone next to the correct zone counts as wrong; snapping to the correct zone applies only outside every zone.
+- Mouse trail counts entering a checkpoint out of order as a mistake, so it reports real attempts and triggers retry hints and assist.
 - Home, replay, `Xem cách chơi` and `Nghe yêu cầu` buttons are at least 72px.
 - The desktop gate no longer scrolls sideways on screens narrower than 900px.
