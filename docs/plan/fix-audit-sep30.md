@@ -173,7 +173,7 @@ Files: `src/games/DragSortGame.tsx, src/games/DragMatchGame.tsx, src/hooks/usePo
 - **Fix:** Nếu `zone` tồn tại và là ô sai thì trả sai; chỉ dùng snap khi `zone === null`. Gom thành helper `resolveDrop()` trong `usePointerDrag.ts`, dùng cho cả 2 game.
 - **Done when:** Test: thả trong ô sai, cách mép ô đúng khoảng 10px, thì `onRetry` được gọi.
 
-### [ ] T09 · Rê chuột: thêm điểm bắt đầu, 4–6 checkpoint, và đường vẽ khớp điểm
+### [~] T09 · Rê chuột: thêm điểm bắt đầu, 4–6 checkpoint, và đường vẽ khớp điểm — đang làm: Lane B
 
 **P1 · Effort M · UI/UX** · Review: B-4  
 Files: `src/games/MouseTrailGame.tsx, src/styles/app.css`
@@ -313,7 +313,7 @@ Files: `src/hooks/useExpectedKey.ts, src/games/WordTypingGame.tsx, src/games/Seq
 - **Fix:** Bỏ qua `' '` khi target không phải Space, và `preventDefault` cho phím ký tự trong game gõ.
 - **Done when:** Test: nhấn Space thì `onRetry` không được gọi.
 
-### [~] T21 · saveProgress (side effect) chạy trong updater của setProgress — đang làm: Lane A
+### [x] T21 · saveProgress (side effect) chạy trong updater của setProgress
 
 **P3 · Effort S · Flow/Logic** · Review: A-6  
 Files: `src/App.tsx`

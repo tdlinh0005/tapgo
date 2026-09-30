@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import DesktopGate from './components/DesktopGate';
 import GameShell from './game/GameShell';
 import { getNextGameId, getRecommendedGameId } from './game/path';
@@ -28,16 +28,16 @@ export default function App() {
   const [view, setView] = useState<AppView>({ name: 'home' });
   const [progress, setProgress] = useState<ProgressState>(() => loadProgress());
 
+  useEffect(() => {
+    saveProgress(progress);
+  }, [progress]);
+
   const openGame = (gameId: GameId, mode: GameMode) => setView({ name: 'game', gameId, mode });
   const goHome = () => setView({ name: 'home' });
   const startGuidedPlay = () => openGame(getRecommendedGameId(progress), 'guided');
 
   const handleComplete = (gameId: GameId, stars: 1 | 2 | 3) => {
-    setProgress((current) => {
-      const next = recordCompletion(current, gameId, stars);
-      saveProgress(next);
-      return next;
-    });
+    setProgress((current) => recordCompletion(current, gameId, stars));
   };
 
   const openNext = (gameId: GameId, mode: GameMode) => {

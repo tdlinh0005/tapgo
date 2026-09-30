@@ -25,6 +25,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - The retry hint is read aloud and the guide reopens only on the second mistake, not on every later one.
 - Feedback tones reuse one audio context and resume it when suspended, instead of creating a new context per tone.
 - Speech stops when leaving a game instead of reading the intro to the end.
+- Progress is saved from an effect after each change, so StrictMode no longer writes it twice.
 - Drags start only from the primary mouse button and reset when pointer capture is lost.
 - A drop inside a wrong zone next to the correct zone counts as wrong; snapping to the correct zone applies only outside every zone.
 - Mouse trail counts entering a checkpoint out of order as a mistake, so it reports real attempts and triggers retry hints and assist.

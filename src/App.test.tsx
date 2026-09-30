@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { StrictMode } from 'react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { PROGRESS_KEY } from './game/progress';
 
@@ -104,6 +105,17 @@ describe('App integration', () => {
     const saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) ?? '{}');
     expect(saved.games.letters.bestStars).toBe(3);
     expect(saved.games.letters.completed).toBe(true);
+  });
+
+  it('saves progress once per completed session under StrictMode', async () => {
+    const user = userEvent.setup();
+    render(<StrictMode><App /></StrictMode>);
+    const setItem = vi.spyOn(Storage.prototype, 'setItem');
+
+    await openLettersAndCompletePerfectly(user);
+
+    expect(setItem.mock.calls.filter(([key]) => key === PROGRESS_KEY)).toHaveLength(1);
+    setItem.mockRestore();
   });
 
   it('restores progress after remount and unlocks the next path game', async () => {
