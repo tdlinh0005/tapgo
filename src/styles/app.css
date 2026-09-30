@@ -159,8 +159,8 @@ button:disabled {
 
 .screen-header > button,
 .game-header > button {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   border: 0;
   border-radius: 20px;
   background: var(--color-surface);
@@ -286,7 +286,7 @@ button:disabled {
 
 .guide-toggle {
   align-self: center;
-  min-height: 48px;
+  min-height: 72px;
   border: 2px solid var(--color-border);
   border-radius: var(--radius-pill);
   padding: 8px 18px;
@@ -421,7 +421,7 @@ button:disabled {
 }
 
 .listen-button {
-  min-height: 56px;
+  min-height: 72px;
   border: 2px solid var(--color-primary);
   border-radius: var(--radius-pill);
   padding: 10px 20px;

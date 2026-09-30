@@ -13,6 +13,12 @@ describe('app visual acceptance rules', () => {
     expect(css).toMatch(/\.picture-option\s*\{[^}]*min-width:\s*96px[^}]*min-height:\s*96px/s);
   });
 
+  it('keeps header, guide and listen buttons at least 72px', () => {
+    expect(css).toMatch(/\.screen-header > button,\s*\.game-header > button\s*\{[^}]*width:\s*72px[^}]*height:\s*72px/s);
+    expect(css).toMatch(/\.guide-toggle\s*\{[^}]*min-height:\s*72px/s);
+    expect(css).toMatch(/\.listen-button\s*\{[^}]*min-height:\s*72px/s);
+  });
+
   it('creates positioned play areas for click and trail games', () => {
     expect(css).toMatch(/\.click-play-area\s*\{[^}]*position:\s*relative/s);
     expect(css).toMatch(/\.click-target\s*\{[^}]*position:\s*absolute/s);

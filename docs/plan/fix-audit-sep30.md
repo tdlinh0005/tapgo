@@ -129,7 +129,7 @@ Files: `src/game/GameShell.tsx, src/styles/app.css`
 - **Fix:** Tách thành 2 state: `visibleHint` (chỉ xoá trong `handleRoundComplete` và `restart`) và `feedbackState` (chỉ để gắn class animation). `onAnimationEnd` chỉ xử lý khi `event.target === event.currentTarget`.
 - **Done when:** Test GameShell: gọi `onRetry`, rồi `fireEvent.animationEnd(game-stage)`, thì `getByRole('status')` vẫn còn; sau khi hoàn thành lượt thì status mất.
 
-### [ ] T05 · Nút Home, nghe lại, "Xem cách chơi", "Nghe yêu cầu" nhỏ hơn 72px
+### [x] T05 · Nút Home, nghe lại, "Xem cách chơi", "Nghe yêu cầu" nhỏ hơn 72px
 
 **P1 · Effort S · UI/UX** · Review: B-2  
 Files: `src/styles/app.css, src/styles/app.test.ts`
@@ -162,7 +162,7 @@ Files: `src/hooks/usePointerDrag.ts`
 - **Fix:** Trong `onPointerUp`: nếu `Math.hypot(dx, dy) < 10` thì chỉ `reset()`, không gọi `onDrop`.
 - **Done when:** Test: pointerDown rồi pointerUp tại cùng toạ độ thì `onRetry` không được gọi; sau đó thả đúng thì outcome có `attempts: 1`.
 
-### [ ] T08 · Kéo thả: thả lên ô sai gần ô đúng vẫn được tính là đúng (snap quá rộng)
+### [~] T08 · Kéo thả: thả lên ô sai gần ô đúng vẫn được tính là đúng (snap quá rộng) — đang làm: Lane B
 
 **P2 · Effort S · Flow/Logic** · Review: B-8, C (out-of-lane)  
 Files: `src/games/DragSortGame.tsx, src/games/DragMatchGame.tsx, src/hooks/usePointerDrag.ts`
@@ -221,7 +221,7 @@ Files: `src/games/*.tsx, src/styles/app.css`
 
 ## Phase 2 · Logic & flow
 
-### [ ] T13 · loadProgress kiểu được-hết-hoặc-mất-hết: 1 game key lỗi là xoá toàn bộ tiến độ
+### [x] T13 · loadProgress kiểu được-hết-hoặc-mất-hết: 1 game key lỗi là xoá toàn bộ tiến độ
 
 **P2 · Effort S · Flow/Logic** · Review: A-2  
 Files: `src/game/progress.ts, src/game/progress.test.ts`
