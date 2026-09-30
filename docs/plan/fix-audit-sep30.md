@@ -506,7 +506,7 @@ Files: `src/game/path.test.ts, src/game/progress.test.ts, src/App.test.tsx`
 - **Fix:** path: xong hết thì ra bài đầu tiên chưa 3 sao; xong hết 3 sao thì ra `letters`. progress: `getItem`/`setItem` throw không làm crash. App: Chơi ngay hiện `1 / 5`, Path hiện `1 / 10`.
 - **Done when:** `npx vitest run` pass với các case mới.
 
-### [ ] T38 · app.test.ts: bỏ node:fs và @ts-expect-error, dùng ?raw
+### [x] T38 · app.test.ts: bỏ node:fs và @ts-expect-error, dùng ?raw
 
 **P2 · Effort S · Tests** · Review: C-13  
 Files: `src/styles/app.test.ts`
@@ -517,7 +517,7 @@ Files: `src/styles/app.test.ts`
 - **Fix:** `import css from './app.css?raw'`; chỉ giữ regex cho các bất biến quan trọng (72px, reduced-motion, focus-visible).
 - **Done when:** `grep ts-expect-error src` ra 0; tsc, test, build xanh.
 
-### [ ] T39 · Vitest: giảm thời gian dựng jsdom (69% thời gian test)
+### [~] T39 · Vitest: giảm thời gian dựng jsdom (69% thời gian test) — đang làm: lead
 
 **P3 · Effort S · Tests** · Review: C-15  
 Files: `vite.config.ts`

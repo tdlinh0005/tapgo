@@ -1,8 +1,5 @@
-// @ts-expect-error Vitest runs in Node; this project intentionally does not depend on Node type declarations.
-import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-
-const css = readFileSync('src/styles/app.css', 'utf8');
+import css from './app.css?raw';
 
 describe('app visual acceptance rules', () => {
   it('keeps primary actions and game targets large enough for a child', () => {
