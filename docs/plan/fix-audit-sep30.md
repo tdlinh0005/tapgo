@@ -484,7 +484,7 @@ Files: `src/games/FindKeyGame.test.tsx, NumberKeyGame.test.tsx, MouseTrailGame.t
 - **Fix:** Thêm case phím sai: `onRoundComplete` chưa được gọi, `onRetry` được gọi kèm hint, outcome `{1,2}`.
 - **Done when:** 3 file có case sai; bỏ nhánh `onRetry` trong useExpectedKey thì test fail.
 
-### [ ] T36 · Test kéo thả: nhánh snap/assist và pointer cancel
+### [x] T36 · Test kéo thả: nhánh snap/assist và pointer cancel
 
 **P2 · Effort M · Tests** · Review: C-3  
 Files: `src/games/DragSortGame.test.tsx, DragMatchGame.test.tsx`

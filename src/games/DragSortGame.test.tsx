@@ -88,6 +88,42 @@ describe('DragSortGame', () => {
     expect(item).not.toHaveClass('is-dragging');
   });
 
+  it.each([
+    [0, 220, true],
+    [0, 235, false],
+    [1, 235, true],
+    [1, 245, false],
+  ] as const)('snaps near the correct zone with assist %i at x=%i: %s', (assistLevel, x, completes) => {
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<DragSortGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={vi.fn()} assistLevel={assistLevel} />);
+    const item = screen.getByTestId('drag-item');
+    vi.spyOn(screen.getByTestId('correct-zone'), 'getBoundingClientRect').mockReturnValue({ left: 100, right: 200, top: 100, bottom: 200, width: 100, height: 100 } as DOMRect);
+    vi.spyOn(document, 'elementFromPoint').mockReturnValue(null);
+
+    fireEvent.pointerDown(item, { pointerId: 1, isPrimary: true, clientX: 10, clientY: 10 });
+    fireEvent.pointerUp(item, { pointerId: 1, clientX: x, clientY: 150 });
+
+    expect(onRoundComplete).toHaveBeenCalledTimes(completes ? 1 : 0);
+    expect(onRetry).toHaveBeenCalledTimes(completes ? 0 : 1);
+  });
+
+  it('resets without judging when the pointer is cancelled', () => {
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<DragSortGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={vi.fn()} />);
+    const item = screen.getByTestId('drag-item');
+
+    fireEvent.pointerDown(item, { pointerId: 1, isPrimary: true, clientX: 10, clientY: 10 });
+    fireEvent.pointerMove(item, { pointerId: 1, clientX: 60, clientY: 40 });
+    fireEvent.pointerCancel(item, { pointerId: 1 });
+
+    expect(item).not.toHaveClass('is-dragging');
+    expect(item).toHaveStyle({ transform: 'translate(0px, 0px)' });
+    expect(onRoundComplete).not.toHaveBeenCalled();
+    expect(onRetry).not.toHaveBeenCalled();
+  });
+
   it('resets when pointer capture is lost', () => {
     render(<DragSortGame roundIndex={0} totalRounds={8} onRoundComplete={vi.fn()} speak={vi.fn()} />);
     const item = screen.getByTestId('drag-item');

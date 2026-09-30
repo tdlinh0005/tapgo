@@ -15,6 +15,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 
 ### Changed
 
+- Drag tests cover the snap distance (24px, plus 16px per assist level) and pointer cancel for both drag games.
 - Tests pin the assist thresholds (level 1 after 2 retries, level 2 after 3), the spoken intro on mount and the spoken hint on the second retry.
 - Tests cover the recommendation fallback, a throwing `localStorage`, and Path sessions of 10 rounds versus 5 in Guided Play.
 - Find-key and number games are tested for wrong keys: the round stays, and the retry hint names the key.
