@@ -1,83 +1,74 @@
 # TapGo Learning Improvements
 
-> updated 2026-09-22 · implementation pass 1
+Status: superseded by docs/research/tapgo-learning-improvements-2.md
 
-## Mục tiêu
+## Start time
 
-Cải thiện TapGo để trẻ khoảng 6 tuổi học bàn phím và chuột dễ hơn, ít áp lực hơn và nhận được chỉ dẫn hữu ích sau mỗi lỗi.
+2026-09-22, implementation pass 1 (ngày lấy từ stamp của bản gốc; giờ bắt đầu chưa verify). Pass 1 không có commit riêng: file và code lần đầu vào git ở `fa28cb4` (2026-09-30), commit này gộp luôn Guided Play v1.
 
-## Quyết định triển khai
+## Initial purpose
 
-### 1. Hướng dẫn có thể mở bất cứ lúc nào
+- **Câu hỏi:** cải thiện TapGo để trẻ khoảng 6 tuổi học bàn phím và chuột dễ hơn, ít áp lực hơn và nhận được chỉ dẫn hữu ích sau mỗi lỗi.
+- **Ràng buộc lúc đó:** không đổi số lượt, scoring, unlock path hoặc localStorage schema; không timer, leaderboard hay failure screen; không cần tài khoản hay backend; hướng dẫn không chặn gameplay để giữ tương thích với luồng hiện tại.
 
-Trong `GameShell`, thêm nút `Xem cách chơi`. Hướng dẫn không chặn gameplay để giữ tương thích với luồng hiện tại và giúp trẻ tự chọn lúc cần trợ giúp.
+## Strategy
 
-- Game bàn phím: nhìn chữ/số lớn và bấm đúng phím.
-- Game chuột: làm theo hình minh họa, thử chậm và không cần vội.
+Bản gốc không ghi strategy. Suy ra từ nội dung (chưa verify): đặt trợ giúp ở lớp dùng chung (`GameShell`, `MiniGameProps.onRetry`) thay vì sửa riêng từng game, và giữ nguyên scoring/path/progress để không phá luồng đang chạy.
 
-### 2. Feedback sau lỗi phải chỉ dẫn hành động tiếp theo
+## Checklist
 
-`onRetry` nhận thêm một hint tùy chọn.
+- [x] Mở rộng `MiniGameProps.onRetry` để nhận hint.
+- [x] Thêm hint cụ thể cho game gõ phím và gõ từ.
+- [x] Thêm guide panel dùng chung trong `GameShell`.
+- [x] Thêm style cho guide và retry hint.
+- [x] Thêm ôn lại ngay lượt có lỗi bằng `reviewPending` và `reviewCycle`.
+- [x] Tự mở hướng dẫn sau hai lần retry trong cùng lượt.
+- [x] Thêm gợi ý bài nên luyện ở màn hình Tiến độ.
 
-- Game phím: `Hãy tìm phím X trên bàn phím nhé.`
-- Game từ: `Hãy tìm chữ X trên màn hình nhé.`
-- Fallback chung: `Thử lại nhé, con làm chậm thôi.`
+## Result
 
-Hint dùng `role="status"` để hỗ trợ screen reader và vẫn nhẹ nhàng với trẻ.
+Sáu quyết định triển khai:
 
-### 3. Ôn lại ngay mục tiêu vừa sai
+1. **Hướng dẫn mở bất cứ lúc nào:** nút `Xem cách chơi` trong `GameShell`, không chặn gameplay. Game bàn phím: nhìn chữ/số lớn và bấm đúng phím. Game chuột: làm theo hình minh họa, thử chậm, không cần vội.
+2. **Feedback sau lỗi chỉ dẫn hành động tiếp theo:** `onRetry` nhận hint tùy chọn. Game phím: `Hãy tìm phím X trên bàn phím nhé.` · Game từ: `Hãy tìm chữ X trên màn hình nhé.` · Fallback: `Thử lại nhé, con làm chậm thôi.` Hint dùng `role="status"` cho screen reader.
+3. **Ôn lại ngay mục tiêu vừa sai:** lượt có lỗi thì `GameShell` remount cùng mini-game thêm một lần trước khi sang lượt mới; spaced repetition nhẹ, không màn hình phạt, không timer.
+4. **Trợ giúp thích nghi:** sai hai lần trong cùng lượt thì guide panel tự mở; hint cụ thể vẫn cập nhật theo mục tiêu hiện tại.
+5. **Gợi ý luyện tập cho phụ huynh:** màn Tiến độ chọn bài đầu tiên chưa hoàn thành; nếu đã xong hết thì chọn bài chưa đạt 3 sao. Không cần tài khoản hay backend.
+6. **Không countdown:** không timer, leaderboard, failure screen. Accuracy vẫn tính sao, feedback tập trung vào hành động cần thử tiếp.
 
-Sau khi hoàn thành một lượt với lỗi, `GameShell` remount cùng mini-game đó thêm một lần trước khi sang lượt mới. Đây là spaced repetition nhẹ, không tạo màn hình phạt và không dùng timer.
-
-### 4. Trợ giúp thích nghi
-
-Nếu trẻ sai hai lần trong cùng lượt, guide panel tự mở để đưa ra hướng dẫn tổng quát. Hint cụ thể vẫn được cập nhật theo mục tiêu hiện tại.
-
-### 5. Gợi ý luyện tập cho phụ huynh
-
-Màn hình Tiến độ chọn bài đầu tiên chưa hoàn thành; nếu đã hoàn thành hết, chọn bài chưa đạt 3 sao. Gợi ý này giúp buổi học tiếp theo có điểm bắt đầu rõ ràng mà không cần tài khoản hay backend.
-
-### 6. Giữ nguyên nhịp chơi không countdown
-
-Không thêm timer, leaderboard hoặc failure screen. Accuracy vẫn dùng để tính sao, nhưng feedback tập trung vào hành động cần thử tiếp theo.
-
-## Kế hoạch tiếp theo
-
-1. Lặp lại mục tiêu trẻ hay sai qua nhiều session và lưu weak-skill profile.
-2. Thêm spaced repetition dài hạn cho các phím/từ hay sai.
-3. Thêm adaptive difficulty nhẹ dựa trên lỗi liên tiếp trong nhiều buổi.
-4. Bổ sung parent progress chi tiết hơn với kỹ năng đã luyện.
-5. Manual QA trên Chrome/Edge với chuột thật, keyboard thật và Speech API.
-
-## Tiêu chí nghiệm thu
+Tiêu chí nghiệm thu đặt ra:
 
 - Nút `Xem cách chơi` mở/đóng được trong mọi game.
-- Sau thao tác sai, trẻ nhìn thấy lời nhắc cụ thể, không phải thông báo thất bại.
-- Không làm thay đổi số lượt, scoring, unlock path hoặc localStorage schema.
+- Sau thao tác sai, trẻ thấy lời nhắc cụ thể, không phải thông báo thất bại.
+- Không đổi số lượt, scoring, unlock path hoặc localStorage schema.
 - Test suite và production build vẫn pass.
 
-## Thay đổi đã thực hiện
+### Verification
 
-- Mở rộng `MiniGameProps.onRetry` để nhận hint.
-- Thêm hint cụ thể cho game gõ phím và gõ từ.
-- Thêm guide panel dùng chung trong `GameShell`.
-- Thêm style cho guide và retry hint.
-- Thêm ôn lại ngay lượt có lỗi bằng `reviewPending` và `reviewCycle`.
-- Tự mở hướng dẫn sau hai lần retry trong cùng lượt.
-- Thêm gợi ý bài nên luyện ở màn hình Tiến độ.
+Chỉ đối chiếu được trên `fa28cb4`, nơi code pass 1 đã lẫn với Guided Play v1; trạng thái riêng của pass 1 không còn để kiểm.
 
-## Amendments
+| Claim | Trạng thái tại `fa28cb4` |
+| --- | --- |
+| `onRetry(hint?)` | Có: `src/game/types.ts:27` |
+| Hint phím / từ / fallback | Có: `src/hooks/useExpectedKey.ts:19`, `src/games/WordTypingGame.tsx:17`, `src/game/GameShell.tsx:30,78,96` |
+| Hint `role="status"` | Có: `GameShell.tsx:164` |
+| Nút `Xem cách chơi` | Có: `GameShell.tsx:147-150`; "mở/đóng được trong mọi game" chưa verify bằng test hay chạy thật |
+| Ôn lại bằng `reviewPending`/`reviewCycle` | Có: `GameShell.tsx:31-32, :177` |
+| Guide tự mở sau 2 lần sai | Có, nhưng điều kiện là `>= 2` (`GameShell.tsx:85`) nên mở lại ở mọi lỗi từ lần 2 |
+| Gợi ý ở Tiến độ | Có: `src/screens/ProgressScreen.tsx:17,32` dùng `getRecommendedGameId` (`src/game/path.ts:12-18`: chưa xong → chưa 3 sao → bài đầu) |
+| Test suite và build pass | Chưa verify cho pass 1. Lần chạy gần nhất có ghi nhận: audit sep30 trên working tree = `fa28cb4`, tsc sạch, 49/49 test pass, build pass |
+| Trẻ thấy lời nhắc cụ thể | Bị audit sep30 bác một phần: hint mất sau ~420ms, mất ngay khi reduced-motion (T04); hint game từ bảo tìm "trên màn hình" trong khi phải tìm trên bàn phím (T23) |
+| Manual QA với chuột, bàn phím thật, Speech API | Chưa chạy |
 
-### 2026-09-22 — Guided Play v1 sau 8 pass akithink
+### Corroborating links
 
-Mục tiêu được nâng từ “app dễ dùng” thành “bé có thể tự bắt đầu, hiểu việc cần làm, hồi phục sau lỗi và đi tiếp với ít quyết định nhất”.
+- Code: commit `fa28cb4` (`feat: add guided play v1 with adaptive hints and visual system`).
+- Audit mâu thuẫn với tiêu chí nghiệm thu: [research/audit-full-sep30.md](audit-full-sep30.md) (T04, T18, T23); chi tiết ở [plan/fix-audit-sep30.md](../plan/fix-audit-sep30.md).
 
-- Home thêm CTA chính `Chơi ngay`; Lộ trình, Chơi tự do và Tiến độ trở thành lựa chọn phụ.
-- `Chơi ngay` chọn bài đầu tiên chưa hoàn thành và chạy quick session tối đa 5 lượt.
-- `GameShell` đọc intro khi vào bài; từ lỗi thứ hai tự mở guide và đọc hint cụ thể.
-- `assistLevel` tăng dần để làm nổi bật mục tiêu, tăng hit area hoặc snap tolerance ở các game chuột.
-- Màn hình kết quả ưu tiên thông điệp hoàn thành và CTA `Bài tiếp theo`; sao trở thành tín hiệu phụ.
-- Lượt ôn lại được tách khỏi `outcomes` để spaced repetition không làm thay đổi scoring của lượt gốc.
-- Thứ tự game dùng `GAME_IDS` làm canonical order; registry và next-game navigation đều dẫn xuất từ nguồn này.
+## Decision
 
-Validation cần ưu tiên manual test với bé: người lớn không chỉ tay hay đọc hộ, quan sát xem bé có tự đi được chuỗi Home → Chơi ngay → hoàn thành → tự hồi phục sau lỗi → Bài tiếp theo hay không.
+- **Action:** code trong `fa28cb4`; hành vi hiện hành ghi ở [feat/tapgo-mvp.md](../feat/tapgo-mvp.md) (§ Game framework contract, § UX rules).
+- **Follow-up research:** [tapgo-learning-improvements-2.md](tapgo-learning-improvements-2.md): Guided Play v1 đổi Decision của doc này (quick session tối đa 5 lượt phá ràng buộc "không đổi số lượt"; Home chuyển sang một CTA chính).
+- **No action (backlog chưa có artifact):** lặp lại mục tiêu hay sai qua nhiều session và lưu weak-skill profile; spaced repetition dài hạn cho phím/từ hay sai; adaptive difficulty nhẹ theo lỗi liên tiếp nhiều buổi; parent progress chi tiết theo kỹ năng. Chưa có plan nào nhận các mục này.
+- **Manual QA Chrome/Edge:** chuyển thành T44 trong [plan/fix-audit-sep30.md](../plan/fix-audit-sep30.md) và G16 trong [plan/v2-guided-play.md](../plan/v2-guided-play.md).
+- **Cross-references:** [research/audit-full-sep30.md](audit-full-sep30.md).

@@ -552,7 +552,7 @@ Files: `docs/plan/, docs/index.md`
 - **Fix:** Tạo `docs/plan/v2-guided-play.md` chứa các task guided đã làm và các task trong database này; link vào `docs/index.md`. Chuyển plan cũ sang `docs/plan/done/` sau khi T44 xong.
 - **Done when:** Plan mới được link trong index; không còn việc guided nằm ngoài plan.
 
-### [ ] T42 · Research doc: đúng schema B2, tách doc kế nhiệm, thêm vào index
+### [x] T42 · Research doc: đúng schema B2, tách doc kế nhiệm, thêm vào index
 
 **P2 · Effort M · Docs** · Review: C-9  
 Files: `docs/research/tapgo-learning-improvements.md, docs/index.md`
@@ -563,7 +563,7 @@ Files: `docs/research/tapgo-learning-improvements.md, docs/index.md`
 - **Fix:** Viết lại theo B2 (Start time / Initial purpose / Strategy / Checklist / Result+Verification / Decision); tách phần Guided thành `…-2.md`, doc gốc ghi `Status: superseded by …`; thêm cả hai vào index.
 - **Done when:** Mọi file trong docs/ đều có trong index; research có đủ 6 trường.
 
-### [ ] T43 · Stamp `updated` dùng commit hash hoặc semver
+### [~] T43 · Stamp `updated` dùng commit hash hoặc semver — đang làm: Notion AI (lead)
 
 **P3 · Effort S · Docs** · Review: C-10  
 Files: `docs/feat/tapgo-mvp.md, docs/research/*`
@@ -574,7 +574,7 @@ Files: `docs/feat/tapgo-mvp.md, docs/research/*`
 - **Fix:** Sau khi commit: `> updated <YYYY-MM-DD> · <short-hash>`; xoá stamp ở research.
 - **Done when:** grep `updated` trong docs/feat chỉ ra dạng ngày kèm hash hoặc semver.
 
-### [ ] T44 · Manual QA trên Chrome/Edge desktop (Step 6 của plan cũ)
+### [~] T44 · Manual QA trên Chrome/Edge desktop (Step 6 của plan cũ) — đang làm: Notion AI (lead)
 
 **P1 · Effort M · Docs** · Review: Plan Step 6  
 Files: `—`
