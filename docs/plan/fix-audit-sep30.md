@@ -94,7 +94,7 @@ Files: `git (35 M + 3 untracked)`
   Sau mỗi commit chạy `npx tsc --noEmit && npm test`.
 - **Done when:** `git status` sạch; checkout từng commit riêng thì tsc và test đều pass; message không có trailer model-credit.
 
-### [ ] T02 · Ghim version dependency thay cho "latest"
+### [~] T02 · Ghim version dependency thay cho "latest" — đang làm: Lane C
 
 **P2 · Effort S · Build/Release** · Review: C-12  
 Files: `package.json, package-lock.json`
@@ -118,7 +118,7 @@ Files: `CHANGELOG.md (mới)`
 
 ## Phase 1 · P1 gameplay/UX
 
-### [ ] T04 · Lời nhắc "Thử lại" biến mất sau ~420ms (và ngay lập tức khi reduced-motion)
+### [~] T04 · Lời nhắc "Thử lại" biến mất sau ~420ms (và ngay lập tức khi reduced-motion) — đang làm: Lane A
 
 **P1 · Effort S · UI/UX** · Review: A-1, B-1  
 Files: `src/game/GameShell.tsx, src/styles/app.css`
@@ -151,7 +151,7 @@ Files: `src/styles/app.css, src/games/ClickTargetGame.tsx, src/games/MouseTrailG
 - **Fix:** Giảm h1 trong `.game-heading` xuống khoảng 28px và tăng `.game-prompt` lên ≥44px. Thêm `<p className="game-prompt">` cho ClickTarget ("Click vào ngôi sao") và MouseTrail ("Đưa chuột qua các điểm tới 🏁"), đặt *ngoài* play-area để click vào prompt không bị tính là miss.
 - **Done when:** Mọi game render `.game-prompt`, và font-size của prompt lớn hơn h1 của heading.
 
-### [ ] T07 · Kéo thả: bấm vào vật mà không kéo vẫn bị tính là thả sai
+### [x] T07 · Kéo thả: bấm vào vật mà không kéo vẫn bị tính là thả sai
 
 **P1 · Effort S · Flow/Logic** · Review: B-5  
 Files: `src/hooks/usePointerDrag.ts`

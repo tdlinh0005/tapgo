@@ -40,4 +40,25 @@ describe('DragSortGame', () => {
 
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
   });
+
+  it('ignores a tap without movement', () => {
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<DragSortGame roundIndex={0} totalRounds={8} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={vi.fn()} />);
+    const item = screen.getByTestId('drag-item');
+    const elementFromPoint = vi.spyOn(document, 'elementFromPoint').mockReturnValue(screen.getByTestId('correct-zone'));
+
+    fireEvent.pointerDown(item, { pointerId: 1, clientX: 10, clientY: 10 });
+    fireEvent.pointerUp(item, { pointerId: 1, clientX: 10, clientY: 10 });
+
+    expect(onRetry).not.toHaveBeenCalled();
+    expect(onRoundComplete).not.toHaveBeenCalled();
+    expect(elementFromPoint).not.toHaveBeenCalled();
+    expect(item).not.toHaveClass('is-dragging');
+
+    fireEvent.pointerDown(item, { pointerId: 2, clientX: 10, clientY: 10 });
+    fireEvent.pointerUp(item, { pointerId: 2, clientX: 80, clientY: 50 });
+
+    expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 1 });
+  });
 });

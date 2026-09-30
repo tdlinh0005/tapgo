@@ -2,6 +2,8 @@ import { useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 
 type DropHandler = (clientX: number, clientY: number) => void;
 
+const TAP_SLOP_PX = 10;
+
 export function isPointNearElement(
   element: Element | null | undefined,
   clientX: number,
@@ -48,7 +50,8 @@ export function usePointerDrag(onDrop: DropHandler) {
 
   const onPointerUp = (event: ReactPointerEvent<HTMLElement>) => {
     if (!dragging.current) return;
-    onDrop(event.clientX, event.clientY);
+    const distance = Math.hypot(event.clientX - start.current.x, event.clientY - start.current.y);
+    if (distance >= TAP_SLOP_PX) onDrop(event.clientX, event.clientY);
     reset();
   };
 
