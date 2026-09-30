@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import DragMatchGame from './DragMatchGame';
+import DragMatchGame, { MATCH_ROUNDS } from './DragMatchGame';
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -9,6 +9,16 @@ afterEach(() => {
 const zone = (container: HTMLElement, label: string) => container.querySelector<HTMLElement>(`[data-match-label="${label}"]`)!;
 
 describe('DragMatchGame', () => {
+  it('keeps about 20 pairs whose answer is one of three distinct shadows', () => {
+    expect(MATCH_ROUNDS.length).toBeGreaterThanOrEqual(20);
+    for (const round of MATCH_ROUNDS) {
+      const labels = round.options.map(([, label]) => label);
+      expect(new Set(labels).size).toBe(3);
+      expect(round.options).toContainEqual([round.source, round.answer]);
+    }
+    expect(new Set(MATCH_ROUNDS.map(({ source }) => source)).size).toBe(MATCH_ROUNDS.length);
+  });
+
   it('matches the picture to its shadow without visible words on the targets', () => {
     const onRoundComplete = vi.fn();
     const onRetry = vi.fn();

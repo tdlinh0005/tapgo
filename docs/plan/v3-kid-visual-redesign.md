@@ -196,13 +196,14 @@
 - Xong khi: unit test `pickRound` (xác định theo seed; không lặp trong một session khi kho ≥ số lượt; thiếu seed = thứ tự cũ); test GameShell: lượt ôn nhận cùng `sessionSeed` + `roundIndex`; cập nhật contract `MiniGameProps` trong spec.
 - Kết quả: `src/game/pickRound.ts` export `createSessionSeed()` (uint32 từ `Math.random`), `shuffleWithSeed(items, seed)` (Fisher–Yates + mulberry32, không đổi mảng gốc; dùng cho xáo vị trí đáp án ở V12) và `pickRound(pool, roundIndex, seed?)`. `GameShell` giữ seed trong state, tạo lại ở `restart`; đổi game đã remount qua `key` ở `App`. Chưa game nào dùng `pickRound` (để V12). Test: 7 unit test `pickRound.test.ts` + GameShell “keeps the session seed and round for the review round and reseeds on replay”; spec bổ sung `sessionSeed` và đoạn mô tả.
 
-### [~] V12 · Mở rộng kho 10 game + xáo vị trí đáp án — đang làm: lane-font
+### [x] V12 · Mở rộng kho 10 game + xáo vị trí đáp án
 
 - letters 14 chữ + find-key 12 chữ, rời nhau, hợp lại đủ A–Z (có I, Z, F, J, W, X); test T24 “không trùng” giữ nguyên, thêm test “hợp lại đủ 26 chữ”.
 - numbers: kho chỉ có 10 chữ số = số lượt → chỉ xáo thứ tự (miễn tiêu chí “kho > số lượt”).
 - words 20–30 từ không dấu **kèm emoji nghĩa** (🐟 CA, 🐔 GA, 🐄 BO, 🦆 VIT, 🐘 VOI…), có từ 4 chữ; sequence thêm chuỗi, vẫn 3–5 ký tự và không trùng WORDS (test hiện có).
 - pick-picture ~30 mục chia đều 4 chủ đề, xáo vị trí đáp án theo seed; drag-sort xáo thứ tự 2 zone theo seed (test dùng `data-testid` nên không phụ thuộc thứ tự); drag-match ~20 cặp; mouse-trail 10–12 đường (chữ U, bậc thang, dọc), mỗi đường vẫn 4–6 checkpoint giữa.
 - Xong khi: mỗi game (trừ numbers, click-target) có kho > số lượt; test dùng seed cố định; test ràng buộc kho (FindKey không trùng Letters, độ dài chuỗi, số điểm đường, polyline `TRAILS[2]`) vẫn đúng hoặc được viết lại theo luật mới trong cùng commit.
+- Kết quả: kho mới — letters 14 (`A M S L P E B C N T I F W Z`), find-key 12 (`… J X`), hợp lại đủ A–Z (test mới); words 28 từ kèm emoji nghĩa (có từ 4 chữ, emoji hiện trên vùng chơi, `aria-hidden`); sequence 16 chuỗi 3–5 phím; pick-picture 32 lượt / 4 chủ đề; mouse-trail 12 đường (4–6 checkpoint, polyline `TRAILS[2]` giữ nguyên); drag-sort 18; drag-match 20 cặp. 9 game (trừ click-target — V13) chọn lượt bằng `pickRound(POOL, roundIndex, sessionSeed)`; numbers chỉ xáo thứ tự 0–9; pick-picture xáo vị trí đáp án bằng `shuffleWithSeed(options, seed + roundIndex)`, drag-sort xáo thứ tự 2 zone cùng cách. Test: `seededRounds.test.tsx` (kho > số lượt cho 8 game theo `registry.rounds`, lượt + vị trí đáp án theo seed cố định, vị trí đáp án đổi trong session, drag-sort có cả 2 thứ tự zone), test ràng buộc kho của từng game cập nhật; `App.test` mock `createSessionSeed` → `undefined` để test tích hợp giữ thứ tự gốc (thiếu seed = thứ tự cũ theo V11). Chỉ đổi nội dung/chọn lượt, không đổi layout nên không đo lại CDP; emoji từ ở Gõ từ ngắn chưa đo vừa 768px — unverified, cần đo runtime (mở `Gõ từ ngắn` ở 1366×768, hint + guide mở, kiểm đáy `.game-stage` ≤ 768).
 
 ### [~] V13 · Chủ đề hoá game chuột — đang làm: lane-color
 

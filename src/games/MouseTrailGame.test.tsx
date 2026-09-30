@@ -6,6 +6,8 @@ const firstTrailLength = TRAILS[0].length;
 
 describe('MouseTrailGame', () => {
   it('has a start, 4-6 checkpoints and a finish on every trail', () => {
+    expect(TRAILS.length).toBeGreaterThanOrEqual(10);
+    expect(TRAILS.length).toBeLessThanOrEqual(12);
     for (const trail of TRAILS) {
       expect(trail.length).toBeGreaterThanOrEqual(6);
       expect(trail.length).toBeLessThanOrEqual(8);

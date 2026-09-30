@@ -1,8 +1,9 @@
 import ListenButton from '../components/ListenButton';
+import { pickRound } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
 import { useDragRound } from '../hooks/usePointerDrag';
 
-const ROUNDS = [
+export const MATCH_ROUNDS = [
   { source: '🐱', answer: 'Mèo', options: [['🐱', 'Mèo'], ['🐟', 'Cá'], ['🌳', 'Cây']] },
   { source: '🐶', answer: 'Chó', options: [['🦋', 'Bướm'], ['🐶', 'Chó'], ['🚗', 'Ô tô']] },
   { source: '🐰', answer: 'Thỏ', options: [['🍎', 'Táo'], ['⭐', 'Ngôi sao'], ['🐰', 'Thỏ']] },
@@ -11,10 +12,22 @@ const ROUNDS = [
   { source: '🚀', answer: 'Tên lửa', options: [['⭐', 'Ngôi sao'], ['🏠', 'Nhà'], ['🚀', 'Tên lửa']] },
   { source: '🍎', answer: 'Táo', options: [['🍌', 'Chuối'], ['🍎', 'Táo'], ['🚲', 'Xe đạp']] },
   { source: '⚽', answer: 'Bóng', options: [['⚽', 'Bóng'], ['🦒', 'Hươu cao cổ'], ['🚂', 'Tàu hỏa']] },
+  { source: '🐘', answer: 'Voi', options: [['🐘', 'Voi'], ['🐭', 'Chuột'], ['☀️', 'Mặt trời']] },
+  { source: '🦆', answer: 'Vịt', options: [['🌳', 'Cây'], ['🦆', 'Vịt'], ['🚂', 'Tàu hỏa']] },
+  { source: '🐢', answer: 'Rùa', options: [['🍎', 'Táo'], ['🚲', 'Xe đạp'], ['🐢', 'Rùa']] },
+  { source: '🦋', answer: 'Bướm', options: [['🦋', 'Bướm'], ['🐟', 'Cá'], ['🚀', 'Tên lửa']] },
+  { source: '✈️', answer: 'Máy bay', options: [['🐶', 'Chó'], ['✈️', 'Máy bay'], ['🍌', 'Chuối']] },
+  { source: '🚂', answer: 'Tàu hỏa', options: [['⭐', 'Ngôi sao'], ['🐰', 'Thỏ'], ['🚂', 'Tàu hỏa']] },
+  { source: '🍌', answer: 'Chuối', options: [['🍌', 'Chuối'], ['🚗', 'Ô tô'], ['🐱', 'Mèo']] },
+  { source: '🍇', answer: 'Nho', options: [['🏠', 'Nhà'], ['🍇', 'Nho'], ['🦒', 'Hươu cao cổ']] },
+  { source: '🌙', answer: 'Mặt trăng', options: [['🌙', 'Mặt trăng'], ['🐘', 'Voi'], ['⚽', 'Bóng']] },
+  { source: '🏠', answer: 'Nhà', options: [['🚲', 'Xe đạp'], ['🐢', 'Rùa'], ['🏠', 'Nhà']] },
+  { source: '⭐', answer: 'Ngôi sao', options: [['🐶', 'Chó'], ['⭐', 'Ngôi sao'], ['🍎', 'Táo']] },
+  { source: '🌳', answer: 'Cây', options: [['🌳', 'Cây'], ['🚀', 'Tên lửa'], ['🐰', 'Thỏ']] },
 ] as const;
 
-export default function DragMatchGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
-  const round = ROUNDS[roundIndex % ROUNDS.length];
+export default function DragMatchGame({ roundIndex, sessionSeed, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
+  const round = pickRound(MATCH_ROUNDS, roundIndex, sessionSeed);
   const instruction = `Kéo ${round.answer.toLowerCase()} vào đúng cái bóng của nó`;
 
   const drag = useDragRound({

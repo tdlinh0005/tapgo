@@ -6,7 +6,7 @@ import { WORDS } from './WordTypingGame';
 
 describe('SequenceTypingGame', () => {
   it('uses sequences of 3 to 5 keys that are not words from the word game', () => {
-    const words: readonly string[] = WORDS;
+    const words: readonly string[] = WORDS.map(({ word }) => word);
     for (const sequence of SEQUENCES) {
       expect(sequence.length).toBeGreaterThanOrEqual(3);
       expect(sequence.length).toBeLessThanOrEqual(5);

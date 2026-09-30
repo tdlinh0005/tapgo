@@ -1,8 +1,9 @@
 import ListenButton from '../components/ListenButton';
+import { pickRound, shuffleWithSeed } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
 import { useDragRound } from '../hooks/usePointerDrag';
 
-const ROUNDS = [
+export const SORT_ROUNDS = [
   { item: '🍎', target: '🧺', targetLabel: 'Giỏ', label: 'Kéo quả táo vào giỏ', decoy: '📦', decoyLabel: 'Hộp' },
   { item: '🍌', target: '🧺', targetLabel: 'Giỏ', label: 'Kéo quả chuối vào giỏ', decoy: '🎒', decoyLabel: 'Ba lô' },
   { item: '🚗', target: '🅿️', targetLabel: 'Chỗ đỗ', label: 'Kéo ô tô vào chỗ đỗ', decoy: '🏠', decoyLabel: 'Nhà' },
@@ -11,10 +12,21 @@ const ROUNDS = [
   { item: '🐶', target: '🏠', targetLabel: 'Nhà', label: 'Kéo chó về nhà', decoy: '🌌', decoyLabel: 'Bầu trời' },
   { item: '🚀', target: '🌌', targetLabel: 'Bầu trời', label: 'Kéo tên lửa lên trời', decoy: '🅿️', decoyLabel: 'Chỗ đỗ' },
   { item: '⭐', target: '🌌', targetLabel: 'Bầu trời', label: 'Kéo ngôi sao lên trời', decoy: '🏠', decoyLabel: 'Nhà' },
+  { item: '🍇', target: '🧺', targetLabel: 'Giỏ', label: 'Kéo chùm nho vào giỏ', decoy: '🌳', decoyLabel: 'Cây' },
+  { item: '🍊', target: '🧺', targetLabel: 'Giỏ', label: 'Kéo quả cam vào giỏ', decoy: '🅿️', decoyLabel: 'Chỗ đỗ' },
+  { item: '🚌', target: '🅿️', targetLabel: 'Chỗ đỗ', label: 'Kéo xe buýt vào chỗ đỗ', decoy: '🧺', decoyLabel: 'Giỏ' },
+  { item: '🛵', target: '🅿️', targetLabel: 'Chỗ đỗ', label: 'Kéo xe máy vào chỗ đỗ', decoy: '🌌', decoyLabel: 'Bầu trời' },
+  { item: '🐰', target: '🏠', targetLabel: 'Nhà', label: 'Kéo thỏ về nhà', decoy: '🅿️', decoyLabel: 'Chỗ đỗ' },
+  { item: '🐹', target: '🏠', targetLabel: 'Nhà', label: 'Kéo chuột hamster về nhà', decoy: '🌳', decoyLabel: 'Cây' },
+  { item: '🌙', target: '🌌', targetLabel: 'Bầu trời', label: 'Kéo mặt trăng lên trời', decoy: '🧺', decoyLabel: 'Giỏ' },
+  { item: '✈️', target: '🌌', targetLabel: 'Bầu trời', label: 'Kéo máy bay lên trời', decoy: '🏠', decoyLabel: 'Nhà' },
+  { item: '🐦', target: '🌳', targetLabel: 'Cây', label: 'Kéo chú chim lên cây', decoy: '🅿️', decoyLabel: 'Chỗ đỗ' },
+  { item: '🐒', target: '🌳', targetLabel: 'Cây', label: 'Kéo chú khỉ lên cây', decoy: '🧺', decoyLabel: 'Giỏ' },
 ] as const;
 
-export default function DragSortGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
-  const round = ROUNDS[roundIndex % ROUNDS.length];
+export default function DragSortGame({ roundIndex, sessionSeed, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
+  const round = pickRound(SORT_ROUNDS, roundIndex, sessionSeed);
+  const zoneOrder = sessionSeed === undefined ? ['correct', 'wrong'] : shuffleWithSeed(['correct', 'wrong'], sessionSeed + roundIndex);
   const drag = useDragRound({
     zoneSelector: '[data-drop-result]',
     correctSelector: '[data-drop-result="correct"]',
@@ -42,14 +54,19 @@ export default function DragSortGame({ roundIndex, onRoundComplete, onRetry, spe
         >
           {round.item}
         </button>
-        <div className="drop-zone" data-drop-result="correct" data-testid="correct-zone" data-assist={assistLevel || undefined}>
-          <span aria-hidden="true">{round.target}</span>
-          <span>{round.targetLabel}</span>
-        </div>
-        <div className="drop-zone" data-drop-result="wrong" data-testid="wrong-zone">
-          <span aria-hidden="true">{round.decoy}</span>
-          <span>{round.decoyLabel}</span>
-        </div>
+        {zoneOrder.map((zone) =>
+          zone === 'correct' ? (
+            <div key="correct" className="drop-zone" data-drop-result="correct" data-testid="correct-zone" data-assist={assistLevel || undefined}>
+              <span aria-hidden="true">{round.target}</span>
+              <span>{round.targetLabel}</span>
+            </div>
+          ) : (
+            <div key="wrong" className="drop-zone" data-drop-result="wrong" data-testid="wrong-zone">
+              <span aria-hidden="true">{round.decoy}</span>
+              <span>{round.decoyLabel}</span>
+            </div>
+          ),
+        )}
       </div>
     </section>
   );

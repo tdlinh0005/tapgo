@@ -1,9 +1,27 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import WordTypingGame from './WordTypingGame';
+import WordTypingGame, { WORDS } from './WordTypingGame';
 
 describe('WordTypingGame', () => {
+  it('keeps 20-30 unique plain words, each with a picture, including four-letter words', () => {
+    expect(WORDS.length).toBeGreaterThanOrEqual(20);
+    expect(WORDS.length).toBeLessThanOrEqual(30);
+    expect(new Set(WORDS.map(({ word }) => word)).size).toBe(WORDS.length);
+    for (const { word, emoji } of WORDS) {
+      expect(word).toMatch(/^[A-Z]{2,4}$/);
+      expect(emoji).not.toBe('');
+    }
+    expect(WORDS.some(({ word }) => word.length === 4)).toBe(true);
+  });
+
+  it('shows the picture of the word next to its letters', () => {
+    const { container } = render(<WordTypingGame roundIndex={7} totalRounds={8} onRoundComplete={vi.fn()} speak={() => {}} />);
+
+    expect(container.querySelector('.typing-picture')).toHaveTextContent('🐟');
+    expect(screen.getByRole('img', { name: 'CA' })).toBeInTheDocument();
+  });
+
   it('keeps the cursor on mistakes and completes the word', async () => {
     const user = userEvent.setup();
     const onRoundComplete = vi.fn();

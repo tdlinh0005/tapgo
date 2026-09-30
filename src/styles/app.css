@@ -695,6 +695,11 @@ button:disabled {
   line-height: 1;
 }
 
+.typing-picture {
+  font-size: 72px;
+  line-height: 1;
+}
+
 .typing-sequence {
   display: flex;
   justify-content: center;

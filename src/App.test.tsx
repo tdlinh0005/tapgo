@@ -5,6 +5,12 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { createDefaultProgress, PROGRESS_KEY, recordCompletion } from './game/progress';
 
+// Integration tests assume the canonical round order; seeded shuffling is covered in src/games/seededRounds.test.tsx.
+vi.mock('./game/pickRound', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('./game/pickRound')>();
+  return { ...actual, createSessionSeed: () => undefined as unknown as number };
+});
+
 const originalSpeechSynthesis = window.speechSynthesis;
 
 beforeEach(() => {

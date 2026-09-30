@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import ListenButton from '../components/ListenButton';
 import { RETRY_PREFIX } from '../game/retryCopy';
+import { pickRound } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
 
 export const TRAILS = [
@@ -10,10 +11,16 @@ export const TRAILS = [
   [[10, 40], [26, 62], [42, 38], [58, 60], [74, 36], [90, 58]],
   [[10, 30], [24, 30], [38, 48], [52, 66], [66, 66], [80, 48], [92, 30]],
   [[10, 66], [26, 66], [42, 46], [58, 26], [74, 26], [90, 46]],
+  [[10, 26], [22, 58], [36, 76], [50, 76], [64, 76], [78, 58], [90, 26]],
+  [[10, 76], [24, 76], [34, 50], [48, 50], [58, 24], [74, 24], [90, 24]],
+  [[12, 24], [12, 76], [36, 76], [36, 24], [60, 24], [60, 76], [86, 76]],
+  [[10, 76], [22, 44], [36, 26], [50, 26], [64, 26], [78, 44], [90, 76]],
+  [[10, 24], [26, 24], [36, 50], [50, 50], [60, 76], [76, 76], [90, 76]],
+  [[14, 76], [14, 24], [38, 24], [38, 76], [62, 76], [62, 24], [88, 24]],
 ] as const;
 
-export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
-  const trail = TRAILS[roundIndex % TRAILS.length];
+export default function MouseTrailGame({ roundIndex, sessionSeed, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
+  const trail = pickRound(TRAILS, roundIndex, sessionSeed);
   const finishIndex = trail.length - 1;
   const [nextCheckpoint, setNextCheckpoint] = useState(0);
   const wrongEntries = useRef(0);

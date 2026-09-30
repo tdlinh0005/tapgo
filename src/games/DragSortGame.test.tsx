@@ -1,12 +1,21 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import DragSortGame from './DragSortGame';
+import DragSortGame, { SORT_ROUNDS } from './DragSortGame';
 
 afterEach(() => {
   vi.restoreAllMocks();
 });
 
 describe('DragSortGame', () => {
+  it('keeps more items than rounds, each with a decoy place that differs from the target', () => {
+    expect(SORT_ROUNDS.length).toBeGreaterThan(8);
+    for (const round of SORT_ROUNDS) {
+      expect(round.decoy).not.toBe(round.target);
+      expect(round.decoyLabel).not.toBe(round.targetLabel);
+    }
+    expect(new Set(SORT_ROUNDS.map(({ item }) => item)).size).toBe(SORT_ROUNDS.length);
+  });
+
   it('resets after a wrong drop and completes after the correct drop', () => {
     const onRoundComplete = vi.fn();
     const onRetry = vi.fn();

@@ -11,6 +11,12 @@ describe('FindKeyGame', () => {
     for (const target of TARGETS) expect(letters).not.toContain(target);
   });
 
+  it('covers the whole alphabet together with the letter game', () => {
+    expect(LETTERS).toHaveLength(14);
+    expect(TARGETS).toHaveLength(12);
+    expect([...LETTERS, ...TARGETS].sort().join('')).toBe('ABCDEFGHIJKLMNOPQRSTUVWXYZ');
+  });
+
   it('shows the requested key and completes from the physical keyboard', async () => {
     const user = userEvent.setup();
     const onRoundComplete = vi.fn();
