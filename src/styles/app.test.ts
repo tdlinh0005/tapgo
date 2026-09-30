@@ -36,6 +36,15 @@ describe('app visual acceptance rules', () => {
     expect(css).toMatch(/\.trail-checkpoint\s*\{[^}]*position:\s*absolute/s);
   });
 
+  it('fits the click and trail play areas to the viewport instead of a fixed 500px', () => {
+    expect(css).not.toMatch(/min-height:\s*500px/);
+    expect(css).toMatch(/\.click-play-area\s*\{[^}]*min-height:\s*320px/s);
+    expect(css).toMatch(/\.trail-area\s*\{[^}]*min-height:\s*320px/s);
+    expect(css).toMatch(/\.game-shell:has\(\.trail-area, \.click-play-area\)\s*\{[^}]*height:\s*100vh/s);
+    expect(css).toMatch(/\.game-stage:has\(> \.trail-area, > \.click-play-area\)\s*\{[^}]*grid-template-rows:\s*auto auto 1fr/s);
+    expect(css).toMatch(/\.listen-button\s*\{[^}]*justify-self:\s*center/s);
+  });
+
   it('does not force a desktop width on the body so the desktop gate never scrolls sideways', () => {
     expect(css).not.toMatch(/(^|\n)body\s*\{[^}]*min-width/s);
   });

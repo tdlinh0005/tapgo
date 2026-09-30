@@ -541,7 +541,7 @@ Files: `docs/feat/tapgo-mvp.md`
 - **Fix:** Cập nhật theo kết quả T10, T12, T16, T17, T22; mỗi dòng mới trong Testing strategy trỏ tới một test có thật.
 - **Done when:** Đọc spec rồi grep code thì mỗi mục khớp nhau.
 
-### [ ] T41 · Plan mới docs/plan/v2-guided-play.md; plan cũ giữ Step 6–8
+### [~] T41 · Plan mới docs/plan/v2-guided-play.md; plan cũ giữ Step 6–8 — đang làm: Notion AI (lead)
 
 **P2 · Effort M · Docs** · Review: C-8  
 Files: `docs/plan/, docs/index.md`
@@ -639,7 +639,9 @@ Files: `src/games/MouseTrailGame.tsx`
 - **Fix:** Trước khi chạm 🟢 thì không tính lỗi. Chỉ tính sai thứ tự sau khi đã bắt đầu đường. Ghi quyết định vào spec (bổ sung cho T10).
 - **Done when:** Test: enter checkpoint 2 rồi checkpoint 0 rồi đi hết theo thứ tự thì outcome là `{correct: n, attempts: n}`.
 
-### [~] T47 · Vùng chơi Rê chuột / Click mục tiêu tràn xuống dưới màn hình laptop — đang làm: Notion AI (lead)
+### [x] T47 · Vùng chơi Rê chuột / Click mục tiêu tràn xuống dưới màn hình laptop
+
+> Đã làm 2026-09-30: `.game-shell` cao `100vh` khi có vùng chơi chuột, vùng chơi lấp phần còn lại (`auto auto 1fr`), sàn `min-height: 320px`, `.listen-button` căn giữa. Đo trên bản dựng lại màn game (Chromium headless, CSS thật): đáy vùng chơi 763 ở 1366×768, 860 ở 1280×900, 960 ở 1440×1000. Còn mở: ở 768 khi đang hiện hint thì đáy xuống 817 (hiện cả hướng dẫn: 911) vì sàn 320px thắng; cần đo lại trên Chrome/Edge thật trong T44.
 
 **P2 · Effort S · UI/UX** · Review: QA T44  
 Files: `src/styles/app.css`
