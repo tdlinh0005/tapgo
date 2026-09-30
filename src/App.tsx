@@ -57,22 +57,16 @@ export default function App() {
   } else if (view.name === 'progress') {
     content = <ProgressScreen progress={progress} onHome={goHome} />;
   } else if (view.name === 'game') {
-    const definition = getGameDefinition(view.gameId);
-    content = definition ? (
+    content = (
       <GameShell
         key={`${view.mode}-${view.gameId}`}
-        definition={definition}
+        definition={getGameDefinition(view.gameId)}
         roundLimit={view.mode === 'guided' ? 5 : undefined}
         onComplete={handleComplete}
         onHome={goHome}
         onNext={() => openNext(view.gameId, view.mode)}
         nextLabel={getNextGameId(view.gameId) ? 'Bài tiếp theo' : 'Xem tiến độ'}
       />
-    ) : (
-      <main className="screen-shell">
-        <h1>Không tìm thấy bài học</h1>
-        <button type="button" onClick={goHome}>Về nhà</button>
-      </main>
     );
   } else {
     content = (

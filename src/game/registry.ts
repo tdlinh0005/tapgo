@@ -29,6 +29,10 @@ export const gameRegistry: GameDefinition[] = GAME_IDS.map((id, index) => ({
   ...GAME_DEFINITIONS[id],
 }));
 
-export function getGameDefinition(gameId: GameId): GameDefinition | undefined {
-  return gameRegistry.find((game) => game.id === gameId);
+const gameRegistryById = Object.fromEntries(
+  gameRegistry.map((game) => [game.id, game]),
+) as Record<GameId, GameDefinition>;
+
+export function getGameDefinition(gameId: GameId): GameDefinition {
+  return gameRegistryById[gameId];
 }

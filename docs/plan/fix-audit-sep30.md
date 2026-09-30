@@ -324,7 +324,7 @@ Files: `src/App.tsx`
 - **Fix:** Giữ updater thuần, thêm `useEffect(() => saveProgress(progress), [progress])`, bỏ qua lần mount đầu nếu cần.
 - **Done when:** Test với StrictMode và spy: mỗi lần hoàn thành chỉ save 1 lần.
 
-### [~] T22 · Xoá nhánh "game definition thiếu" không thể xảy ra — đang làm: Lane A
+### [x] T22 · Xoá nhánh "game definition thiếu" không thể xảy ra
 
 **P3 · Effort S · Flow/Logic** · Review: A-7, C-7  
 Files: `src/App.tsx, src/game/registry.ts, docs/feat/tapgo-mvp.md`
@@ -348,7 +348,7 @@ Files: `src/game/GameShell.tsx, src/hooks/useExpectedKey.ts, src/games/WordTypin
 - **Fix:** Tạo một hằng `RETRY_PREFIX = 'Thử lại nhé!'`, hint dạng `${RETRY_PREFIX} Tìm phím X trên bàn phím nhé.`, game Chuỗi truyền hint theo ký tự hiện tại.
 - **Done when:** `grep "con làm chậm thôi"` còn ≤1 hit; mọi hint bắt đầu bằng "Thử lại nhé!"; test Word/Sequence kiểm hint.
 
-### [ ] T24 · Dữ liệu vòng chơi: Chuỗi dài 3–5 ký tự, FindKey khác bộ Letters
+### [~] T24 · Dữ liệu vòng chơi: Chuỗi dài 3–5 ký tự, FindKey khác bộ Letters — đang làm: Lane C
 
 **P2 · Effort S · UI/UX** · Review: B-10  
 Files: `src/games/SequenceTypingGame.tsx, src/games/FindKeyGame.tsx`

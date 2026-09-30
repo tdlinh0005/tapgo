@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-09-30 · 3b0e2b0
+> updated 2026-09-30 · 4608d6a
 
 ## Goal
 
@@ -287,7 +287,7 @@ MVP dùng:
 - speech unavailable/blocked: text + icon vẫn hoạt động.
 - audio unavailable: gameplay không bị chặn.
 - pointer cancel khi kéo: object quay về start.
-- game definition thiếu: quay về Home với thông báo nhẹ thay vì render crash.
+- game definition thiếu: không thể xảy ra — registry là `Record<GameId, …>` nên mọi `GameId` đều có definition, App không có nhánh fallback.
 
 ## Testing strategy
 

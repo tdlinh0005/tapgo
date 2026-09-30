@@ -14,7 +14,7 @@ export default function ProgressScreen({ progress, onHome }: Props) {
   );
   const completed = gameRegistry.filter((game) => progress.games[game.id].completed).length;
   const totalPossibleStars = gameRegistry.length * 3;
-  const recommended = getGameDefinition(getRecommendedGameId(progress)) ?? gameRegistry[0];
+  const recommended = getGameDefinition(getRecommendedGameId(progress));
 
   return (
     <main className="screen-shell progress-screen">
