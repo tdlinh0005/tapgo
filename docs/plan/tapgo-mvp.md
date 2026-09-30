@@ -1055,7 +1055,7 @@ git commit -m "feat: add drag matching game"
 **Interfaces:**
 - Produces: consistent child-friendly visual system and final verified MVP.
 
-- [ ] **Step 1: Add failing integration tests**
+- [x] **Step 1: Add failing integration tests**
 
 Add exact tests:
 1. Complete `letters` with perfect input -> 3 stars -> localStorage contains `bestStars: 3`.
@@ -1064,13 +1064,13 @@ Add exact tests:
 4. Delete `window.speechSynthesis` -> open a game -> app does not crash.
 5. Seed corrupt localStorage -> App renders Home and resets to default progress.
 
-- [ ] **Step 2: Run integration tests and verify failures where wiring is incomplete**
+- [x] **Step 2: Run integration tests and verify failures where wiring is incomplete**
 
 Run: `npm test -- src/App.test.tsx`
 
 Expected: any missing end-to-end wiring is exposed before polish.
 
-- [ ] **Step 3: Apply the visual system**
+- [x] **Step 3: Apply the visual system**
 
 Use only theme tokens for app-wide values. Required visible behaviors:
 - action buttons at least 72 px tall
@@ -1082,7 +1082,7 @@ Use only theme tokens for app-wide values. Required visible behaviors:
 - no full-screen red state
 - `prefers-reduced-motion: reduce` disables nonessential transforms
 
-- [ ] **Step 4: Verify all ten registry entries**
+- [x] **Step 4: Verify all ten registry entries**
 
 Registry must contain exactly 10 IDs in this order:
 
@@ -1101,7 +1101,7 @@ Registry must contain exactly 10 IDs in this order:
 ]
 ```
 
-- [ ] **Step 5: Run complete automated verification**
+- [x] **Step 5: Run complete automated verification**
 
 Run:
 
@@ -1113,6 +1113,8 @@ npm run build
 Expected: all tests PASS; TypeScript has no errors; Vite production build succeeds.
 
 - [ ] **Step 6: Run manual desktop acceptance checklist**
+
+> Verification note 2026-09-14: automated suite passes (19 test files, 39 tests) and production build succeeds. Manual Chrome/Edge acceptance remains pending because the current agent environment has no Chrome, Edge, or Brave installation available.
 
 Start: `npm run dev`
 

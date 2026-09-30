@@ -1,4 +1,5 @@
-import { gameRegistry } from '../game/registry';
+import { getRecommendedGameId } from '../game/path';
+import { gameRegistry, getGameDefinition } from '../game/registry';
 import type { ProgressState } from '../game/progress';
 
 type Props = {
@@ -12,6 +13,8 @@ export default function ProgressScreen({ progress, onHome }: Props) {
     0,
   );
   const completed = gameRegistry.filter((game) => progress.games[game.id].completed).length;
+  const totalPossibleStars = gameRegistry.length * 3;
+  const recommended = getGameDefinition(getRecommendedGameId(progress)) ?? gameRegistry[0];
 
   return (
     <main className="screen-shell progress-screen">
@@ -20,9 +23,31 @@ export default function ProgressScreen({ progress, onHome }: Props) {
         <h1>Tiến độ</h1>
       </header>
       <div className="progress-summary">
-        <strong>{totalStars} / 30 sao</strong>
-        <span>{completed} / 10 bài đã hoàn thành</span>
+        <strong>{totalStars} / {totalPossibleStars} sao</strong>
+        <span>{completed} / {gameRegistry.length} bài đã hoàn thành</span>
       </div>
+      <aside className="practice-recommendation" aria-label="Gợi ý luyện tập">
+        <span aria-hidden="true">💡</span>
+        <div>
+          <strong>Gợi ý cho bố mẹ</strong>
+          <p>{recommended.title} — mình luyện thêm một chút để nhớ lâu hơn nhé.</p>
+        </div>
+      </aside>
+      <ul className="progress-list" aria-label="Tiến độ từng bài">
+        {gameRegistry.map((game) => {
+          const gameProgress = progress.games[game.id];
+          return (
+            <li key={game.id} className="progress-game" data-testid={`progress-${game.id}`}>
+              <span className="progress-game-emoji" aria-hidden="true">{game.emoji}</span>
+              <div className="progress-game-copy">
+                <strong>{game.title}</strong>
+                <span>{gameProgress.completed ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</span>
+              </div>
+              <span className="progress-game-stars">{gameProgress.bestStars} sao</span>
+            </li>
+          );
+        })}
+      </ul>
     </main>
   );
 }

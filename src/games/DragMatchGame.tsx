@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import type { MiniGameProps } from '../game/types';
-import { usePointerDrag } from '../hooks/usePointerDrag';
+import { isPointNearElement, usePointerDrag } from '../hooks/usePointerDrag';
 
 const ROUNDS = [
   { source: '🐱', answer: 'Mèo', options: ['Mèo', 'Chó', 'Thỏ'] },
@@ -13,16 +13,24 @@ const ROUNDS = [
   { source: '⚽', answer: 'Bóng', options: ['Bóng', 'Gấu bông', 'Bong bóng'] },
 ] as const;
 
-export default function DragMatchGame({ roundIndex, onRoundComplete }: MiniGameProps) {
+export default function DragMatchGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const round = ROUNDS[roundIndex % ROUNDS.length];
   const attempts = useRef(0);
+  const instruction = `Kéo hình vào đúng tên: ${round.answer}`;
 
   const handleDrop = (clientX: number, clientY: number) => {
     attempts.current += 1;
     const element = document.elementFromPoint?.(clientX, clientY);
     const zone = element?.closest<HTMLElement>('[data-match-label]');
-    if (zone?.dataset.matchLabel === round.answer) {
+    const correctZone = document.querySelector<HTMLElement>('[data-match-correct="true"]');
+    const snapPadding = 24 + assistLevel * 16;
+    if (
+      zone?.dataset.matchLabel === round.answer
+      || isPointNearElement(correctZone, clientX, clientY, snapPadding)
+    ) {
       onRoundComplete({ correct: 1, attempts: attempts.current });
+    } else {
+      onRetry?.();
     }
   };
 
@@ -31,10 +39,13 @@ export default function DragMatchGame({ roundIndex, onRoundComplete }: MiniGameP
   return (
     <section className="drag-game">
       <p className="game-prompt">Kéo hình vào đúng tên</p>
+      <button type="button" className="listen-button" onClick={() => speak(instruction)}>
+        <span aria-hidden="true">🔊</span> Nghe yêu cầu
+      </button>
       <div className="drag-stage">
         <button
           type="button"
-          className="drag-item"
+          className={`drag-item${drag.isDragging ? ' is-dragging' : ''}`}
           data-testid="drag-match-item"
           aria-label={round.source}
           style={{ transform: `translate(${drag.translation.x}px, ${drag.translation.y}px)` }}
@@ -51,6 +62,7 @@ export default function DragMatchGame({ roundIndex, onRoundComplete }: MiniGameP
               key={option}
               className="drop-zone match-zone"
               data-match-label={option}
+              data-match-correct={option === round.answer ? 'true' : undefined}
               data-testid={`match-${option}`}
             >
               {option}

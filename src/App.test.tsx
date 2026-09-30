@@ -1,18 +1,28 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import App from './App';
 import { PROGRESS_KEY } from './game/progress';
 
+const originalSpeechSynthesis = window.speechSynthesis;
+
 beforeEach(() => {
   localStorage.clear();
+});
+
+afterEach(() => {
+  Object.defineProperty(window, 'speechSynthesis', {
+    configurable: true,
+    value: originalSpeechSynthesis,
+  });
 });
 
 describe('App navigation', () => {
   it('shows the TapGo home actions', () => {
     render(<App />);
     expect(screen.getByRole('heading', { name: 'TapGo' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Bắt đầu lộ trình' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Chơi ngay' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Xem lộ trình' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Chơi tự do' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Tiến độ' })).toBeInTheDocument();
   });
@@ -21,10 +31,19 @@ describe('App navigation', () => {
     const user = userEvent.setup();
     render(<App />);
 
-    await user.click(screen.getByRole('button', { name: 'Bắt đầu lộ trình' }));
+    await user.click(screen.getByRole('button', { name: 'Xem lộ trình' }));
     expect(screen.getByRole('heading', { name: 'Lộ trình học' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Gõ chữ cái/ })).toBeEnabled();
     expect(screen.getByRole('button', { name: /Gõ số/ })).toBeDisabled();
+  });
+
+  it('starts guided play as a five-round quick session', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Chơi ngay' }));
+    expect(screen.getByRole('heading', { name: 'Gõ chữ cái' })).toBeInTheDocument();
+    expect(screen.getByText('1 / 5')).toBeInTheDocument();
   });
 
   it('shows all ten games in free play and does not lock them', async () => {
@@ -62,5 +81,90 @@ describe('App navigation', () => {
     render(<App />);
     await user.click(screen.getByRole('button', { name: 'Tiến độ' }));
     expect(screen.getByText('2 / 30 sao')).toBeInTheDocument();
+  });
+});
+
+async function openLettersAndCompletePerfectly(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(screen.getByRole('button', { name: 'Xem lộ trình' }));
+  await user.click(screen.getByRole('button', { name: /Gõ chữ cái/ }));
+
+  for (const key of 'AMSLPEBCNT') {
+    await user.keyboard(key.toLowerCase());
+  }
+}
+
+describe('App integration', () => {
+  it('persists three stars after a perfect letter session', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await openLettersAndCompletePerfectly(user);
+
+    expect(screen.getByText('Con nhận được 3 sao')).toBeInTheDocument();
+    const saved = JSON.parse(localStorage.getItem(PROGRESS_KEY) ?? '{}');
+    expect(saved.games.letters.bestStars).toBe(3);
+    expect(saved.games.letters.completed).toBe(true);
+  });
+
+  it('restores progress after remount and unlocks the next path game', async () => {
+    const user = userEvent.setup();
+    const first = render(<App />);
+
+    await openLettersAndCompletePerfectly(user);
+    first.unmount();
+
+    render(<App />);
+    await user.click(screen.getByRole('button', { name: 'Xem lộ trình' }));
+    expect(screen.getByRole('button', { name: /Gõ số/ })).toBeEnabled();
+  });
+
+  it('moves from a guided result into a fresh next game', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Chơi ngay' }));
+    for (const key of 'AMSLP') {
+      await user.keyboard(key.toLowerCase());
+    }
+
+    expect(screen.getByText('Con nhận được 3 sao')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Bài tiếp theo' }));
+
+    expect(screen.getByRole('heading', { name: 'Gõ số' })).toBeInTheDocument();
+    expect(screen.getByText('1 / 5')).toBeInTheDocument();
+    expect(screen.queryByText('Con nhận được 3 sao')).not.toBeInTheDocument();
+  });
+
+  it('opens drag match from Free Play even when the path is locked', async () => {
+    const user = userEvent.setup();
+    render(<App />);
+
+    await user.click(screen.getByRole('button', { name: 'Chơi tự do' }));
+    await user.click(screen.getByRole('button', { name: /Kéo thả ghép cặp/ }));
+
+    expect(screen.getByRole('heading', { name: 'Kéo thả ghép cặp' })).toBeInTheDocument();
+  });
+
+  it('keeps gameplay available without speech synthesis', async () => {
+    const user = userEvent.setup();
+    Object.defineProperty(window, 'speechSynthesis', {
+      configurable: true,
+      value: undefined,
+    });
+
+    render(<App />);
+    await user.click(screen.getByRole('button', { name: 'Xem lộ trình' }));
+    await user.click(screen.getByRole('button', { name: /Gõ chữ cái/ }));
+
+    expect(screen.getByText('A')).toBeInTheDocument();
+  });
+
+  it('recovers from corrupt progress data', () => {
+    localStorage.setItem(PROGRESS_KEY, '{bad json');
+
+    render(<App />);
+
+    expect(screen.getByRole('heading', { name: 'TapGo' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Chơi ngay' })).toBeInTheDocument();
   });
 });

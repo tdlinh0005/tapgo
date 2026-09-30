@@ -3,9 +3,9 @@ import { useExpectedKey } from '../hooks/useExpectedKey';
 
 const LETTERS = ['A', 'M', 'S', 'L', 'P', 'E', 'B', 'C', 'N', 'T'] as const;
 
-export default function LetterKeyGame({ roundIndex, onRoundComplete }: MiniGameProps) {
+export default function LetterKeyGame({ roundIndex, onRoundComplete, onRetry }: MiniGameProps) {
   const target = LETTERS[roundIndex % LETTERS.length];
-  useExpectedKey(target, onRoundComplete);
+  useExpectedKey(target, onRoundComplete, onRetry);
 
   return (
     <section className="typing-game" aria-label="Gõ chữ cái">

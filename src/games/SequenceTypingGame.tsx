@@ -3,17 +3,20 @@ import type { MiniGameProps } from '../game/types';
 
 const SEQUENCES = ['ASD', 'JKL', 'QWE', 'RTY', 'ABC', 'MEO', 'CON', 'NHA'] as const;
 
-export default function SequenceTypingGame({ roundIndex, onRoundComplete }: MiniGameProps) {
+export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetry }: MiniGameProps) {
   const sequence = SEQUENCES[roundIndex % SEQUENCES.length];
   const [keyIndex, setKeyIndex] = useState(0);
   const attempts = useRef(0);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey || event.altKey || event.metaKey || event.key.length !== 1) return;
+      if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.key.length !== 1) return;
 
       attempts.current += 1;
-      if (event.key.toUpperCase() !== sequence[keyIndex]) return;
+      if (event.key.toUpperCase() !== sequence[keyIndex]) {
+        onRetry?.();
+        return;
+      }
 
       const nextIndex = keyIndex + 1;
       if (nextIndex >= sequence.length) {
@@ -25,7 +28,7 @@ export default function SequenceTypingGame({ roundIndex, onRoundComplete }: Mini
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [keyIndex, sequence, onRoundComplete]);
+  }, [keyIndex, sequence, onRoundComplete, onRetry]);
 
   return (
     <section className="typing-game" aria-label="Gõ chuỗi phím">

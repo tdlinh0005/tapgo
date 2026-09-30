@@ -1,19 +1,19 @@
 import { useRef } from 'react';
 import type { MiniGameProps } from '../game/types';
-import { usePointerDrag } from '../hooks/usePointerDrag';
+import { isPointNearElement, usePointerDrag } from '../hooks/usePointerDrag';
 
 const ROUNDS = [
-  { item: '🍎', target: '🧺', label: 'Kéo quả táo vào giỏ', decoy: '📦' },
-  { item: '🍌', target: '🧺', label: 'Kéo quả chuối vào giỏ', decoy: '🎒' },
-  { item: '🚗', target: '🅿️', label: 'Kéo ô tô vào chỗ đỗ', decoy: '🏠' },
-  { item: '🚲', target: '🅿️', label: 'Kéo xe đạp vào chỗ đỗ', decoy: '🌳' },
-  { item: '🐱', target: '🏠', label: 'Kéo mèo về nhà', decoy: '🧺' },
-  { item: '🐶', target: '🏠', label: 'Kéo chó về nhà', decoy: '🌌' },
-  { item: '🚀', target: '🌌', label: 'Kéo tên lửa lên trời', decoy: '🅿️' },
-  { item: '⭐', target: '🌌', label: 'Kéo ngôi sao lên trời', decoy: '🏠' },
+  { item: '🍎', target: '🧺', targetLabel: 'Giỏ', label: 'Kéo quả táo vào giỏ', decoy: '📦', decoyLabel: 'Hộp' },
+  { item: '🍌', target: '🧺', targetLabel: 'Giỏ', label: 'Kéo quả chuối vào giỏ', decoy: '🎒', decoyLabel: 'Ba lô' },
+  { item: '🚗', target: '🅿️', targetLabel: 'Chỗ đỗ', label: 'Kéo ô tô vào chỗ đỗ', decoy: '🏠', decoyLabel: 'Nhà' },
+  { item: '🚲', target: '🅿️', targetLabel: 'Chỗ đỗ', label: 'Kéo xe đạp vào chỗ đỗ', decoy: '🌳', decoyLabel: 'Cây' },
+  { item: '🐱', target: '🏠', targetLabel: 'Nhà', label: 'Kéo mèo về nhà', decoy: '🧺', decoyLabel: 'Giỏ' },
+  { item: '🐶', target: '🏠', targetLabel: 'Nhà', label: 'Kéo chó về nhà', decoy: '🌌', decoyLabel: 'Bầu trời' },
+  { item: '🚀', target: '🌌', targetLabel: 'Bầu trời', label: 'Kéo tên lửa lên trời', decoy: '🅿️', decoyLabel: 'Chỗ đỗ' },
+  { item: '⭐', target: '🌌', targetLabel: 'Bầu trời', label: 'Kéo ngôi sao lên trời', decoy: '🏠', decoyLabel: 'Nhà' },
 ] as const;
 
-export default function DragSortGame({ roundIndex, onRoundComplete }: MiniGameProps) {
+export default function DragSortGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const round = ROUNDS[roundIndex % ROUNDS.length];
   const attempts = useRef(0);
 
@@ -21,8 +21,15 @@ export default function DragSortGame({ roundIndex, onRoundComplete }: MiniGamePr
     attempts.current += 1;
     const element = document.elementFromPoint?.(clientX, clientY);
     const zone = element?.closest<HTMLElement>('[data-drop-result]');
-    if (zone?.dataset.dropResult === 'correct') {
+    const correctZone = document.querySelector<HTMLElement>('[data-drop-result="correct"]');
+    const snapPadding = 24 + assistLevel * 16;
+    if (
+      zone?.dataset.dropResult === 'correct'
+      || isPointNearElement(correctZone, clientX, clientY, snapPadding)
+    ) {
       onRoundComplete({ correct: 1, attempts: attempts.current });
+    } else {
+      onRetry?.();
     }
   };
 
@@ -31,10 +38,13 @@ export default function DragSortGame({ roundIndex, onRoundComplete }: MiniGamePr
   return (
     <section className="drag-game">
       <p className="game-prompt">{round.label}</p>
+      <button type="button" className="listen-button" onClick={() => speak(round.label)}>
+        <span aria-hidden="true">🔊</span> Nghe yêu cầu
+      </button>
       <div className="drag-stage">
         <button
           type="button"
-          className="drag-item"
+          className={`drag-item${drag.isDragging ? ' is-dragging' : ''}`}
           data-testid="drag-item"
           aria-label={round.item}
           style={{ transform: `translate(${drag.translation.x}px, ${drag.translation.y}px)` }}
@@ -47,11 +57,11 @@ export default function DragSortGame({ roundIndex, onRoundComplete }: MiniGamePr
         </button>
         <div className="drop-zone" data-drop-result="correct" data-testid="correct-zone">
           <span aria-hidden="true">{round.target}</span>
-          <span>Đúng nơi</span>
+          <span>{round.targetLabel}</span>
         </div>
         <div className="drop-zone" data-drop-result="wrong" data-testid="wrong-zone">
           <span aria-hidden="true">{round.decoy}</span>
-          <span>Nơi khác</span>
+          <span>{round.decoyLabel}</span>
         </div>
       </div>
     </section>

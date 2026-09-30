@@ -3,17 +3,20 @@ import type { MiniGameProps } from '../game/types';
 
 const WORDS = ['ME', 'BA', 'CON', 'MEO', 'CHO', 'NHA', 'XE', 'CA'] as const;
 
-export default function WordTypingGame({ roundIndex, onRoundComplete }: MiniGameProps) {
+export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry }: MiniGameProps) {
   const word = WORDS[roundIndex % WORDS.length];
   const [charIndex, setCharIndex] = useState(0);
   const attempts = useRef(0);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey || event.altKey || event.metaKey || event.key.length !== 1) return;
+      if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.key.length !== 1) return;
 
       attempts.current += 1;
-      if (event.key.toUpperCase() !== word[charIndex]) return;
+      if (event.key.toUpperCase() !== word[charIndex]) {
+        onRetry?.(`Hãy tìm chữ ${word[charIndex]} trên màn hình nhé.`);
+        return;
+      }
 
       const nextIndex = charIndex + 1;
       if (nextIndex >= word.length) {
@@ -25,7 +28,7 @@ export default function WordTypingGame({ roundIndex, onRoundComplete }: MiniGame
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [charIndex, word, onRoundComplete]);
+  }, [charIndex, word, onRoundComplete, onRetry]);
 
   return (
     <section className="typing-game" aria-label="Gõ từ ngắn">

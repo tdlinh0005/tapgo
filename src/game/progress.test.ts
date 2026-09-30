@@ -11,6 +11,16 @@ describe('progress', () => {
     expect(loadProgressFrom('{bad json')).toEqual(createDefaultProgress());
   });
 
+  it('rejects malformed saved state', () => {
+    const invalidGameId = createDefaultProgress() as unknown as { lastGameId: string; games: Record<string, unknown> };
+    invalidGameId.lastGameId = 'not-a-game';
+    expect(loadProgressFrom(JSON.stringify(invalidGameId))).toEqual(createDefaultProgress());
+
+    const fractionalStars = createDefaultProgress();
+    fractionalStars.games.letters.bestStars = 2.5 as 2;
+    expect(loadProgressFrom(JSON.stringify(fractionalStars))).toEqual(createDefaultProgress());
+  });
+
   it('keeps the best star result', () => {
     const completed = recordCompletion(createDefaultProgress(), 'letters', 2);
     expect(completed.games.letters.bestStars).toBe(2);

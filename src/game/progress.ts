@@ -1,4 +1,4 @@
-import type { GameId } from './types';
+import { GAME_IDS, type GameId } from './types';
 
 export type GameProgress = {
   plays: number;
@@ -14,19 +14,6 @@ export type ProgressState = {
 };
 
 export const PROGRESS_KEY = 'tapgo.progress.v1';
-
-export const GAME_IDS: GameId[] = [
-  'letters',
-  'numbers',
-  'words',
-  'find-key',
-  'sequence',
-  'click-target',
-  'pick-picture',
-  'mouse-trail',
-  'drag-sort',
-  'drag-match',
-];
 
 function createEmptyGameProgress(): GameProgress {
   return {
@@ -53,14 +40,21 @@ function isProgressState(value: unknown): value is ProgressState {
   if (candidate.version !== 1 || !candidate.games || typeof candidate.games !== 'object') {
     return false;
   }
+  if (
+    candidate.lastGameId !== null &&
+    (typeof candidate.lastGameId !== 'string' || !GAME_IDS.includes(candidate.lastGameId as GameId))
+  ) {
+    return false;
+  }
 
   return GAME_IDS.every((gameId) => {
     const game = candidate.games?.[gameId];
     return Boolean(
       game &&
       typeof game === 'object' &&
-      typeof game.plays === 'number' &&
-      typeof game.bestStars === 'number' &&
+      Number.isInteger(game.plays) &&
+      game.plays >= 0 &&
+      Number.isInteger(game.bestStars) &&
       game.bestStars >= 0 &&
       game.bestStars <= 3 &&
       typeof game.completed === 'boolean' &&

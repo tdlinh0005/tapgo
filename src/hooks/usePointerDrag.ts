@@ -2,18 +2,38 @@ import { useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 
 type DropHandler = (clientX: number, clientY: number) => void;
 
+export function isPointNearElement(
+  element: Element | null | undefined,
+  clientX: number,
+  clientY: number,
+  padding: number,
+): boolean {
+  if (!element) return false;
+  const rect = element.getBoundingClientRect();
+  if (rect.width === 0 && rect.height === 0) return false;
+  return (
+    clientX >= rect.left - padding
+    && clientX <= rect.right + padding
+    && clientY >= rect.top - padding
+    && clientY <= rect.bottom + padding
+  );
+}
+
 export function usePointerDrag(onDrop: DropHandler) {
   const [translation, setTranslation] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
   const start = useRef({ x: 0, y: 0 });
   const dragging = useRef(false);
 
   const reset = () => {
     dragging.current = false;
+    setIsDragging(false);
     setTranslation({ x: 0, y: 0 });
   };
 
   const onPointerDown = (event: ReactPointerEvent<HTMLElement>) => {
     dragging.current = true;
+    setIsDragging(true);
     start.current = { x: event.clientX, y: event.clientY };
     event.currentTarget.setPointerCapture?.(event.pointerId);
   };
@@ -38,6 +58,7 @@ export function usePointerDrag(onDrop: DropHandler) {
 
   return {
     translation,
+    isDragging,
     onPointerDown,
     onPointerMove,
     onPointerUp,

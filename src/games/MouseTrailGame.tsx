@@ -10,7 +10,7 @@ const TRAILS = [
   [[12, 66], [30, 66], [48, 44], [66, 22], [84, 22]],
 ] as const;
 
-export default function MouseTrailGame({ roundIndex, onRoundComplete }: MiniGameProps) {
+export default function MouseTrailGame({ roundIndex, onRoundComplete, assistLevel = 0 }: MiniGameProps) {
   const trail = TRAILS[roundIndex % TRAILS.length];
   const [nextCheckpoint, setNextCheckpoint] = useState(0);
 
@@ -31,12 +31,12 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete }: MiniGame
         <div
           key={index}
           data-testid={`checkpoint-${index}`}
-          className={`trail-checkpoint${index < nextCheckpoint ? ' is-done' : ''}${index === nextCheckpoint ? ' is-next' : ''}`}
+          className={`trail-checkpoint${index < nextCheckpoint ? ' is-done' : ''}${index === nextCheckpoint ? ' is-next' : ''}${assistLevel > 0 && index === nextCheckpoint ? ' is-assisted' : ''}`}
           style={{ left: `${left}%`, top: `${top}%` }}
           onPointerEnter={() => visit(index)}
           aria-label={index === trail.length - 1 ? 'Đích' : `Điểm ${index + 1}`}
         >
-          {index === trail.length - 1 ? '🏁' : index + 1}
+          <span>{index === trail.length - 1 ? '🏁' : index + 1}</span>
         </div>
       ))}
     </section>

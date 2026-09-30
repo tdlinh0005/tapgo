@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-09-14 · pre-git
+> updated 2026-09-22 · guided play v1
 
 ## Goal
 
@@ -13,11 +13,12 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 - Lưu tiến độ: localStorage, không tài khoản, không backend.
 - Luyện gõ: A-Z, 0-9, Space/Enter khi cần, và từ tiếng Việt không dấu như `ME`, `BA`, `CON`, `MEO`, `CHO`, `NHA`, `XE`.
 - Luyện chuột: click, rê chuột, kéo thả.
-- Điều hướng học: có lộ trình gợi ý theo thứ tự nhưng vẫn có khu Chơi tự do mở toàn bộ game.
-- Phản hồi: 1-3 sao, âm thanh nhẹ, animation ngắn; không dùng thông báo thất bại nặng nề.
+- Điều hướng học: Home ưu tiên một CTA `Chơi ngay` để vào Guided Play; vẫn có Lộ trình và Chơi tự do mở toàn bộ game.
+- Guided Play: tự chọn bài đầu tiên chưa hoàn thành, chạy quick session tối đa 5 lượt rồi ưu tiên CTA `Bài tiếp theo`.
+- Phản hồi: hoàn thành bài là thông điệp chính; 1-3 sao là tín hiệu phụ, kèm âm thanh nhẹ và animation ngắn; không dùng thông báo thất bại nặng nề.
 - Hướng dẫn: chữ ngắn + icon + giọng đọc.
 - Speech: Web Speech API (`speechSynthesis`) với locale `vi-VN`; luôn có nút nghe lại.
-- Nhịp chơi: mỗi bài được thiết kế để hoàn thành khoảng 3-5 phút bằng số lượt chơi cố định, không dùng countdown ép thời gian.
+- Nhịp chơi: không dùng countdown ép thời gian; Guided Play dùng quick session tối đa 5 lượt, còn Lộ trình/Chơi tự do dùng số lượt đầy đủ của game.
 - Chủ đề: trộn động vật, đồ chơi, xe, không gian; giữ cùng hệ thống card, typography, animation và cách trình bày.
 - Kiến trúc: Game framework dùng chung + từng mini-game cắm logic riêng.
 
@@ -38,7 +39,8 @@ Triển khai theo vertical slice: framework + 1 game bàn phím + 1 game chuột
 ```text
 App
 ├── Home
-│   ├── Bắt đầu lộ trình
+│   ├── Chơi ngay → Guided Play
+│   ├── Xem lộ trình
 │   ├── Chơi tự do
 │   └── Tiến độ
 ├── Learning Path
@@ -51,11 +53,11 @@ App
     └── tổng sao + trạng thái từng game
 ```
 
-App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì đây là single-user local app và không có nhu cầu deep-link.
+App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì đây là single-user local app và không có nhu cầu deep-link. Game view mang thêm mode `guided | path | free-play` để Guided Play có thể dùng quick session mà không làm thay đổi độ dài đầy đủ của Lộ trình và Chơi tự do.
 
 ## Learning path
 
-Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 10 game luôn mở.
+Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 10 game luôn mở. Từ Home, `Chơi ngay` chọn game đầu tiên chưa hoàn thành; nếu đã hoàn thành hết thì chọn game đầu tiên chưa đạt 3 sao.
 
 Thứ tự:
 
@@ -166,7 +168,9 @@ export type MiniGameProps = {
   roundIndex: number;
   totalRounds: number;
   onRoundComplete: (outcome: RoundOutcome) => void;
+  onRetry?: (hint?: string) => void;
   speak: (text: string) => void;
+  assistLevel?: 0 | 1 | 2;
 };
 
 export type GameDefinition = {
@@ -192,7 +196,7 @@ export type GameDefinition = {
 - số sao
 - gọi lưu progress
 
-Mini-game không tự đọc/ghi localStorage và không tự điều hướng.
+Mini-game không tự đọc/ghi localStorage và không tự điều hướng. `GameShell` giữ retry count và truyền `assistLevel` xuống mini-game để tăng trợ giúp sau lỗi mà không làm mỗi game tự xây một state machine riêng. Lượt ôn lại không được ghi thêm vào `outcomes` nên không thay đổi scoring của lượt gốc.
 
 ## Star scoring
 
@@ -254,8 +258,10 @@ Dùng Web Audio API tạo tone ngắn tại runtime để tránh quản lý asse
 
 ## UX rules
 
-- Một hành động chính trên mỗi màn hình.
-- Target click/kéo tối thiểu 72 x 72 CSS px.
+- Một hành động chính trên mỗi màn hình; Home ưu tiên `Chơi ngay` và màn hình kết quả ưu tiên `Bài tiếp theo`.
+- Target click/kéo nhìn thấy tối thiểu 72 x 72 CSS px; hit area có thể lớn hơn để giảm yêu cầu chính xác ở trẻ mới dùng chuột.
+- Guided Play đọc intro một lần khi vào bài; sau hai lỗi liên tiếp mở hướng dẫn và đọc lại hint cụ thể.
+- Trợ giúp tăng dần: hint → guide + speech → target/drop zone nổi bật hoặc dễ trúng hơn.
 - Font lớn; game prompt là nội dung nổi bật nhất.
 - Không dùng màu đỏ toàn màn hình hoặc chữ “Sai”, “Thua”, “Thất bại”.
 - Copy sai dùng “Thử lại nhé!”.
@@ -311,7 +317,7 @@ Mỗi mini-game có test cho:
 MVP hoàn thành khi:
 
 1. Cả 10 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
-2. Một session không dùng countdown và thường kết thúc trong khoảng 3-5 phút.
+2. Một session không dùng countdown; Guided Play mặc định tối đa 5 lượt, còn Lộ trình/Chơi tự do giữ số lượt đầy đủ của game.
 3. Hoàn thành game tạo 1-3 sao và lưu được vào localStorage.
 4. Reload giữ lại best stars và trạng thái hoàn thành.
 5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 10 game.

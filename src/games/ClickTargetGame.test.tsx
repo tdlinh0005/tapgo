@@ -7,18 +7,21 @@ describe('ClickTargetGame', () => {
   it('counts background misses and completes on the target', async () => {
     const user = userEvent.setup();
     const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
 
     render(
       <ClickTargetGame
         roundIndex={0}
         totalRounds={12}
         onRoundComplete={onRoundComplete}
+        onRetry={onRetry}
         speak={() => {}}
       />,
     );
 
     await user.click(screen.getByTestId('play-area'));
     expect(onRoundComplete).not.toHaveBeenCalled();
+    expect(onRetry).toHaveBeenCalledTimes(1);
 
     await user.click(screen.getByRole('button', { name: 'Mục tiêu' }));
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: 1, attempts: 2 });
