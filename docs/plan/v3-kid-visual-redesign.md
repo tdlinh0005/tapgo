@@ -128,10 +128,11 @@
 - Xong khi: tương phản chữ/nền ≥ 4.5:1 cho mọi cặp token dùng cho chữ (ghi tỉ lệ vào task); `index.html` `theme-color` vẫn khớp `--color-bg`.
 - Kết quả: token `--color-keyboard` `#fb923c` / `-soft` `#ffedd5` / `-strong` `#c2410c`, `--color-mouse` `#2dd4bf` / `-soft` `#ccfbf1` / `-strong` `#0f766e`, `--color-reward` `#fbbf24`; alias `--color-category(-soft/-strong)` mặc định = primary, đổi theo `[data-category="keyboard"|"mouse"]` trong `theme.css`. `app.css` dùng alias cho viền `.game-card`, nền `.game-card-emoji`, `.progress-track` (soft) / `.progress-fill` (strong). Tương phản (WCAG): `--color-text` trên keyboard-soft 14.05, mouse-soft 14.29, reward 9.64; keyboard-strong trên surface 5.18, bg 4.89, keyboard-soft 4.52; mouse-strong trên surface 5.47, bg 5.17, mouse-soft 4.86; chữ trắng trên keyboard-strong 5.18, mouse-strong 5.47. Màu gốc `--color-keyboard` (2.26 trên trắng) / `--color-mouse` (1.86) chỉ dùng trang trí (viền card), không dùng cho chữ. Đo CDP (dev server 5182): 10 `game-card` có `data-category` đúng (5 keyboard viền `rgb(251,146,60)`, 5 mouse `rgb(45,212,191)`); `.game-shell` Gõ chữ cái fill `rgb(194,65,12)` / track `rgb(255,237,213)`, Click mục tiêu fill `rgb(15,118,110)` / track `rgb(204,251,241)`; `theme-color` `#fff8e8` = `--color-bg`.
 
-### [~] V03 · Font bo tròn tiếng Việt — đang làm: lane-font
+### [x] V03 · Font bo tròn tiếng Việt
 
 - Thêm một gói `@fontsource-variable/*` (subset `vietnamese` + `latin`), import trong `main.tsx`, khai báo `--font-family` trong `theme.css`; `html` trong `app.css` dùng token thay cho danh sách system-ui cứng.
 - Xong khi: dấu tiếng Việt hiển thị đúng trên mọi màn (so ảnh CDP); `npm run build` pass và `dist/` chứa file font; tab Network không có request ra domain ngoài.
+- Kết quả: `@fontsource-variable/nunito` 5.3.0 (trục wght 200–1000, đủ các weight 650–900 đang dùng; Baloo 2 chỉ tới 800). CDP (vite 5183) ở Home, Lộ trình, Chơi tự do, Tiến độ, game Gõ chữ cái: `font-family` tính ra `"Nunito Variable"`, `document.fonts.check` với toàn bộ chữ trên màn = true, trình duyệt chỉ tải 3 file `latin`, `latin-ext`, `vietnamese` (woff2, cùng origin), 0 request ra domain ngoài. Build pass, `dist/assets/` có 5 file `nunito-*-wght-normal.woff2`. Lệch plan: `index.css` của gói khai báo cả `cyrillic`/`cyrillic-ext` (gói không có CSS theo từng subset) nên 2 file đó vẫn nằm trong `dist/` nhưng không bao giờ được tải nhờ `unicode-range`; chỉ import kiểu normal, không italic.
 
 ### [~] V04 · Nền và card sinh động — đang làm: lane-color
 
