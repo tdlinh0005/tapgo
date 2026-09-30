@@ -308,6 +308,145 @@ button:disabled {
   background: var(--color-muted);
 }
 
+.learning-path {
+  --stop-size: 104px;
+  position: relative;
+  aspect-ratio: 1000 / 420;
+}
+
+.path-road {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.path-road polyline {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.path-road-base {
+  stroke: var(--color-primary-soft);
+  stroke-width: 28px;
+}
+
+.path-road-reached {
+  stroke: var(--color-reward);
+  stroke-width: 28px;
+}
+
+.path-road-dashes {
+  stroke: var(--color-surface);
+  stroke-width: 6px;
+  stroke-dasharray: 2 18;
+}
+
+.path-stations {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.path-station {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 180px;
+  transform: translate(-50%, calc(var(--stop-size) / -2));
+}
+
+.path-station-stop {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--stop-size);
+  height: var(--stop-size);
+  border: 4px solid var(--color-category-strong);
+  border-radius: 50%;
+  padding: 0;
+  background: var(--color-category-soft);
+  box-shadow: 0 var(--key-depth-sm) 0 var(--color-category-strong);
+  transition: transform var(--motion-fast) ease-out, box-shadow var(--motion-fast) ease-out;
+}
+
+.path-station-stop:not(:disabled):hover {
+  transform: translateY(-3px);
+}
+
+.path-station-stop:not(:disabled):active {
+  transform: translateY(var(--key-depth-sm));
+  box-shadow: 0 0 0 var(--color-category-strong);
+}
+
+.path-station[data-recommended] .path-station-stop {
+  box-shadow:
+    0 var(--key-depth-sm) 0 var(--color-category-strong),
+    0 0 0 10px rgb(251 191 36 / 45%);
+}
+
+.path-station-stop:disabled {
+  border-color: var(--color-border);
+  background: var(--color-surface-muted);
+  box-shadow: 0 var(--key-depth-sm) 0 var(--color-border);
+  opacity: 1;
+}
+
+.path-station-stop:disabled .path-station-emoji {
+  opacity: 0.7;
+}
+
+.path-station-emoji {
+  font-size: 48px;
+  line-height: 1;
+}
+
+.path-station-step {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-category-strong);
+  color: var(--color-on-primary);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.path-station-stop:disabled .path-station-step {
+  background: var(--color-muted);
+}
+
+.path-station-title {
+  font-size: 17px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.path-station[data-state="locked"] .path-station-title {
+  color: var(--color-muted);
+}
+
+.path-station .star-rating {
+  gap: 2px;
+  margin: 0;
+  font-size: 22px;
+}
+
+.path-station .mascot {
+  position: absolute;
+  top: calc(var(--stop-size) / 2 - 26px);
+  right: calc(50% + var(--stop-size) / 2 + 6px);
+}
+
 .game-shell {
   display: flex;
   flex-direction: column;

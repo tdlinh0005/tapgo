@@ -172,12 +172,13 @@
 - Xong khi: test hiện có của màn kết quả pass; bấm được `Bài tiếp theo` ngay khi confetti đang rơi; reduced-motion hiển thị tĩnh.
 - Kết quả: `Confetti` (14 emoji, `aria-hidden`, `position: fixed`, `pointer-events: none`) rơi 1 lần bằng token mới `--motion-celebrate: 650ms`, delay tối đa 780ms → kết thúc 1430ms; 3 sao của `.game-result` hiện lần lượt (delay 0/180/360ms, không ảnh hưởng `ProgressScreen`); mascot cheer cạnh 🎉; reduced-motion ẩn confetti và bỏ animation sao. CDP 1366×768 và 1280×720: ở 200ms `elementFromPoint` tâm `Bài tiếp theo` trúng nút, 14 hạt đang chạy; ở 1550ms còn 0 animation, 0 hạt hiện; `scrollHeight` = viewport; 1 nút chính.
 
-### [~] V07 · Lộ trình dạng đường đi — đang làm: lane-font
+### [x] V07 · Lộ trình dạng đường đi
 
 - Component mới `PathStation` cho `LearningPathScreen`; **giữ `GameCard` cho Chơi tự do** (App.test đếm 10 `game-card` ở Chơi tự do).
 - Đường zigzag các “trạm” tròn lớn (emoji game + số thứ tự + sao), trạm khoá hiện 🔒 thay nút xám dài; trạm gợi ý (`getRecommendedGameId`) có mascot đứng cạnh.
 - Trạm là `button`; trạm khoá `disabled` với `aria-label` “<tên bài>: xong bài trước để mở”, trạm mở `aria-label` “Chơi <tên bài>” (giữ hành vi T27 và selector `/Gõ số/` của App.test).
 - Xong khi: 10 trạm vừa màn 1366×768 hoặc cuộn dọc mượt; target trạm ≥ 72px; `App.test` “opens the learning path” pass không đổi assertion.
+- Kết quả: `PathStation` mới (`li` có `data-category`, `data-state="done|open|locked"`, `data-recommended`; `button` tròn 104px viền + bóng màu category, huy hiệu số thứ tự, tên bài + `StarRating` bên dưới); trạm khoá hiện 🔒, `disabled`, aria-label “<tên bài>: xong bài trước để mở”; trạm mở “Chơi <tên bài>”; trạm gợi ý (`getRecommendedGameId`) có vòng sáng reward + `Mascot` (cheer) đứng bên trái. `LearningPathScreen` xếp 10 trạm rắn bò 2 hàng × 5 zigzag trên khung `aspect-ratio 1000/420`, đường SVG (nền `--color-primary-soft`, đoạn đã tới `--color-reward`, vạch trắng). `GameCard`/Chơi tự do giữ nguyên. Test mới `LearningPathScreen.test` (10 trạm, trạm khoá 🔒 + aria, mascot chỉ ở trạm gợi ý, trạm xong có sao); App.test pass không đổi. Đo CDP (vite 5187, 1366×757, tiến độ mẫu 3 bài xong): khung đường 1056×444, trạm 104×104, 10 trạm vừa màn (scrollHeight 757 = viewport, không tràn ngang), trạm 4 gợi ý có mascot, trạm khoá opacity 1 (nền `#f7f7fb`, viền `#cfd3dc`, 🔒 0.7), tiến độ mặc định: mascot cạnh trạm 1 không tràn khung, 9 trạm khoá.
 
 ### [x] V09 · Tiến độ thành “bộ sưu tập”
 
