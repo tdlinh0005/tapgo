@@ -170,7 +170,7 @@
 - Spec chỉ giới hạn *animation feedback* < 700ms; hiệu ứng ăn mừng màn kết quả là quy tắc mới → ghi vào spec § UX rules trong V17 (“ăn mừng màn kết quả ≤ 1.5s, không chặn nút, tĩnh khi reduced-motion”).
 - Xong khi: test hiện có của màn kết quả pass; bấm được `Bài tiếp theo` ngay khi confetti đang rơi; reduced-motion hiển thị tĩnh.
 
-### [ ] V07 · Lộ trình dạng đường đi
+### [~] V07 · Lộ trình dạng đường đi — đang làm: lane-font
 
 - Component mới `PathStation` cho `LearningPathScreen`; **giữ `GameCard` cho Chơi tự do** (App.test đếm 10 `game-card` ở Chơi tự do).
 - Đường zigzag các “trạm” tròn lớn (emoji game + số thứ tự + sao), trạm khoá hiện 🔒 thay nút xám dài; trạm gợi ý (`getRecommendedGameId`) có mascot đứng cạnh.
