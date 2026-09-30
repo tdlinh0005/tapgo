@@ -143,7 +143,7 @@
 
 ## Phase B — Nhân vật và phản hồi
 
-### [ ] V05 · Nhân vật dẫn dắt (emoji mascot)
+### [~] V05 · Nhân vật dẫn dắt (emoji mascot) — đang làm: lane-layout
 
 - Component `Mascot` (một emoji, vd 🐱 “Mèo Tapi”) gắn vào `CoachBubble` (V01); trạng thái `idle | cheer | encourage` do `GameShell` điều khiển (đúng → cheer, `onRetry` → encourage, copy giữ “Thử lại nhé!” từ `retryCopy.ts`); Home có lời chào (không thêm nút, `Chơi ngay` vẫn là hành động chính).
 - Chỉ dùng CSS keyframes (nảy, vẫy), mỗi animation < 700ms, tắt khi reduced-motion. Mascot `aria-hidden`; lời thoại đã có trong bong bóng.
