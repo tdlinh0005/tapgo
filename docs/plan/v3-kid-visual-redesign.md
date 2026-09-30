@@ -158,7 +158,7 @@
 - Xong khi: `--font-target` giữ ≥ 92px; `data-assist` vẫn nằm trên chính phím; style assist level 1/2 vẫn nhìn thấy trên phím mới.
 - Kết quả: token mới `--key-depth` 10px, `--key-depth-sm` 6px, `--shadow-key-drop`. `.key-target` = mặt trên gradient `--color-surface` → `--color-category-soft`, viền + cạnh dưới `--color-category-strong`; `.typing-sequence span` cùng kiểu (cạnh 6px: xám khi chờ, màu nhóm khi active, xanh khi done). Box-shadow của phím đè vòng assist cũ nên assist trên phím chuyển sang `outline: 8px` `--color-primary-soft` + viền `--color-primary`. Đo CDP (vite 5186, 1366×757) Gõ chữ cái: `font-size` 92px, phím 180×180, viền/cạnh `#c2410c` (keyboard-strong); assist 1 (2 lần sai) viền `#4f46e5` + outline 8px `#e8e7ff`; assist 2 (3 lần sai) thêm nền `#e8e7ff`, scale 1.08 (194×194); `data-assist` nằm trên `.key-target`. Gõ chuỗi: active/done/todo đúng màu cạnh, assist 1/2 hiện trên ô active (level 2 giữ nền `--color-primary-soft` nhờ rule riêng đặt sau `data-state`). Không có hiệu ứng lún (thuộc V10).
 
-### [ ] V10 · Phản hồi đúng/sai giàu hình ảnh (lớp phủ ở shell)
+### [~] V10 · Phản hồi đúng/sai giàu hình ảnh (lớp phủ ở shell) — đang làm: lane-color
 
 - Đúng: `GameShell` render lớp phủ `.stage-burst` (vài ⭐/emoji bằng CSS, `pointer-events: none`, `aria-hidden`) bên trong `.game-stage` — phần tử này không nằm dưới `key` theo lượt nên sống qua lúc chuyển lượt; kéo dài ≤ 600ms, cùng chime hiện có.
 - Sai: giữ `tapgo-shake` ở `.game-stage` (spec: “rung nhẹ nội dung”) + mascot `encourage`; không đổi màu nền.
