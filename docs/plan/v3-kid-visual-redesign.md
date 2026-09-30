@@ -177,10 +177,11 @@
 - Trạm là `button`; trạm khoá `disabled` với `aria-label` “<tên bài>: xong bài trước để mở”, trạm mở `aria-label` “Chơi <tên bài>” (giữ hành vi T27 và selector `/Gõ số/` của App.test).
 - Xong khi: 10 trạm vừa màn 1366×768 hoặc cuộn dọc mượt; target trạm ≥ 72px; `App.test` “opens the learning path” pass không đổi assertion.
 
-### [~] V09 · Tiến độ thành “bộ sưu tập” — đang làm: lane-font
+### [x] V09 · Tiến độ thành “bộ sưu tập”
 
 - Mỗi game hoàn thành mở một “sticker” emoji lớn trong album; game chưa xong hiện sticker mờ; tổng sao hiển thị như hũ sao nhưng giữ nguyên chuỗi `N / 30 sao` (App.test ghim). Chỉ đọc từ `ProgressState` hiện có, không thêm trường lưu.
 - Xong khi: `ProgressScreen.test` và App.test “shows total best stars” pass; gợi ý cho bố mẹ giữ nguyên.
+- Kết quả: `ProgressScreen` — hũ sao `.star-jar` (viền + phần đầy `--color-reward`, chiều cao đầy = tổng sao / tổng sao tối đa, `aria-hidden`) cạnh chuỗi `N / 30 sao` giữ nguyên; danh sách 10 bài thành album 5 cột, mỗi `li` có `data-category` + `data-state="collected|missing"`, sticker tròn 96px emoji 56px nghiêng ±, nền `--color-category-soft`; chưa xong = viền nét đứt, `grayscale(1)`, `opacity 0.4`. Token mới `--shadow-sticker`. Chỉ đọc `ProgressState` (không thêm trường lưu). Test mới: sticker collected/missing + chuỗi `3 / 30 sao`; `ProgressScreen.test`, App.test pass (117 test). Đo CDP (vite 5189, 1366×757, tiến độ mẫu 3 bài/7 sao): `7 / 30 sao`, hũ đầy 23%, sticker xong bàn phím nền `#ffedd5` / chuột `#ccfbf1`, filter none; chưa xong `grayscale(1)` 0.4; card 198×236, không tràn ngang, trang cuộn dọc (961px) như trước; gợi ý cho bố mẹ giữ nguyên.
 
 ## Phase C — Bài tập phong phú (không đổi GameId)
 

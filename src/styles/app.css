@@ -781,18 +781,53 @@ button:disabled {
 .progress-summary {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+  gap: 24px;
+  border: 4px solid var(--color-reward);
   border-radius: var(--radius-card);
-  padding: 24px 28px;
-  background: var(--color-primary);
-  color: var(--color-on-primary);
+  padding: 20px 28px;
+  background: var(--color-surface);
+  color: var(--color-text);
   box-shadow: var(--shadow-card);
   font-size: 22px;
 }
 
+.progress-summary-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.progress-summary-copy span {
+  color: var(--color-muted);
+  font-weight: 700;
+}
+
 .progress-summary strong {
   font-size: 32px;
+}
+
+/* Star jar: fill height is the share of all possible stars earned. */
+.star-jar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 80px;
+  height: 96px;
+  overflow: hidden;
+  border: 4px solid var(--color-reward);
+  border-radius: var(--radius-sm) var(--radius-sm) var(--radius-card) var(--radius-card);
+  background: var(--color-surface-muted);
+}
+
+.star-jar-fill {
+  position: absolute;
+  inset: auto 0 0;
+  background: var(--color-reward);
+}
+
+.star-jar-icon {
+  position: relative;
+  font-size: 40px;
 }
 
 .practice-recommendation {
@@ -822,31 +857,60 @@ button:disabled {
 
 .progress-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 16px;
   margin: 22px 0 0;
   padding: 0;
   list-style: none;
 }
 
+/* Sticker album: completed games show a bright sticker, others a faded placeholder. */
 .progress-game {
   display: grid;
-  grid-template-columns: 56px 1fr auto;
-  align-items: center;
-  gap: 14px;
-  border-radius: var(--radius-sm);
-  padding: 18px;
+  justify-items: center;
+  align-content: start;
+  gap: 10px;
+  border-radius: var(--radius-card);
+  padding: 18px 12px;
   background: var(--color-surface);
   box-shadow: var(--shadow-card);
+  text-align: center;
 }
 
-.progress-game-emoji {
-  font-size: 34px;
+.progress-sticker {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border: 5px solid var(--color-surface);
+  border-radius: 50%;
+  background: var(--color-category-soft);
+  box-shadow: var(--shadow-sticker);
+  font-size: 56px;
+  transform: rotate(-6deg);
+}
+
+.progress-game:nth-child(even) .progress-sticker {
+  transform: rotate(5deg);
+}
+
+.progress-game[data-state="missing"] .progress-sticker {
+  border: 3px dashed var(--color-border);
+  background: var(--color-surface-muted);
+  box-shadow: none;
+  filter: grayscale(1);
+  opacity: 0.4;
 }
 
 .progress-game-copy {
   display: grid;
   gap: 4px;
+}
+
+.progress-game .star-rating {
+  gap: 4px;
+  margin: 0;
+  font-size: 28px;
 }
 
 .progress-game-copy span {

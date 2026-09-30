@@ -18,6 +18,7 @@ export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
   );
   const completed = gameRegistry.filter((game) => progress.games[game.id].completed).length;
   const totalPossibleStars = gameRegistry.length * 3;
+  const jarFill = `${Math.round((totalStars / totalPossibleStars) * 100)}%`;
   const recommended = getGameDefinition(getRecommendedGameId(progress));
 
   return (
@@ -27,8 +28,14 @@ export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
         <h1>Tiến độ</h1>
       </header>
       <div className="progress-summary">
-        <strong>{totalStars} / {totalPossibleStars} sao</strong>
-        <span>{completed} / {gameRegistry.length} bài đã hoàn thành</span>
+        <span className="star-jar" aria-hidden="true">
+          <span className="star-jar-fill" style={{ height: jarFill }} />
+          <span className="star-jar-icon">⭐</span>
+        </span>
+        <div className="progress-summary-copy">
+          <strong>{totalStars} / {totalPossibleStars} sao</strong>
+          <span>{completed} / {gameRegistry.length} bài đã hoàn thành</span>
+        </div>
       </div>
       <aside className="practice-recommendation" aria-label="Gợi ý luyện tập">
         <span aria-hidden="true">💡</span>
@@ -44,8 +51,14 @@ export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
         {gameRegistry.map((game) => {
           const gameProgress = progress.games[game.id];
           return (
-            <li key={game.id} className="progress-game" data-testid={`progress-${game.id}`}>
-              <span className="progress-game-emoji" aria-hidden="true">{game.emoji}</span>
+            <li
+              key={game.id}
+              className="progress-game"
+              data-testid={`progress-${game.id}`}
+              data-category={game.category}
+              data-state={gameProgress.completed ? 'collected' : 'missing'}
+            >
+              <span className="progress-sticker" aria-hidden="true">{game.emoji}</span>
               <div className="progress-game-copy">
                 <strong>{game.title}</strong>
                 <span>{gameProgress.completed ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</span>

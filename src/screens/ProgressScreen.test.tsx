@@ -33,6 +33,14 @@ describe('ProgressScreen', () => {
     expect(within(numbers).getByText('Chưa hoàn thành')).toBeInTheDocument();
   });
 
+  it('shows completed games as collected stickers and the rest as faded placeholders', () => {
+    render(<ProgressScreen progress={lettersDone()} onPlay={() => {}} onHome={() => {}} />);
+
+    expect(screen.getByTestId('progress-letters')).toHaveAttribute('data-state', 'collected');
+    expect(screen.getByTestId('progress-numbers')).toHaveAttribute('data-state', 'missing');
+    expect(screen.getByText('3 / 30 sao')).toBeInTheDocument();
+  });
+
   it('plays the recommended game from the parent suggestion', async () => {
     const user = userEvent.setup();
     const onPlay = vi.fn();
