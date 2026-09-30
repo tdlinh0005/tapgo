@@ -1,25 +1,32 @@
 import { useRef, useState } from 'react';
 import type { MiniGameProps } from '../game/types';
 
-const TRAILS = [
-  [[12, 50], [30, 32], [48, 48], [66, 28], [84, 48]],
-  [[12, 24], [28, 42], [46, 26], [64, 50], [84, 30]],
-  [[14, 70], [30, 48], [48, 66], [66, 42], [84, 62]],
-  [[12, 40], [30, 62], [48, 36], [66, 58], [84, 36]],
-  [[14, 30], [30, 30], [48, 50], [66, 70], [84, 70]],
-  [[12, 66], [30, 66], [48, 44], [66, 22], [84, 22]],
+export const TRAILS = [
+  [[10, 50], [24, 32], [38, 48], [52, 30], [66, 48], [80, 32], [92, 50]],
+  [[10, 26], [26, 44], [42, 28], [58, 50], [74, 32], [90, 52]],
+  [[10, 68], [22, 50], [34, 66], [46, 46], [58, 64], [70, 44], [82, 62], [92, 44]],
+  [[10, 40], [26, 62], [42, 38], [58, 60], [74, 36], [90, 58]],
+  [[10, 30], [24, 30], [38, 48], [52, 66], [66, 66], [80, 48], [92, 30]],
+  [[10, 66], [26, 66], [42, 46], [58, 26], [74, 26], [90, 46]],
 ] as const;
 
 export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, assistLevel = 0 }: MiniGameProps) {
   const trail = TRAILS[roundIndex % TRAILS.length];
+  const finishIndex = trail.length - 1;
   const [nextCheckpoint, setNextCheckpoint] = useState(0);
   const wrongEntries = useRef(0);
+
+  const labelFor = (index: number) => {
+    if (index === 0) return 'Điểm bắt đầu';
+    if (index === finishIndex) return 'Đích';
+    return `Điểm ${index}`;
+  };
 
   const visit = (index: number) => {
     if (index < nextCheckpoint) return;
     if (index > nextCheckpoint) {
       wrongEntries.current += 1;
-      onRetry?.(`Hãy đưa chuột tới điểm ${nextCheckpoint + 1} trước nhé.`);
+      onRetry?.(`Hãy đưa chuột tới ${labelFor(nextCheckpoint).toLowerCase()} trước nhé.`);
       return;
     }
     const next = nextCheckpoint + 1;
@@ -32,7 +39,9 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, a
 
   return (
     <section className="trail-area" aria-label="Đường rê chuột">
-      <div className="trail-guide" aria-hidden="true" />
+      <svg className="trail-guide" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+        <polyline points={trail.map(([x, y]) => `${x},${y}`).join(' ')} vectorEffect="non-scaling-stroke" />
+      </svg>
       {trail.map(([left, top], index) => (
         <div
           key={index}
@@ -40,9 +49,9 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, a
           className={`trail-checkpoint${index < nextCheckpoint ? ' is-done' : ''}${index === nextCheckpoint ? ' is-next' : ''}${assistLevel > 0 && index === nextCheckpoint ? ' is-assisted' : ''}`}
           style={{ left: `${left}%`, top: `${top}%` }}
           onPointerEnter={() => visit(index)}
-          aria-label={index === trail.length - 1 ? 'Đích' : `Điểm ${index + 1}`}
+          aria-label={labelFor(index)}
         >
-          <span>{index === trail.length - 1 ? '🏁' : index + 1}</span>
+          <span>{index === 0 ? '🟢' : index === finishIndex ? '🏁' : index}</span>
         </div>
       ))}
     </section>

@@ -173,7 +173,7 @@ Files: `src/games/DragSortGame.tsx, src/games/DragMatchGame.tsx, src/hooks/usePo
 - **Fix:** Nếu `zone` tồn tại và là ô sai thì trả sai; chỉ dùng snap khi `zone === null`. Gom thành helper `resolveDrop()` trong `usePointerDrag.ts`, dùng cho cả 2 game.
 - **Done when:** Test: thả trong ô sai, cách mép ô đúng khoảng 10px, thì `onRetry` được gọi.
 
-### [~] T09 · Rê chuột: thêm điểm bắt đầu, 4–6 checkpoint, và đường vẽ khớp điểm — đang làm: Lane B
+### [x] T09 · Rê chuột: thêm điểm bắt đầu, 4–6 checkpoint, và đường vẽ khớp điểm
 
 **P1 · Effort M · UI/UX** · Review: B-4  
 Files: `src/games/MouseTrailGame.tsx, src/styles/app.css`
@@ -254,7 +254,7 @@ Files: `src/hooks/useSpeech.ts, src/hooks/useSpeech.test.ts`
 - **Fix:** Thêm `useEffect(() => () => window.speechSynthesis?.cancel(), [])`, và gom `isSpeechSupported()` thành một helper.
 - **Done when:** Test: unmount hook thì `speechSynthesis.cancel` được gọi.
 
-### [ ] T16 · Guided: "Bài tiếp theo" nên đi tới bài được gợi ý, không phải bài kế theo thứ tự
+### [~] T16 · Guided: "Bài tiếp theo" nên đi tới bài được gợi ý, không phải bài kế theo thứ tự — đang làm: Lane A
 
 **P2 · Effort S · Flow/Logic** · Review: B (out-of-lane), lead verified  
 Files: `src/App.tsx, src/App.test.tsx`

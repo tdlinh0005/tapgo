@@ -511,10 +511,18 @@ button:disabled {
 
 .trail-guide {
   position: absolute;
-  inset: 48% 8%;
-  height: 10px;
-  border-radius: var(--radius-pill);
-  background: var(--color-primary-soft);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.trail-guide polyline {
+  fill: none;
+  stroke: var(--color-primary-soft);
+  stroke-width: 14px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 .trail-checkpoint {

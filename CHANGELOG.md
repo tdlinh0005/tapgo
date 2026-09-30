@@ -29,6 +29,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Drags start only from the primary mouse button and reset when pointer capture is lost.
 - A drop inside a wrong zone next to the correct zone counts as wrong; snapping to the correct zone applies only outside every zone.
 - Mouse trail counts entering a checkpoint out of order as a mistake, so it reports real attempts and triggers retry hints and assist.
+- Mouse trail rounds now have a start point, 4-6 checkpoints and a finish, with a guide line drawn through the actual checkpoints.
 - Home, replay, `Xem cách chơi` and `Nghe yêu cầu` buttons are at least 72px.
 - The desktop gate no longer scrolls sideways on screens narrower than 900px.
 - Space no longer counts as a mistake in keyboard games, and in word and sequence games it no longer presses the focused button.
