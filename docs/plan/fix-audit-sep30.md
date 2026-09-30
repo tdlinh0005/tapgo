@@ -574,7 +574,7 @@ Files: `docs/feat/tapgo-mvp.md, docs/research/*`
 - **Fix:** Sau khi commit: `> updated <YYYY-MM-DD> · <short-hash>`; xoá stamp ở research.
 - **Done when:** grep `updated` trong docs/feat chỉ ra dạng ngày kèm hash hoặc semver.
 
-### [~] T44 · Manual QA trên Chrome/Edge desktop (Step 6 của plan cũ) — đang làm: Notion AI (lead)
+### [ ] T44 · Manual QA trên Chrome/Edge desktop (Step 6 của plan cũ)
 
 **P1 · Effort M · Docs** · Review: Plan Step 6  
 Files: `—`
@@ -584,3 +584,65 @@ Files: `—`
 - **Evidence:** FACT: Step 6, 7, 8 vẫn `[ ]`.
 - **Fix:** `npm run dev` rồi chạy checklist Step 6, cộng thêm: Chơi ngay 1/5, hint thử lại đọc kịp, assist level 1/2 ở từng game, Rê chuột có sao < 3 khi đi sai, Ghép cặp hình–hình, không cuộn ngang ở 899px.
 - **Done when:** Ghi kết quả (pass/fail kèm ảnh chụp) vào plan mới (T41).
+
+#### Kết quả lượt 1 · 2026-09-30 · Chromium headless (Playwright)
+
+> Máy Akimcp không có Chrome/Edge/Brave, nên lượt này chạy bản build `dist/` (code = `7ed33c3`) trên Chromium headless ở máy khác, thao tác bằng phím/chuột giả lập và spy `speechSynthesis.speak`. Ảnh chụp nằm trong phiên chat của Notion AI, chưa đưa vào repo. Task để lại `[ ]` vì còn phần cần người trên Chrome/Edge thật.
+
+| Mục | Kết quả | Bằng chứng |
+| --- | --- | --- |
+| Home: 1 CTA `Chơi ngay` + 3 lựa chọn phụ | PASS | 4 nút: Chơi ngay, Xem lộ trình, Chơi tự do, Tiến độ |
+| Lộ trình chỉ mở bài 1; bài khoá ghi cách mở | PASS | 9 bài `🔒 Xong bài trước để mở`; Lộ trình hiện `1 / 10` |
+| Chơi tự do có đủ 10 game | PASS | 10 nút `Chơi <bài>` |
+| 5 game phím nhận phím thật, 10 game đều tới màn kết quả và lưu sao | PASS | chơi hết 10 game, localStorage `tapgo.progress.v1` có `bestStars: 3` |
+| Reload giữ tiến độ | PASS | sau reload, Chơi tự do vẫn hiện `3 sao` |
+| Click mục tiêu không tràn khỏi vùng chơi | PASS | 12/12 lượt nằm trọn trong `.click-play-area` (1440×1000) |
+| Rê chuột hoàn thành được không cần giữ nút | PASS có điều kiện | chỉ khi toàn bộ vùng chơi nằm trong màn hình; xem T45–T47 |
+| 2 game kéo thả hồi phục sau khi huỷ / thả sai | PASS | `pointercancel` → `translate(0px, 0px)`; thả sai rồi thả đúng vẫn qua lượt |
+| Chơi ngay: `1 / 5`, dừng ở 5 lượt, không lượt ôn | PASS | sai 1 lần mỗi lượt vẫn chỉ 1/5 … 5/5 |
+| Bài tiếp theo (Guided) đi tới bài gợi ý | PASS | xong Gõ chữ cái → mở Gõ số `1 / 5` |
+| Tiến độ: nút `Chơi <bài>` mở đúng bài | PASS | `Chơi Gõ số` → mở Gõ số |
+| Hint `Thử lại nhé!` còn hiển thị để đọc | PASS | vẫn còn sau 1,5 s ở cả 10 game |
+| Assist: sai 2 lần → guide mở + `data-assist="1"`, sai 3 lần → `"2"` | PASS | đủ 10 game |
+| `Nghe yêu cầu` đọc mục tiêu lượt, `Nghe lại cách chơi` đọc intro, `lang = vi-VN` | PASS (lời gọi) | ví dụ `Bấm chữ A`, `Gõ theo thứ tự A S D`; âm thanh thật: unverified |
+| Tắt speech vẫn chơi được | PASS | `speechSynthesis` undefined, Chơi ngay xong 5 lượt, 0 lỗi JS |
+| 899 px hiện desktop gate; 900 px hiện app; không cuộn ngang | PASS | 600/899: gate, `scrollWidth === innerWidth`; 900/1024: app |
+| Không có countdown | PASS | nội dung màn game không đổi sau 4 s |
+| Rê chuột: đi sai thứ tự thì sao < 3 | PASS | 1 sao khi có lỗi |
+| Rê chuột: đi đúng thì được 3 sao | **FAIL** | T45, T46 |
+| Vùng chơi nằm trong màn hình laptop | **FAIL** | T47 |
+| Ghép cặp hình–hình, ô đích không có chữ hiển thị | PASS | ô đích là `.match-shadow`, chữ chỉ nằm trong `aria-label` |
+
+Còn lại cho người làm: chạy lại trên Chrome và Edge thật, với chuột và bàn phím thật; nghe giọng đọc tiếng Việt; quan sát bé tự chơi (Home → Chơi ngay → hồi phục sau lỗi → Bài tiếp theo); kiểm lại T45–T47 sau khi sửa.
+
+## Phase 7 · Bug từ QA T44
+
+### [ ] T45 · Rê chuột: mở game bằng chuột thì bị tính sai ngay
+
+**P1 · Effort S · Flow/Logic** · Review: QA T44  
+Files: `src/games/MouseTrailGame.tsx`
+
+- **Vấn đề:** Bấm `Chơi Rê chuột theo đường` bằng chuột thì con trỏ đang nằm trên vùng chơi vừa hiện. Game báo `Thử lại nhé! Đưa chuột tới điểm bắt đầu trước nhé.` và sinh lượt ôn trước khi bé kịp làm gì.
+- **Evidence:** FACT: tái hiện ở 1280×800 và 1280×900. Mở bằng phím Enter thì không bị. Trace: `pointerover:Đích` fire ngay sau `click` khi layout đổi.
+- **Fix:** Chỉ tính `onPointerEnter` sau khi đã có một `pointermove` thật trong `.trail-area`, hoặc bỏ qua các lần enter trong lúc chưa chạm điểm bắt đầu.
+- **Done when:** Test: `pointerEnter` checkpoint 3 trước mọi `pointerMove` thì không gọi `onRetry`.
+
+### [ ] T46 · Rê chuột: quay về điểm bắt đầu của lượt mới bị tính sai
+
+**P1 · Effort S · Flow/Logic** · Review: QA T44  
+Files: `src/games/MouseTrailGame.tsx`
+
+- **Vấn đề:** Xong một lượt thì con trỏ ở 🏁 bên phải, còn 🟢 của lượt sau ở bên trái. Đưa chuột thẳng về thì đi qua các checkpoint của đường mới, và mỗi checkpoint bị tính là một lỗi. Bé làm đúng vẫn chỉ được 1 sao và bị chèn lượt ôn.
+- **Evidence:** FACT: đi đúng thứ tự, quay về theo đường thẳng: 1 sao. Cùng thao tác nhưng quay về vòng phía trên vùng chơi: 3 sao, 0 lượt ôn.
+- **Fix:** Trước khi chạm 🟢 thì không tính lỗi. Chỉ tính sai thứ tự sau khi đã bắt đầu đường. Ghi quyết định vào spec (bổ sung cho T10).
+- **Done when:** Test: enter checkpoint 2 rồi checkpoint 0 rồi đi hết theo thứ tự thì outcome là `{correct: n, attempts: n}`.
+
+### [ ] T47 · Vùng chơi Rê chuột / Click mục tiêu tràn xuống dưới màn hình laptop
+
+**P2 · Effort S · UI/UX** · Review: QA T44  
+Files: `src/styles/app.css`
+
+- **Vấn đề:** Ở viewport 1366×768 và 1280×900, đáy vùng chơi nằm ở y = 997 (Rê chuột) và y = 943 (Click mục tiêu). Bé phải cuộn trang, và các checkpoint thấp (ví dụ đường thứ 3 ở top 62–68%) không tới được nếu không cuộn. Khung trình duyệt thật còn làm viewport thấp hơn nữa.
+- **Evidence:** FACT: đo `getBoundingClientRect().bottom` của `.trail-area` và `.click-play-area`: 997 và 943 ở cả hai viewport; ở 1440×1000 thì vừa khít (960). Thêm: nút `Nghe yêu cầu` của 2 game này kéo dài hết chiều ngang, vì nằm trực tiếp trong grid `.game-stage`.
+- **Fix:** Đổi `min-height: 500px` thành chiều cao theo viewport (ví dụ `min(500px, 100vh - <header+prompt>)` hoặc `flex: 1` trong `.game-shell` có `height: 100vh`); cho `.listen-button` `justify-self: center`.
+- **Done when:** Ở 1366×768, đáy `.trail-area` và `.click-play-area` ≤ `innerHeight`; `app.test.ts` không còn `min-height: 500px` cho hai vùng này.
