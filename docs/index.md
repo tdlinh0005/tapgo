@@ -6,7 +6,8 @@
 
 ## Active implementation plans
 
-- [Fix plan từ audit sep30](plan/fix-audit-sep30.md) — 47 task fix (8 phase, 0–7; Phase 7 là bug từ QA T44) từ audit toàn repo; **dev bắt đầu từ đây**.
+- [TapGo v3 · Giao diện hấp dẫn trẻ + bài tập phong phú](plan/v3-kid-visual-redesign.md) — 17 task (phase A–E): bố cục vùng chơi, bảng màu/font/mascot, lộ trình dạng đường đi, xáo trộn + mở rộng kho bài tập; đã rà soát với code; phase D (game mới) chờ owner; **dev bắt đầu từ đây**.
+- [Fix plan từ audit sep30](plan/fix-audit-sep30.md) — 47 task fix (8 phase, 0–7; Phase 7 là bug từ QA T44) từ audit toàn repo; chỉ còn T44 (QA thủ công Chrome/Edge thật), dời sang sau phase B của v3.
 - [TapGo v2 · Guided Play Plan](plan/v2-guided-play.md) — toàn bộ việc guided play (đã làm + còn lại), gồm checklist manual QA cho guided và kết quả QA T44.
 
 ## Done plans

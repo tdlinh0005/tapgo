@@ -581,6 +581,8 @@ Files: `docs/feat/tapgo-mvp.md, docs/research/*`
 
 ### [ ] T44 · Manual QA trên Chrome/Edge desktop (Step 6 của plan cũ)
 
+> Lượt 2 (người chạy trên Chrome/Edge thật) dời sang sau phase B của [plan v3](v3-kid-visual-redesign.md) vì giao diện sắp thay; chạy và đóng trong V17.
+
 **P1 · Effort M · Docs** · Review: Plan Step 6  
 Files: `—`
 
