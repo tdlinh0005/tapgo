@@ -517,7 +517,7 @@ Files: `src/styles/app.test.ts`
 - **Fix:** `import css from './app.css?raw'`; chỉ giữ regex cho các bất biến quan trọng (72px, reduced-motion, focus-visible).
 - **Done when:** `grep ts-expect-error src` ra 0; tsc, test, build xanh.
 
-### [~] T39 · Vitest: giảm thời gian dựng jsdom (69% thời gian test) — đang làm: lead
+### [x] T39 · Vitest: giảm thời gian dựng jsdom (69% thời gian test)
 
 **P3 · Effort S · Tests** · Review: C-15  
 Files: `vite.config.ts`

@@ -5,6 +5,7 @@ export default defineConfig({
   plugins: [react()],
   test: {
     environment: 'jsdom',
+    pool: 'vmThreads',
     setupFiles: './src/test/setup.ts',
     css: { include: [/app\.css/] },
   },

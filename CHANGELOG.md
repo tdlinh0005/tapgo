@@ -15,6 +15,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 
 ### Changed
 
+- Vitest runs in the `vmThreads` pool so jsdom setup no longer dominates test time (~2s full run).
 - Dependencies are pinned to caret ranges of the locked versions instead of `latest`.
 - In Guided Play, `Bài tiếp theo` opens the next recommended game (never the one just played) instead of the next game in path order.
 - Sequence typing uses 3 to 5 key sequences that differ from the word game, and find key uses letters the letter game does not teach.
