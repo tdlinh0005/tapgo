@@ -36,6 +36,9 @@ describe('App navigation', () => {
     expect(screen.getByRole('heading', { name: 'Lộ trình học' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Gõ chữ cái/ })).toBeEnabled();
     expect(screen.getByRole('button', { name: /Gõ số/ })).toBeDisabled();
+
+    await user.click(screen.getByRole('button', { name: /Gõ chữ cái/ }));
+    expect(screen.getByText('1 / 10')).toBeInTheDocument();
   });
 
   it('starts guided play as a five-round quick session', async () => {

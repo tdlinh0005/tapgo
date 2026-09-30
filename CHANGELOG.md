@@ -15,6 +15,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 
 ### Changed
 
+- Tests cover the recommendation fallback, a throwing `localStorage`, and Path sessions of 10 rounds versus 5 in Guided Play.
 - Find-key and number games are tested for wrong keys: the round stays, and the retry hint names the key.
 - Assistance after repeated mistakes works the same way in all 10 games: the real target gets `data-assist="1"` (outline) or `"2"` (outline and enlarged), including word, sequence, key and picture games.
 - Every game has a `Nghe yêu cầu` button that reads the goal of the current round; the header speaker button is now labelled `Nghe lại cách chơi`.

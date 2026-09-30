@@ -1,15 +1,33 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   createDefaultProgress,
+  loadProgress,
   loadProgressFrom,
   recordCompletion,
+  saveProgress,
 } from './progress';
 import { GAME_IDS } from './types';
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
 
 describe('progress', () => {
   it('uses defaults for missing or corrupt storage', () => {
     expect(loadProgressFrom(null)).toEqual(createDefaultProgress());
     expect(loadProgressFrom('{bad json')).toEqual(createDefaultProgress());
+  });
+
+  it('does not crash when localStorage throws', () => {
+    vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('blocked');
+    });
+    vi.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('quota');
+    });
+
+    expect(loadProgress()).toEqual(createDefaultProgress());
+    expect(() => saveProgress(createDefaultProgress())).not.toThrow();
   });
 
   it('rejects malformed saved state', () => {

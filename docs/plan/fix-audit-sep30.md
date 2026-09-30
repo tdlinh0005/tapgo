@@ -495,7 +495,7 @@ Files: `src/games/DragSortGame.test.tsx, DragMatchGame.test.tsx`
 - **Fix:** `vi.spyOn(HTMLElement.prototype,'getBoundingClientRect')` để tạo rect thật; test thả ngoài rect nhưng trong 24px, 40px với assist 0 và 1; `fireEvent.pointerCancel` thì vật về `translate(0px, 0px)`. Làm sau T08.
 - **Done when:** Mỗi game thêm 2 test pass; đổi `24 + assistLevel*16` thì test fail.
 
-### [ ] T37 · Test path fallback, localStorage throw, guided 1/5 vs Path 1/10
+### [x] T37 · Test path fallback, localStorage throw, guided 1/5 vs Path 1/10
 
 **P2 · Effort S · Tests** · Review: A-5, C-4, C-5  
 Files: `src/game/path.test.ts, src/game/progress.test.ts, src/App.test.tsx`

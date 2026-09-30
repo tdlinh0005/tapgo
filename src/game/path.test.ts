@@ -19,6 +19,16 @@ describe('path unlock', () => {
     expect(getRecommendedGameId(completed)).toBe('numbers');
   });
 
+  it('falls back to the first game under 3 stars, then to letters', () => {
+    let progress = createDefaultProgress();
+    for (const gameId of PATH_ORDER) progress = recordCompletion(progress, gameId, 3);
+    expect(getRecommendedGameId(progress)).toBe('letters');
+
+    progress = recordCompletion(createDefaultProgress(), 'letters', 3);
+    for (const gameId of PATH_ORDER.slice(1)) progress = recordCompletion(progress, gameId, gameId === 'mouse-trail' ? 2 : 3);
+    expect(getRecommendedGameId(progress)).toBe('mouse-trail');
+  });
+
   it('never recommends the excluded game', () => {
     let progress = createDefaultProgress();
     for (const gameId of PATH_ORDER) progress = recordCompletion(progress, gameId, 3);
