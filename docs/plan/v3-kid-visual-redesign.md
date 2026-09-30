@@ -133,7 +133,7 @@
 - Thêm một gói `@fontsource-variable/*` (subset `vietnamese` + `latin`), import trong `main.tsx`, khai báo `--font-family` trong `theme.css`; `html` trong `app.css` dùng token thay cho danh sách system-ui cứng.
 - Xong khi: dấu tiếng Việt hiển thị đúng trên mọi màn (so ảnh CDP); `npm run build` pass và `dist/` chứa file font; tab Network không có request ra domain ngoài.
 
-### [ ] V04 · Nền và card sinh động
+### [~] V04 · Nền và card sinh động — đang làm: lane-color
 
 - Nền: gradient nhẹ + vài hình trang trí emoji mờ cố định (☁️ ⭐ 🎈) ở rìa, `pointer-events: none`, `aria-hidden`, không động khi `prefers-reduced-motion`.
 - Card: viền dày bo tròn (radius từ token), bóng “nổi” kiểu nút đồ chơi, nhấn xuống khi hover/active (≤ `--motion-fast`); màu theo `data-category` (V02).
