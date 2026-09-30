@@ -194,7 +194,7 @@
 - Helper `src/game/pickRound.ts`: `pickRound(pool, roundIndex, seed)` hoán vị kho theo seed (PRNG xác định, vd mulberry32) rồi lấy `perm[roundIndex % length]`. Lượt ôn tự dùng lại đúng mục vì GameShell giữ `roundIndex`. Thiếu seed → `pool[roundIndex % length]` (test cũ như `ListenButton.test` không phải sửa).
 - Xong khi: unit test `pickRound` (xác định theo seed; không lặp trong một session khi kho ≥ số lượt; thiếu seed = thứ tự cũ); test GameShell: lượt ôn nhận cùng `sessionSeed` + `roundIndex`; cập nhật contract `MiniGameProps` trong spec.
 
-### [ ] V12 · Mở rộng kho 10 game + xáo vị trí đáp án
+### [~] V12 · Mở rộng kho 10 game + xáo vị trí đáp án — đang làm: lane-font
 
 - letters 14 chữ + find-key 12 chữ, rời nhau, hợp lại đủ A–Z (có I, Z, F, J, W, X); test T24 “không trùng” giữ nguyên, thêm test “hợp lại đủ 26 chữ”.
 - numbers: kho chỉ có 10 chữ số = số lượt → chỉ xáo thứ tự (miễn tiêu chí “kho > số lượt”).
