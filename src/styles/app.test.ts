@@ -80,4 +80,11 @@ describe('app visual acceptance rules', () => {
     expect(css).toMatch(/\.game-stage\.is-correct\s*\{[^}]*animation:/s);
     expect(css).toMatch(/\.game-stage\.is-retry\s*\{[^}]*animation:/s);
   });
+
+  it('keeps the success burst short, non-interactive and hidden under reduced motion', () => {
+    expect(theme).toMatch(/--motion-burst:\s*600ms/);
+    expect(css).toMatch(/\.stage-burst\s*\{[^}]*pointer-events:\s*none[^}]*animation:\s*tapgo-burst-fade var\(--motion-burst\)/s);
+    expect(css).toMatch(/\.stage-burst span\s*\{[^}]*animation:\s*tapgo-burst var\(--motion-burst\)/s);
+    expect(css).toMatch(/@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{[\s\S]*\.stage-burst\s*\{\s*display:\s*none/);
+  });
 });

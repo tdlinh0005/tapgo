@@ -15,6 +15,8 @@ const GUIDES = {
   mouse: { title: '🖱️ Dùng chuột', body: 'Làm theo hình minh họa. Con có thể thử lại, không cần vội.' },
 } as const;
 
+const BURST = ['⭐', '✨', '🌟', '⭐', '✨', '🌟'];
+
 type GameShellProps = {
   definition: GameDefinition;
   roundLimit?: number;
@@ -42,6 +44,7 @@ export default function GameShell({
   const [reviewMessage, setReviewMessage] = useState<string | null>(null);
   const [retryCount, setRetryCount] = useState(0);
   const [guideOpen, setGuideOpen] = useState(false);
+  const [burstKey, setBurstKey] = useState<number | null>(null);
   const { speak } = useSpeech();
   const feedback = useFeedbackTone();
   const MiniGame = definition.component;
@@ -59,6 +62,7 @@ export default function GameShell({
     const nextOutcomes = completingReview ? outcomes : [...outcomes, outcome];
     feedback.correct();
     setFeedbackState('correct');
+    setBurstKey((current) => (current ?? 0) + 1);
     setVisibleHint(null);
     setRetryCount(0);
 
@@ -105,6 +109,7 @@ export default function GameShell({
     setOutcomes([]);
     setStars(null);
     setFeedbackState(null);
+    setBurstKey(null);
     setVisibleHint(null);
     setReviewPending(false);
     setReviewCycle(0);
@@ -191,6 +196,19 @@ export default function GameShell({
           speak={speak}
           assistLevel={assistLevel}
         />
+        {burstKey !== null && (
+          <span
+            key={burstKey}
+            className="stage-burst"
+            data-testid="stage-burst"
+            aria-hidden="true"
+            onAnimationEnd={(event) => {
+              if (event.target === event.currentTarget) setBurstKey(null);
+            }}
+          >
+            {BURST.map((emoji, index) => <span key={index}>{emoji}</span>)}
+          </span>
+        )}
       </div>
     </main>
   );

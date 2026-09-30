@@ -296,4 +296,32 @@ describe('GameShell', () => {
     expect(speak.mock.calls.filter(([text]) => text !== definition.intro)).toHaveLength(1);
     expect(screen.queryByRole('complementary', { name: 'Cách chơi' })).not.toBeInTheDocument();
   });
+
+  it('bursts on the stage after a correct round, survives the round change and leaves stage feedback alone', async () => {
+    const user = userEvent.setup();
+    render(
+      <GameShell
+        definition={definition}
+        onComplete={() => {}}
+        onHome={() => {}}
+        onNext={() => {}}
+      />,
+    );
+
+    await user.click(screen.getByRole('button', { name: 'Thử lại lượt' }));
+    expect(screen.queryByTestId('stage-burst')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Hoàn thành lượt' }));
+    const burst = screen.getByTestId('stage-burst');
+    expect(burst).toHaveAttribute('aria-hidden', 'true');
+    expect(burst.parentElement).toBe(screen.getByTestId('game-stage'));
+    expect(screen.getByText('2 / 2')).toBeInTheDocument();
+
+    endAnimation(burst.firstElementChild as HTMLElement);
+    expect(screen.getByTestId('stage-burst')).toBeInTheDocument();
+
+    endAnimation(burst);
+    expect(screen.queryByTestId('stage-burst')).not.toBeInTheDocument();
+    expect(screen.getByTestId('game-stage')).toHaveAttribute('data-feedback', 'correct');
+  });
 });

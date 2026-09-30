@@ -582,6 +582,7 @@ button:disabled {
   min-height: 0;
   display: grid;
   grid-template-rows: minmax(0, 1fr);
+  position: relative;
   margin-top: var(--space-sm);
   border-radius: var(--radius-card);
 }
@@ -596,6 +597,54 @@ button:disabled {
 
 .game-stage.is-retry {
   animation: tapgo-shake var(--motion-shake) ease-in-out;
+}
+
+/* Success burst lives on the stage, not the target, because the target unmounts as soon as the round is correct. */
+.stage-burst {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  animation: tapgo-burst-fade var(--motion-burst) linear forwards;
+}
+
+.stage-burst span {
+  grid-area: 1 / 1;
+  font-size: 48px;
+  line-height: 1;
+  animation: tapgo-burst var(--motion-burst) ease-out forwards;
+}
+
+.stage-burst span:nth-child(1) {
+  --burst-x: -150px;
+  --burst-y: -90px;
+}
+
+.stage-burst span:nth-child(2) {
+  --burst-x: 0px;
+  --burst-y: -140px;
+}
+
+.stage-burst span:nth-child(3) {
+  --burst-x: 150px;
+  --burst-y: -90px;
+}
+
+.stage-burst span:nth-child(4) {
+  --burst-x: -150px;
+  --burst-y: 80px;
+}
+
+.stage-burst span:nth-child(5) {
+  --burst-x: 0px;
+  --burst-y: 120px;
+}
+
+.stage-burst span:nth-child(6) {
+  --burst-x: 150px;
+  --burst-y: 80px;
 }
 
 /* Assist: level 1 outlines the real target, level 2 also enlarges it. */
@@ -1245,6 +1294,29 @@ button:disabled {
   }
 }
 
+@keyframes tapgo-burst {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.4);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate(var(--burst-x), var(--burst-y)) scale(1.2);
+  }
+}
+
+@keyframes tapgo-burst-fade {
+  0%,
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes tapgo-shake {
   0%,
   100% {
@@ -1276,5 +1348,9 @@ button:disabled {
 
   .game-result .star-rating > span {
     animation: none;
+  }
+
+  .stage-burst {
+    display: none;
   }
 }
