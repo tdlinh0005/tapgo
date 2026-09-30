@@ -243,7 +243,7 @@ Files: `src/hooks/useFeedbackTone.ts`
 - **Fix:** Tạo một context cấp module (lazy), gọi `resume()` nếu đang suspended, không close sau mỗi tone, giữ try/catch no-op.
 - **Done when:** Test mock AudioContext: sau 3× `correct()` + 2× `retry()`, constructor chỉ được gọi 1 lần.
 
-### [ ] T15 · Speech không cancel khi rời game
+### [~] T15 · Speech không cancel khi rời game — đang làm: Lane A
 
 **P2 · Effort S · Flow/Logic** · Review: A-4  
 Files: `src/hooks/useSpeech.ts, src/hooks/useSpeech.test.ts`

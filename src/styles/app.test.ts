@@ -26,6 +26,10 @@ describe('app visual acceptance rules', () => {
     expect(css).toMatch(/\.trail-checkpoint\s*\{[^}]*position:\s*absolute/s);
   });
 
+  it('does not force a desktop width on the body so the desktop gate never scrolls sideways', () => {
+    expect(css).not.toMatch(/(^|\n)body\s*\{[^}]*min-width/s);
+  });
+
   it('uses theme tokens instead of literal foreground colors', () => {
     expect(css).not.toMatch(/color:\s*white/);
   });
