@@ -197,7 +197,7 @@ Files: `src/games/MouseTrailGame.tsx`
 - **Fix:** Định nghĩa thao tác sai: đi vào checkpoint *không phải* checkpoint kế tiếp thì `attempts += 1` và gọi `onRetry(hint)`, không reset tiến độ (khớp spec "ra ngoài không reset"). Report `attempts` thật.
 - **Done when:** Test: đi vào checkpoint 2 trước checkpoint 1 thì `onRetry` được gọi; outcome `{correct: n, attempts: n+1}`.
 
-### [ ] T11 · Ghép cặp: đổi từ hình–chữ sang hình–hình (bóng/màu/nhóm)
+### [~] T11 · Ghép cặp: đổi từ hình–chữ sang hình–hình (bóng/màu/nhóm) — đang làm: Lane B
 
 **P1 · Effort M · UI/UX** · Review: B-6  
 Files: `src/games/DragMatchGame.tsx, src/styles/app.css`
@@ -348,7 +348,7 @@ Files: `src/game/GameShell.tsx, src/hooks/useExpectedKey.ts, src/games/WordTypin
 - **Fix:** Tạo một hằng `RETRY_PREFIX = 'Thử lại nhé!'`, hint dạng `${RETRY_PREFIX} Tìm phím X trên bàn phím nhé.`, game Chuỗi truyền hint theo ký tự hiện tại.
 - **Done when:** `grep "con làm chậm thôi"` còn ≤1 hit; mọi hint bắt đầu bằng "Thử lại nhé!"; test Word/Sequence kiểm hint.
 
-### [~] T24 · Dữ liệu vòng chơi: Chuỗi dài 3–5 ký tự, FindKey khác bộ Letters — đang làm: Lane C
+### [x] T24 · Dữ liệu vòng chơi: Chuỗi dài 3–5 ký tự, FindKey khác bộ Letters
 
 **P2 · Effort S · UI/UX** · Review: B-10  
 Files: `src/games/SequenceTypingGame.tsx, src/games/FindKeyGame.tsx`

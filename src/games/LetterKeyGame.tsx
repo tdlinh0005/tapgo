@@ -1,7 +1,7 @@
 import type { MiniGameProps } from '../game/types';
 import { useExpectedKey } from '../hooks/useExpectedKey';
 
-const LETTERS = ['A', 'M', 'S', 'L', 'P', 'E', 'B', 'C', 'N', 'T'] as const;
+export const LETTERS = ['A', 'M', 'S', 'L', 'P', 'E', 'B', 'C', 'N', 'T'] as const;
 
 export default function LetterKeyGame({ roundIndex, onRoundComplete, onRetry }: MiniGameProps) {
   const target = LETTERS[roundIndex % LETTERS.length];

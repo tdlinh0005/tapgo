@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { MiniGameProps } from '../game/types';
 
-const SEQUENCES = ['ASD', 'JKL', 'QWE', 'RTY', 'ABC', 'MEO', 'CON', 'NHA'] as const;
+export const SEQUENCES = ['ASD', 'ASDF', 'JKL', 'JKLM', 'FGH', 'ASDFG', 'QWE', 'RTYU'] as const;
 
 export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetry }: MiniGameProps) {
   const sequence = SEQUENCES[roundIndex % SEQUENCES.length];

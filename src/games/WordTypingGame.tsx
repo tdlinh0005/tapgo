@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import type { MiniGameProps } from '../game/types';
 
-const WORDS = ['ME', 'BA', 'CON', 'MEO', 'CHO', 'NHA', 'XE', 'CA'] as const;
+export const WORDS = ['ME', 'BA', 'CON', 'MEO', 'CHO', 'NHA', 'XE', 'CA'] as const;
 
 export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry }: MiniGameProps) {
   const word = WORDS[roundIndex % WORDS.length];

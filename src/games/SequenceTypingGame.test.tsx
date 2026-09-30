@@ -1,9 +1,20 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import SequenceTypingGame from './SequenceTypingGame';
+import SequenceTypingGame, { SEQUENCES } from './SequenceTypingGame';
+import { WORDS } from './WordTypingGame';
 
 describe('SequenceTypingGame', () => {
+  it('uses sequences of 3 to 5 keys that are not words from the word game', () => {
+    const words: readonly string[] = WORDS;
+    for (const sequence of SEQUENCES) {
+      expect(sequence.length).toBeGreaterThanOrEqual(3);
+      expect(sequence.length).toBeLessThanOrEqual(5);
+      expect(words).not.toContain(sequence);
+    }
+    expect(SEQUENCES.some((sequence) => sequence.length > 3)).toBe(true);
+  });
+
   it('advances the cursor without resetting after a wrong key', async () => {
     const user = userEvent.setup();
     const onRoundComplete = vi.fn();

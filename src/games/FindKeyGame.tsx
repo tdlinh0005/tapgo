@@ -1,7 +1,7 @@
 import type { MiniGameProps } from '../game/types';
 import { useExpectedKey } from '../hooks/useExpectedKey';
 
-const TARGETS = ['A', 'M', 'S', 'L', 'P', 'E', 'B', 'C', 'N', 'T'] as const;
+export const TARGETS = ['Q', 'G', 'H', 'K', 'R', 'U', 'V', 'Y', 'D', 'O'] as const;
 
 export default function FindKeyGame({ roundIndex, onRoundComplete, onRetry, speak }: MiniGameProps) {
   const target = TARGETS[roundIndex % TARGETS.length];
