@@ -280,7 +280,7 @@ Files: `src/game/GameShell.tsx, docs/feat/tapgo-mvp.md`
 - **Fix:** Không sinh lượt ôn khi có `roundLimit`, hoặc ghi vào spec rằng lượt ôn không tính vào giới hạn 5. Thêm test tương ứng.
 - **Done when:** Spec ghi rõ và có test: guided với 5 lượt đều sai 1 lần vẫn kết thúc sau đúng 5 lượt.
 
-### [~] T18 · Hint được đọc lại ở mọi lỗi từ lần thứ 2 trở đi — đang làm: Lane A
+### [x] T18 · Hint được đọc lại ở mọi lỗi từ lần thứ 2 trở đi
 
 **P3 · Effort S · Flow/Logic** · Review: A-8  
 Files: `src/game/GameShell.tsx`

@@ -83,7 +83,7 @@ export default function GameShell({
     setVisibleHint(safeHint);
     setFeedbackState('retry');
 
-    if (nextRetryCount >= 2) {
+    if (nextRetryCount === 2) {
       setGuideOpen(true);
       speak(safeHint);
     }

@@ -4,6 +4,9 @@ import { describe, expect, it, vi } from 'vitest';
 import GameShell from './GameShell';
 import type { MiniGameProps } from './types';
 
+const speak = vi.hoisted(() => vi.fn());
+vi.mock('../hooks/useSpeech', () => ({ useSpeech: () => ({ speak, supported: true }) }));
+
 function FakeGame({ onRoundComplete, onRetry }: MiniGameProps) {
   return (
     <>
@@ -181,5 +184,29 @@ describe('GameShell', () => {
 
     expect(screen.getByRole('complementary', { name: 'Cách chơi' })).toBeInTheDocument();
     expect(screen.getByTestId('game-stage')).toHaveClass('assist-level-1');
+  });
+
+  it('speaks the hint and opens the guide only on the second retry', async () => {
+    const user = userEvent.setup();
+    speak.mockClear();
+
+    render(
+      <GameShell
+        definition={definition}
+        onComplete={() => {}}
+        onHome={() => {}}
+        onNext={() => {}}
+      />,
+    );
+
+    const retry = screen.getByRole('button', { name: 'Thử lại lượt' });
+    await user.click(retry);
+    await user.click(retry);
+    await user.click(screen.getByRole('button', { name: 'Ẩn cách chơi' }));
+    await user.click(retry);
+    await user.click(retry);
+
+    expect(speak.mock.calls.filter(([text]) => text !== definition.intro)).toHaveLength(1);
+    expect(screen.queryByRole('complementary', { name: 'Cách chơi' })).not.toBeInTheDocument();
   });
 });
