@@ -22,6 +22,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Guided Play quick sessions no longer add review rounds, so they end after at most 5 rounds.
 - Click target places each target at a random position inside the safe area instead of a fixed sequence.
 - Drag match asks the child to drop a picture on its shadow instead of on a written word.
+- The progress screen offers a `Chơi <bài>` button for the recommended game (opened as a quick session) and shows best stars with the star rating.
 - Game cards show a `Chơi` button labelled with the game title, and locked cards say `Xong bài trước để mở`.
 
 ### Fixed

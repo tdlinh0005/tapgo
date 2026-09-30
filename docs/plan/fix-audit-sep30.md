@@ -392,7 +392,7 @@ Files: `src/components/GameCard.tsx, src/components/StarRating.tsx, src/games/Le
 - **Fix:** Nút ghi "Chơi" kèm `aria-label={`Chơi ${title}`}`; khi khoá ghi "🔒 Xong bài trước để mở"; thêm `role="img"` cho StarRating và các span có aria-label.
 - **Done when:** `getByRole('button', {name: 'Chơi Gõ chữ cái'})` và `getByRole('img', {name: '2 sao'})` đều tìm được.
 
-### [ ] T28 · Màn Tiến độ: thêm nút làm theo gợi ý, dùng StarRating
+### [x] T28 · Màn Tiến độ: thêm nút làm theo gợi ý, dùng StarRating
 
 **P2 · Effort S · UI/UX** · Review: B-15  
 Files: `src/screens/ProgressScreen.tsx, src/App.tsx`

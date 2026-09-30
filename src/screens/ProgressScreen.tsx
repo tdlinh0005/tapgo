@@ -1,13 +1,17 @@
+import ActionButton from '../components/ActionButton';
+import StarRating from '../components/StarRating';
 import { getRecommendedGameId } from '../game/path';
 import { gameRegistry, getGameDefinition } from '../game/registry';
 import type { ProgressState } from '../game/progress';
+import type { GameId } from '../game/types';
 
 type Props = {
   progress: ProgressState;
+  onPlay: (gameId: GameId) => void;
   onHome: () => void;
 };
 
-export default function ProgressScreen({ progress, onHome }: Props) {
+export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
   const totalStars = gameRegistry.reduce(
     (sum, game) => sum + progress.games[game.id].bestStars,
     0,
@@ -30,8 +34,11 @@ export default function ProgressScreen({ progress, onHome }: Props) {
         <span aria-hidden="true">💡</span>
         <div>
           <strong>Gợi ý cho bố mẹ</strong>
-          <p>{recommended.title} — mình luyện thêm một chút để nhớ lâu hơn nhé.</p>
+          <p>Mình luyện thêm {recommended.title} một chút để nhớ lâu hơn nhé.</p>
         </div>
+        <ActionButton icon={recommended.emoji} onClick={() => onPlay(recommended.id)}>
+          Chơi {recommended.title}
+        </ActionButton>
       </aside>
       <ul className="progress-list" aria-label="Tiến độ từng bài">
         {gameRegistry.map((game) => {
@@ -43,7 +50,7 @@ export default function ProgressScreen({ progress, onHome }: Props) {
                 <strong>{game.title}</strong>
                 <span>{gameProgress.completed ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</span>
               </div>
-              <span className="progress-game-stars">{gameProgress.bestStars} sao</span>
+              <StarRating stars={gameProgress.bestStars} />
             </li>
           );
         })}
