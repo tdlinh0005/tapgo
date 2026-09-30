@@ -5,7 +5,7 @@ import type { MiniGameProps } from '../game/types';
 
 export const WORDS = ['ME', 'BA', 'CON', 'MEO', 'CHO', 'NHA', 'XE', 'CA'] as const;
 
-export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry, speak }: MiniGameProps) {
+export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const word = WORDS[roundIndex % WORDS.length];
   const [charIndex, setCharIndex] = useState(0);
   const attempts = useRef(0);
@@ -39,7 +39,11 @@ export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry, s
       <p className="game-prompt">Gõ từ này</p>
       <div className="typing-sequence" role="img" aria-label={word}>
         {word.split('').map((character, index) => (
-          <span key={`${character}-${index}`} data-state={index < charIndex ? 'done' : index === charIndex ? 'active' : 'todo'}>
+          <span
+            key={`${character}-${index}`}
+            data-state={index < charIndex ? 'done' : index === charIndex ? 'active' : 'todo'}
+            data-assist={index === charIndex ? assistLevel || undefined : undefined}
+          >
             {character}
           </span>
         ))}

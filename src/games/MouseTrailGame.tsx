@@ -51,7 +51,8 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, s
           <div
             key={index}
             data-testid={`checkpoint-${index}`}
-            className={`trail-checkpoint${index < nextCheckpoint ? ' is-done' : ''}${index === nextCheckpoint ? ' is-next' : ''}${assistLevel > 0 && index === nextCheckpoint ? ' is-assisted' : ''}`}
+            className={`trail-checkpoint${index < nextCheckpoint ? ' is-done' : ''}${index === nextCheckpoint ? ' is-next' : ''}`}
+            data-assist={index === nextCheckpoint ? assistLevel || undefined : undefined}
             style={{ left: `${left}%`, top: `${top}%` }}
             onPointerEnter={() => visit(index)}
             role="img"

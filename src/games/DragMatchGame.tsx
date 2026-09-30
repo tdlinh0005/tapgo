@@ -59,6 +59,7 @@ export default function DragMatchGame({ roundIndex, onRoundComplete, onRetry, sp
               aria-label={`Bóng của ${label.toLowerCase()}`}
               data-match-label={label}
               data-match-correct={label === round.answer ? 'true' : undefined}
+              data-assist={label === round.answer ? assistLevel || undefined : undefined}
             >
               <span className="match-shadow" aria-hidden="true">{emoji}</span>
             </div>

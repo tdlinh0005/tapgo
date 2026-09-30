@@ -39,7 +39,7 @@ export default function PickPictureGame({ roundIndex, onRoundComplete, onRetry, 
             type="button"
             className="picture-option"
             aria-label={option}
-            data-correct={assistLevel >= 2 && option === round.answer ? 'true' : undefined}
+            data-assist={option === round.answer ? assistLevel || undefined : undefined}
             key={option}
             onClick={() => choose(option)}
           >

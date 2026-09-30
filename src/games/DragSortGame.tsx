@@ -49,7 +49,7 @@ export default function DragSortGame({ roundIndex, onRoundComplete, onRetry, spe
         >
           {round.item}
         </button>
-        <div className="drop-zone" data-drop-result="correct" data-testid="correct-zone">
+        <div className="drop-zone" data-drop-result="correct" data-testid="correct-zone" data-assist={assistLevel || undefined}>
           <span aria-hidden="true">{round.target}</span>
           <span>{round.targetLabel}</span>
         </div>

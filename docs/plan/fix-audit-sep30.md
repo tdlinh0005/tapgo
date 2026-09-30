@@ -208,7 +208,7 @@ Files: `src/games/DragMatchGame.tsx, src/styles/app.css`
 - **Fix:** Đích là bóng đen của chính emoji (class `.match-shadow` với `filter: brightness(0)`) hoặc ô màu/nhóm. Chữ chỉ giữ trong `aria-label`.
 - **Done when:** Ô đích không còn chữ hiển thị; test DragMatch pass với selector `data-match-label`.
 
-### [ ] T12 · Thống nhất cơ chế assist cho mọi game (data-assist)
+### [x] T12 · Thống nhất cơ chế assist cho mọi game (data-assist)
 
 **P1 · Effort M · UI/UX** · Review: B-7, C-7  
 Files: `src/games/*.tsx, src/styles/app.css`

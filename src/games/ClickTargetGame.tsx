@@ -32,7 +32,8 @@ export default function ClickTargetGame({ onRoundComplete, onRetry, speak, assis
       >
         <button
           type="button"
-          className={`click-target${assistLevel > 0 ? ' is-assisted' : ''}`}
+          className="click-target"
+          data-assist={assistLevel || undefined}
           aria-label="Mục tiêu"
           onClick={handleTarget}
           style={{ left: `${left}%`, top: `${top}%` }}

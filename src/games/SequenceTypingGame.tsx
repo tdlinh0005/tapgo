@@ -5,7 +5,7 @@ import type { MiniGameProps } from '../game/types';
 
 export const SEQUENCES = ['ASD', 'ASDF', 'JKL', 'JKLM', 'FGH', 'ASDFG', 'QWE', 'RTYU'] as const;
 
-export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetry, speak }: MiniGameProps) {
+export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const sequence = SEQUENCES[roundIndex % SEQUENCES.length];
   const [keyIndex, setKeyIndex] = useState(0);
   const attempts = useRef(0);
@@ -39,7 +39,11 @@ export default function SequenceTypingGame({ roundIndex, onRoundComplete, onRetr
       <p className="game-prompt">Gõ theo thứ tự</p>
       <div className="typing-sequence">
         {sequence.split('').map((character, index) => (
-          <span key={`${character}-${index}`} data-state={index < keyIndex ? 'done' : index === keyIndex ? 'active' : 'todo'}>
+          <span
+            key={`${character}-${index}`}
+            data-state={index < keyIndex ? 'done' : index === keyIndex ? 'active' : 'todo'}
+            data-assist={index === keyIndex ? assistLevel || undefined : undefined}
+          >
             {character}
           </span>
         ))}

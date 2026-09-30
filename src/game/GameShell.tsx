@@ -170,7 +170,7 @@ export default function GameShell({
       )}
 
       <div
-        className={`game-stage assist-level-${assistLevel}${feedbackState ? ` is-${feedbackState}` : ''}`}
+        className={`game-stage${feedbackState ? ` is-${feedbackState}` : ''}`}
         data-testid="game-stage"
         data-feedback={feedbackState ?? 'idle'}
         onAnimationEnd={(event) => {

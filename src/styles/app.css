@@ -353,22 +353,20 @@ button:disabled {
   animation: tapgo-shake 420ms ease-in-out;
 }
 
-.game-stage.assist-level-1 .key-target,
-.game-stage.assist-level-2 .key-target {
+/* Assist: level 1 outlines the real target, level 2 also enlarges it. */
+[data-assist="1"],
+[data-assist="2"] {
+  border-color: var(--color-primary);
   box-shadow: 0 0 0 8px var(--color-primary-soft);
 }
 
-.game-stage.assist-level-2 .key-target {
-  transform: scale(1.06);
-}
-
-.game-stage.assist-level-1 [data-drop-result="correct"],
-.game-stage.assist-level-2 [data-drop-result="correct"],
-.game-stage.assist-level-1 [data-match-correct="true"],
-.game-stage.assist-level-2 [data-match-correct="true"],
-.game-stage.assist-level-2 .picture-option[data-correct="true"] {
-  border-color: var(--color-primary);
+.key-target[data-assist="2"],
+.typing-sequence span[data-assist="2"],
+.picture-option[data-assist="2"],
+.drop-zone[data-assist="2"],
+[data-match-label][data-assist="2"] {
   background: var(--color-primary-soft);
+  transform: scale(1.08);
 }
 
 .typing-game,
@@ -503,7 +501,15 @@ button:disabled {
     transform var(--motion-fast) ease;
 }
 
-.click-target.is-assisted .click-target-visual {
+.click-target[data-assist] {
+  box-shadow: none;
+}
+
+.click-target[data-assist] .click-target-visual {
+  box-shadow: 0 0 0 8px var(--color-primary-soft);
+}
+
+.click-target[data-assist="2"] .click-target-visual {
   width: 88px;
   height: 88px;
   transform: scale(1.04);
@@ -572,7 +578,16 @@ button:disabled {
   background: var(--color-success-soft);
 }
 
-.trail-checkpoint.is-assisted > span {
+.trail-checkpoint[data-assist] {
+  box-shadow: none;
+}
+
+.trail-checkpoint[data-assist] > span {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 8px var(--color-primary-soft);
+}
+
+.trail-checkpoint[data-assist="2"] > span {
   width: 86px;
   height: 86px;
 }

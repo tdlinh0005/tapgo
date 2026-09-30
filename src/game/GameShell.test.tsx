@@ -7,9 +7,10 @@ import type { MiniGameProps } from './types';
 const speak = vi.hoisted(() => vi.fn());
 vi.mock('../hooks/useSpeech', () => ({ useSpeech: () => ({ speak, supported: true }) }));
 
-function FakeGame({ onRoundComplete, onRetry }: MiniGameProps) {
+function FakeGame({ onRoundComplete, onRetry, assistLevel = 0 }: MiniGameProps) {
   return (
     <>
+      <div data-testid="fake-target" data-assist={assistLevel || undefined} />
       <button onClick={() => onRoundComplete({ correct: 1, attempts: 1 })}>
         Hoàn thành lượt
       </button>
@@ -205,7 +206,7 @@ describe('GameShell', () => {
     await user.click(screen.getByRole('button', { name: 'Thử lại lượt' }));
 
     expect(screen.getByRole('complementary', { name: 'Cách chơi' })).toBeInTheDocument();
-    expect(screen.getByTestId('game-stage')).toHaveClass('assist-level-1');
+    expect(screen.getByTestId('fake-target')).toHaveAttribute('data-assist', '1');
   });
 
   it('speaks the hint and opens the guide only on the second retry', async () => {
