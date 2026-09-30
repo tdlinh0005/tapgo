@@ -120,12 +120,13 @@
   - Áp `height: 100vh` + stage `1fr` cho mọi `.game-shell` đang chơi (không chỉ 2 game chuột); game phím/kéo thả dùng `min-height` theo `min(460px, 100%)` thay cho sàn cứng. Cập nhật regex `.game-shell:has(...)` trong `app.test.ts` theo selector mới.
 - Xong khi: ở 1366×768 và 1280×720, với hint + guide cùng mở, đáy vùng chơi (và vật kéo) ≤ `innerHeight` cho cả 10 game (đo CDP `getBoundingClientRect`, ghi số đo vào task); `app.test.ts` cập nhật tương ứng; test GameShell về guide/hint/review pass.
 
-### [~] V02 · Bảng màu vui theo vai trò + màu theo nhóm — đang làm: lane-color
+### [x] V02 · Bảng màu vui theo vai trò + màu theo nhóm
 
 - Thêm token vai trò trong `theme.css`: `--color-keyboard` (cam/san hô) và `--color-mouse` (xanh ngọc), mỗi màu có `-soft` (nền) và `-strong` (chữ/viền); `--color-reward` (vàng sao); giữ `--color-primary` cho CTA chính.
 - Thêm `data-category={definition.category}` trên `.game-shell` (GameShell) và `.game-card` (GameCard); CSS chọn màu qua `[data-category="keyboard"]` / `"mouse"`, không viết màu cứng trong `app.css`.
 - Chữ trắng trên cam/xanh ngọc sáng thường không đạt 4.5:1 → nền màu nhóm dùng `-soft` + chữ `--color-text`/`-strong`; chỉ dùng chữ trắng trên `-strong`.
 - Xong khi: tương phản chữ/nền ≥ 4.5:1 cho mọi cặp token dùng cho chữ (ghi tỉ lệ vào task); `index.html` `theme-color` vẫn khớp `--color-bg`.
+- Kết quả: token `--color-keyboard` `#fb923c` / `-soft` `#ffedd5` / `-strong` `#c2410c`, `--color-mouse` `#2dd4bf` / `-soft` `#ccfbf1` / `-strong` `#0f766e`, `--color-reward` `#fbbf24`; alias `--color-category(-soft/-strong)` mặc định = primary, đổi theo `[data-category="keyboard"|"mouse"]` trong `theme.css`. `app.css` dùng alias cho viền `.game-card`, nền `.game-card-emoji`, `.progress-track` (soft) / `.progress-fill` (strong). Tương phản (WCAG): `--color-text` trên keyboard-soft 14.05, mouse-soft 14.29, reward 9.64; keyboard-strong trên surface 5.18, bg 4.89, keyboard-soft 4.52; mouse-strong trên surface 5.47, bg 5.17, mouse-soft 4.86; chữ trắng trên keyboard-strong 5.18, mouse-strong 5.47. Màu gốc `--color-keyboard` (2.26 trên trắng) / `--color-mouse` (1.86) chỉ dùng trang trí (viền card), không dùng cho chữ. Đo CDP (dev server 5182): 10 `game-card` có `data-category` đúng (5 keyboard viền `rgb(251,146,60)`, 5 mouse `rgb(45,212,191)`); `.game-shell` Gõ chữ cái fill `rgb(194,65,12)` / track `rgb(255,237,213)`, Click mục tiêu fill `rgb(15,118,110)` / track `rgb(204,251,241)`; `theme-color` `#fff8e8` = `--color-bg`.
 
 ### [~] V03 · Font bo tròn tiếng Việt — đang làm: lane-font
 

@@ -9,7 +9,7 @@ type GameCardProps = {
 
 export default function GameCard({ game, stars, locked = false, onPlay }: GameCardProps) {
   return (
-    <article className={`game-card${locked ? ' is-locked' : ''}`} data-testid="game-card">
+    <article className={`game-card${locked ? ' is-locked' : ''}`} data-testid="game-card" data-category={game.category}>
       <span className="game-card-emoji" aria-hidden="true">{game.emoji}</span>
       <div className="game-card-copy">
         <h2>{game.title}</h2>

@@ -201,7 +201,7 @@ button:disabled {
   align-items: center;
   gap: 18px;
   min-height: 132px;
-  border: 2px solid transparent;
+  border: 2px solid var(--color-category);
   border-radius: var(--radius-card);
   padding: 20px;
   background: var(--color-surface);
@@ -218,7 +218,7 @@ button:disabled {
   width: 64px;
   height: 64px;
   border-radius: var(--radius-sm);
-  background: var(--color-primary-soft);
+  background: var(--color-category-soft);
   font-size: 36px;
 }
 
@@ -269,14 +269,14 @@ button:disabled {
   height: 18px;
   overflow: hidden;
   border-radius: var(--radius-pill);
-  background: var(--color-primary-soft);
+  background: var(--color-category-soft);
 }
 
 .progress-fill {
   display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--color-primary);
+  background: var(--color-category-strong);
   transition: width var(--motion-fast) ease;
 }
 

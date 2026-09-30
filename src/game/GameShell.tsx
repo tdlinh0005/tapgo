@@ -105,7 +105,7 @@ export default function GameShell({
 
   if (stars !== null) {
     return (
-      <main className="game-shell game-result">
+      <main className="game-shell game-result" data-category={definition.category}>
         <div className="game-result-emoji" aria-hidden="true">🎉</div>
         <h1>Con làm xong rồi!</h1>
         <p className="result-celebration">🎉 Hoàn thành {definition.title}</p>
@@ -121,7 +121,7 @@ export default function GameShell({
   }
 
   return (
-    <main className="game-shell">
+    <main className="game-shell" data-category={definition.category}>
       <header className="game-header">
         <button type="button" onClick={onHome} aria-label="Về nhà">🏠</button>
         <div className="game-heading">

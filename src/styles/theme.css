@@ -11,6 +11,16 @@
   --color-muted: #687078;
   --color-border: #cfd3dc;
   --color-focus: #f59e0b;
+  --color-keyboard: #fb923c;
+  --color-keyboard-soft: #ffedd5;
+  --color-keyboard-strong: #c2410c;
+  --color-mouse: #2dd4bf;
+  --color-mouse-soft: #ccfbf1;
+  --color-mouse-strong: #0f766e;
+  --color-reward: #fbbf24;
+  --color-category: var(--color-primary);
+  --color-category-soft: var(--color-primary-soft);
+  --color-category-strong: var(--color-primary);
   --radius-sm: 20px;
   --radius-card: 24px;
   --radius-lg: 32px;
@@ -25,4 +35,16 @@
   --motion-fast: 180ms;
   --motion-pop: 360ms;
   --motion-shake: 420ms;
+}
+
+[data-category="keyboard"] {
+  --color-category: var(--color-keyboard);
+  --color-category-soft: var(--color-keyboard-soft);
+  --color-category-strong: var(--color-keyboard-strong);
+}
+
+[data-category="mouse"] {
+  --color-category: var(--color-mouse);
+  --color-category-soft: var(--color-mouse-soft);
+  --color-category-strong: var(--color-mouse-strong);
 }
