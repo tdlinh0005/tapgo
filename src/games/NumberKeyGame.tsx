@@ -10,7 +10,7 @@ export default function NumberKeyGame({ roundIndex, onRoundComplete, onRetry }: 
   return (
     <section className="typing-game" aria-label="Gõ số">
       <p className="game-prompt">Bấm số này</p>
-      <div className="key-target" aria-label={`Số ${target}`}>{target}</div>
+      <div className="key-target" role="img" aria-label={`Số ${target}`}>{target}</div>
     </section>
   );
 }

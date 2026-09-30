@@ -13,10 +13,15 @@ export default function GameCard({ game, stars, locked = false, onPlay }: GameCa
       <span className="game-card-emoji" aria-hidden="true">{game.emoji}</span>
       <div className="game-card-copy">
         <h2>{game.title}</h2>
-        <span aria-label={`${stars} sao`}>{'⭐'.repeat(stars)}{'☆'.repeat(3 - stars)}</span>
+        <span role="img" aria-label={`${stars} sao`}>{'⭐'.repeat(stars)}{'☆'.repeat(3 - stars)}</span>
       </div>
-      <button type="button" onClick={onPlay} disabled={locked}>
-        {game.title}{locked ? ' - khóa' : ''}
+      <button
+        type="button"
+        onClick={onPlay}
+        disabled={locked}
+        aria-label={locked ? `${game.title}: xong bài trước để mở` : `Chơi ${game.title}`}
+      >
+        {locked ? '🔒 Xong bài trước để mở' : 'Chơi'}
       </button>
     </article>
   );

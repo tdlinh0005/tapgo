@@ -49,6 +49,7 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, a
           className={`trail-checkpoint${index < nextCheckpoint ? ' is-done' : ''}${index === nextCheckpoint ? ' is-next' : ''}${assistLevel > 0 && index === nextCheckpoint ? ' is-assisted' : ''}`}
           style={{ left: `${left}%`, top: `${top}%` }}
           onPointerEnter={() => visit(index)}
+          role="img"
           aria-label={labelFor(index)}
         >
           <span>{index === 0 ? '🟢' : index === finishIndex ? '🏁' : index}</span>

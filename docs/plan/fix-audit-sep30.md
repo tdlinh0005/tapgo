@@ -381,7 +381,7 @@ Files: `src/games/WordTypingGame.tsx, src/games/SequenceTypingGame.tsx, src/styl
 - **Fix:** Dùng `data-state="done|active|todo"`; trạng thái done dùng `--color-success` và `--color-success-soft`.
 - **Done when:** Test: gõ đúng ký tự đầu thì span đầu có `data-state="done"`.
 
-### [~] T27 · GameCard và aria: nút ghi "Chơi", bài khoá nói cách mở, aria-label có role — đang làm: Lane C
+### [x] T27 · GameCard và aria: nút ghi "Chơi", bài khoá nói cách mở, aria-label có role
 
 **P2 · Effort S · UI/UX** · Review: B-14  
 Files: `src/components/GameCard.tsx, src/components/StarRating.tsx, src/games/LetterKeyGame.tsx, NumberKeyGame.tsx, WordTypingGame.tsx, MouseTrailGame.tsx`

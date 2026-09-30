@@ -22,6 +22,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Guided Play quick sessions no longer add review rounds, so they end after at most 5 rounds.
 - Click target places each target at a random position inside the safe area instead of a fixed sequence.
 - Drag match asks the child to drop a picture on its shadow instead of on a written word.
+- Game cards show a `Chơi` button labelled with the game title, and locked cards say `Xong bài trước để mở`.
 
 ### Fixed
 
@@ -38,4 +39,5 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Mouse trail rounds now have a start point, 4-6 checkpoints and a finish, with a guide line drawn through the actual checkpoints.
 - Home, replay, `Xem cách chơi` and `Nghe yêu cầu` buttons are at least 72px.
 - The desktop gate no longer scrolls sideways on screens narrower than 900px.
+- Star ratings, key targets, word targets and trail checkpoints expose their labels to screen readers with `role="img"`.
 - Space no longer counts as a mistake in keyboard games, and in word and sequence games it no longer presses the focused button.

@@ -35,7 +35,7 @@ export default function WordTypingGame({ roundIndex, onRoundComplete, onRetry }:
   return (
     <section className="typing-game" aria-label="Gõ từ ngắn">
       <p className="game-prompt">Gõ từ này</p>
-      <div className="typing-sequence" aria-label={word}>
+      <div className="typing-sequence" role="img" aria-label={word}>
         {word.split('').map((character, index) => (
           <span key={`${character}-${index}`} data-state={index < charIndex ? 'done' : index === charIndex ? 'active' : 'todo'}>
             {character}

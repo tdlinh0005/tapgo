@@ -10,7 +10,7 @@ export default function LetterKeyGame({ roundIndex, onRoundComplete, onRetry }: 
   return (
     <section className="typing-game" aria-label="Gõ chữ cái">
       <p className="game-prompt">Bấm chữ này</p>
-      <div className="key-target" aria-label={`Chữ ${target}`}>{target}</div>
+      <div className="key-target" role="img" aria-label={`Chữ ${target}`}>{target}</div>
     </section>
   );
 }
