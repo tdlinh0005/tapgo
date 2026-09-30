@@ -34,6 +34,34 @@ describe('MouseTrailGame', () => {
     expect(onRoundComplete).toHaveBeenCalledWith({ correct: firstTrailLength, attempts: firstTrailLength });
   });
 
+  it('ignores checkpoints entered before the start, such as a cursor resting where the game opens', () => {
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<MouseTrailGame roundIndex={0} totalRounds={6} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={() => {}} />);
+
+    fireEvent.pointerEnter(screen.getByTestId('checkpoint-3'));
+    fireEvent.pointerEnter(screen.getByTestId(`checkpoint-${firstTrailLength - 1}`));
+
+    expect(onRetry).not.toHaveBeenCalled();
+    expect(screen.getByTestId('checkpoint-0')).toHaveClass('is-next');
+  });
+
+  it('does not count the trip back to the start across the new trail as mistakes', () => {
+    const onRoundComplete = vi.fn();
+    const onRetry = vi.fn();
+    render(<MouseTrailGame roundIndex={0} totalRounds={6} onRoundComplete={onRoundComplete} onRetry={onRetry} speak={() => {}} />);
+
+    for (const index of [5, 4, 2, 1]) {
+      fireEvent.pointerEnter(screen.getByTestId(`checkpoint-${index}`));
+    }
+    for (let index = 0; index < firstTrailLength; index += 1) {
+      fireEvent.pointerEnter(screen.getByTestId(`checkpoint-${index}`));
+    }
+
+    expect(onRetry).not.toHaveBeenCalled();
+    expect(onRoundComplete).toHaveBeenCalledWith({ correct: firstTrailLength, attempts: firstTrailLength });
+  });
+
   it('counts an out-of-order checkpoint as a retry without resetting progress', () => {
     const onRoundComplete = vi.fn();
     const onRetry = vi.fn();

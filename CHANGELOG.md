@@ -58,3 +58,4 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - The desktop gate no longer scrolls sideways on screens narrower than 900px.
 - Star ratings, key targets, word targets and trail checkpoints expose their labels to screen readers with `role="img"`.
 - Space no longer counts as a mistake in keyboard games, and in word and sequence games it no longer presses the focused button.
+- Mouse trail no longer counts checkpoints crossed before the start as mistakes, so opening the game with the mouse or moving back from the previous finish keeps 3 stars.

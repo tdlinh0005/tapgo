@@ -26,6 +26,9 @@ export default function MouseTrailGame({ roundIndex, onRoundComplete, onRetry, s
 
   const visit = (index: number) => {
     if (index < nextCheckpoint) return;
+    // Before the start is reached the cursor is only on its way in (a resting cursor when the game
+    // opens, or the trip back from the previous finish), so crossing other checkpoints is not a mistake.
+    if (index > nextCheckpoint && nextCheckpoint === 0) return;
     if (index > nextCheckpoint) {
       wrongEntries.current += 1;
       onRetry?.(`${RETRY_PREFIX} Đưa chuột tới ${labelFor(nextCheckpoint).toLowerCase()} trước nhé.`);

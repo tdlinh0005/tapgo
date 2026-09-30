@@ -617,7 +617,9 @@ Còn lại cho người làm: chạy lại trên Chrome và Edge thật, với c
 
 ## Phase 7 · Bug từ QA T44
 
-### [ ] T45 · Rê chuột: mở game bằng chuột thì bị tính sai ngay
+### [x] T45 · Rê chuột: mở game bằng chuột thì bị tính sai ngay
+
+> Đã làm 2026-09-30 chung commit với T46: cùng một quy tắc (trước khi chạm 🟢 thì không tính lỗi) sửa cả hai, nên không tách thành 2 commit.
 
 **P1 · Effort S · Flow/Logic** · Review: QA T44  
 Files: `src/games/MouseTrailGame.tsx`
@@ -627,7 +629,7 @@ Files: `src/games/MouseTrailGame.tsx`
 - **Fix:** Chỉ tính `onPointerEnter` sau khi đã có một `pointermove` thật trong `.trail-area`, hoặc bỏ qua các lần enter trong lúc chưa chạm điểm bắt đầu.
 - **Done when:** Test: `pointerEnter` checkpoint 3 trước mọi `pointerMove` thì không gọi `onRetry`.
 
-### [ ] T46 · Rê chuột: quay về điểm bắt đầu của lượt mới bị tính sai
+### [x] T46 · Rê chuột: quay về điểm bắt đầu của lượt mới bị tính sai
 
 **P1 · Effort S · Flow/Logic** · Review: QA T44  
 Files: `src/games/MouseTrailGame.tsx`
@@ -637,7 +639,7 @@ Files: `src/games/MouseTrailGame.tsx`
 - **Fix:** Trước khi chạm 🟢 thì không tính lỗi. Chỉ tính sai thứ tự sau khi đã bắt đầu đường. Ghi quyết định vào spec (bổ sung cho T10).
 - **Done when:** Test: enter checkpoint 2 rồi checkpoint 0 rồi đi hết theo thứ tự thì outcome là `{correct: n, attempts: n}`.
 
-### [ ] T47 · Vùng chơi Rê chuột / Click mục tiêu tràn xuống dưới màn hình laptop
+### [~] T47 · Vùng chơi Rê chuột / Click mục tiêu tràn xuống dưới màn hình laptop — đang làm: Notion AI (lead)
 
 **P2 · Effort S · UI/UX** · Review: QA T44  
 Files: `src/styles/app.css`
