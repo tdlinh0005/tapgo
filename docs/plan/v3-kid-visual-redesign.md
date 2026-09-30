@@ -148,7 +148,7 @@
 - Chỉ dùng CSS keyframes (nảy, vẫy), mỗi animation < 700ms, tắt khi reduced-motion. Mascot `aria-hidden`; lời thoại đã có trong bong bóng.
 - Xong khi: test component cho 3 trạng thái; mascot không che target (nằm ngoài vùng chơi); không thêm dependency.
 
-### [ ] V06 · Phím mục tiêu giống phím thật
+### [~] V06 · Phím mục tiêu giống phím thật — đang làm: lane-font
 
 - `.key-target`: vẽ phím có mặt trên + cạnh dưới (box-shadow nhiều lớp) theo màu nhóm bàn phím (V02). Bỏ ý “phím lún khi bấm đúng” trên chính phím (phím bị unmount ngay khi đúng — xem Quyết định); cảm giác lún do lớp phủ V10 đảm nhận.
 - Có thể áp cùng kiểu cho ô chữ `.typing-sequence span` để game từ/chuỗi đồng bộ.
