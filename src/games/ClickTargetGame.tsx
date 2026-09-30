@@ -1,14 +1,13 @@
 import { useState, type MouseEvent } from 'react';
 import type { MiniGameProps } from '../game/types';
 
-const POSITIONS = [
-  [15, 20], [70, 18], [42, 32], [20, 58], [74, 56], [48, 72],
-  [28, 38], [62, 40], [14, 72], [80, 70], [50, 18], [36, 62],
-] as const;
+export const SAFE_AREA = { left: [14, 80], top: [18, 72] } as const;
 
-export default function ClickTargetGame({ roundIndex, onRoundComplete, onRetry, assistLevel = 0 }: MiniGameProps) {
+const randomBetween = ([min, max]: readonly [number, number]) => min + Math.random() * (max - min);
+
+export default function ClickTargetGame({ onRoundComplete, onRetry, assistLevel = 0 }: MiniGameProps) {
   const [attempts, setAttempts] = useState(0);
-  const [left, top] = POSITIONS[roundIndex % POSITIONS.length];
+  const [{ left, top }] = useState(() => ({ left: randomBetween(SAFE_AREA.left), top: randomBetween(SAFE_AREA.top) }));
 
   const handleMiss = () => {
     setAttempts((current) => current + 1);

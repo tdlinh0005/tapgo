@@ -20,6 +20,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Sequence typing uses 3 to 5 key sequences that differ from the word game, and find key uses letters the letter game does not teach.
 - Word and sequence games mark typed characters as done in green, so the child sees how far they have got.
 - Guided Play quick sessions no longer add review rounds, so they end after at most 5 rounds.
+- Click target places each target at a random position inside the safe area instead of a fixed sequence.
 
 ### Fixed
 

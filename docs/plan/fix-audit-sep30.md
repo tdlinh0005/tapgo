@@ -414,7 +414,7 @@ Files: `src/styles/app.css`
 - **Fix:** Bỏ `min-width` khỏi body; nếu cần thì chỉ đặt cho `.home-screen`, `.screen-shell`, `.game-shell`.
 - **Done when:** Ở viewport 600px, `scrollWidth === innerWidth`.
 
-### [~] T30 · Click mục tiêu: xáo vị trí mỗi session (spec ghi "ngẫu nhiên an toàn") — đang làm: Lane B
+### [x] T30 · Click mục tiêu: xáo vị trí mỗi session (spec ghi "ngẫu nhiên an toàn")
 
 **P3 · Effort S · UI/UX** · Review: B-21  
 Files: `src/games/ClickTargetGame.tsx`
