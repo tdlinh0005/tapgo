@@ -46,4 +46,23 @@ describe('useSpeech', () => {
     expect(cancel).toHaveBeenCalledOnce();
     expect(speak).toHaveBeenCalledOnce();
   });
+
+  it('cancels speech when the hook unmounts', () => {
+    const cancel = vi.fn();
+    class MockUtterance {
+      constructor(public text: string) {}
+    }
+
+    Object.defineProperty(window, 'speechSynthesis', {
+      value: { cancel, speak: vi.fn() },
+      configurable: true,
+    });
+    vi.stubGlobal('SpeechSynthesisUtterance', MockUtterance);
+
+    const { unmount } = renderHook(() => useSpeech());
+    expect(cancel).not.toHaveBeenCalled();
+    unmount();
+
+    expect(cancel).toHaveBeenCalledOnce();
+  });
 });

@@ -184,7 +184,7 @@ Files: `src/games/MouseTrailGame.tsx, src/styles/app.css`
 - **Fix:** Mỗi trail gồm 🟢 start, 4–6 điểm giữa, 🏁 đích. Thay `.trail-guide` bằng `<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline>` vẽ từ chính dữ liệu `trail`.
 - **Done when:** Unit test kiểm `TRAILS[i].length` trong [6,8]; kiểm bằng mắt đường đi qua tâm các checkpoint.
 
-### [~] T10 · Rê chuột luôn cho 3 sao và không bao giờ kích hoạt retry/assist — đang làm: Lane B
+### [x] T10 · Rê chuột luôn cho 3 sao và không bao giờ kích hoạt retry/assist
 
 **P1 · Effort M · Flow/Logic** · Review: A/B/C (out-of-lane), B-7  
 Files: `src/games/MouseTrailGame.tsx`
@@ -243,7 +243,7 @@ Files: `src/hooks/useFeedbackTone.ts`
 - **Fix:** Tạo một context cấp module (lazy), gọi `resume()` nếu đang suspended, không close sau mỗi tone, giữ try/catch no-op.
 - **Done when:** Test mock AudioContext: sau 3× `correct()` + 2× `retry()`, constructor chỉ được gọi 1 lần.
 
-### [~] T15 · Speech không cancel khi rời game — đang làm: Lane A
+### [x] T15 · Speech không cancel khi rời game
 
 **P2 · Effort S · Flow/Logic** · Review: A-4  
 Files: `src/hooks/useSpeech.ts, src/hooks/useSpeech.test.ts`
@@ -302,7 +302,7 @@ Files: `src/hooks/usePointerDrag.ts`
 - **Fix:** Thêm `if (event.button !== 0 || !event.isPrimary) return;` và trả thêm `onLostPointerCapture: reset`.
 - **Done when:** Test: pointerDown với `button: 2` thì `isDragging` vẫn false.
 
-### [ ] T20 · Phím Space bị tính là lỗi và kích hoạt nút đang được focus
+### [~] T20 · Phím Space bị tính là lỗi và kích hoạt nút đang được focus — đang làm: Lane C
 
 **P3 · Effort S · Flow/Logic** · Review: B-19  
 Files: `src/hooks/useExpectedKey.ts, src/games/WordTypingGame.tsx, src/games/SequenceTypingGame.tsx`

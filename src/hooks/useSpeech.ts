@@ -1,13 +1,15 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
+
+function isSpeechSupported(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    Boolean(window.speechSynthesis) &&
+    typeof globalThis.SpeechSynthesisUtterance === 'function'
+  );
+}
 
 export function speakVietnamese(text: string): void {
-  if (
-    typeof window === 'undefined' ||
-    !window.speechSynthesis ||
-    typeof globalThis.SpeechSynthesisUtterance !== 'function'
-  ) {
-    return;
-  }
+  if (!isSpeechSupported()) return;
 
   window.speechSynthesis.cancel();
   const utterance = new SpeechSynthesisUtterance(text);
@@ -17,13 +19,14 @@ export function speakVietnamese(text: string): void {
 }
 
 export function useSpeech() {
-  const supported =
-    typeof window !== 'undefined' &&
-    Boolean(window.speechSynthesis) &&
-    typeof globalThis.SpeechSynthesisUtterance === 'function';
+  const supported = isSpeechSupported();
 
   const speak = useCallback((text: string) => {
     speakVietnamese(text);
+  }, []);
+
+  useEffect(() => () => {
+    if (isSpeechSupported()) window.speechSynthesis.cancel();
   }, []);
 
   return { speak, supported };
