@@ -1,11 +1,24 @@
 import { useCallback } from 'react';
 
+let sharedContext: AudioContext | null = null;
+
+function getAudioContext(): AudioContext | null {
+  if (!sharedContext) {
+    const AudioContextClass = window.AudioContext;
+    if (!AudioContextClass) return null;
+    sharedContext = new AudioContextClass();
+  }
+  if (sharedContext.state === 'suspended') {
+    void sharedContext.resume().catch(() => {});
+  }
+  return sharedContext;
+}
+
 function playTone(frequency: number, durationMs: number, delayMs = 0): void {
   try {
-    const AudioContextClass = window.AudioContext;
-    if (!AudioContextClass) return;
+    const context = getAudioContext();
+    if (!context) return;
 
-    const context = new AudioContextClass();
     const oscillator = context.createOscillator();
     const gain = context.createGain();
     const start = context.currentTime + delayMs / 1000;
@@ -18,9 +31,6 @@ function playTone(frequency: number, durationMs: number, delayMs = 0): void {
     gain.connect(context.destination);
     oscillator.start(start);
     oscillator.stop(end);
-    oscillator.addEventListener('ended', () => {
-      void context.close();
-    });
   } catch {
     // Audio feedback is optional; gameplay must remain usable without it.
   }

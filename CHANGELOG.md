@@ -22,6 +22,9 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - The retry hint stays visible after the shake animation until the round completes.
 - Tapping a draggable item without moving it no longer counts as a wrong drop.
 - Saved progress keeps every valid game when one game entry is corrupt or missing, instead of resetting all progress.
+- The retry hint is read aloud and the guide reopens only on the second mistake, not on every later one.
+- Feedback tones reuse one audio context and resume it when suspended, instead of creating a new context per tone.
 - Drags start only from the primary mouse button and reset when pointer capture is lost.
 - A drop inside a wrong zone next to the correct zone counts as wrong; snapping to the correct zone applies only outside every zone.
 - Home, replay, `Xem cách chơi` and `Nghe yêu cầu` buttons are at least 72px.
+- The desktop gate no longer scrolls sideways on screens narrower than 900px.

@@ -184,7 +184,7 @@ Files: `src/games/MouseTrailGame.tsx, src/styles/app.css`
 - **Fix:** Mỗi trail gồm 🟢 start, 4–6 điểm giữa, 🏁 đích. Thay `.trail-guide` bằng `<svg viewBox="0 0 100 100" preserveAspectRatio="none"><polyline>` vẽ từ chính dữ liệu `trail`.
 - **Done when:** Unit test kiểm `TRAILS[i].length` trong [6,8]; kiểm bằng mắt đường đi qua tâm các checkpoint.
 
-### [ ] T10 · Rê chuột luôn cho 3 sao và không bao giờ kích hoạt retry/assist
+### [~] T10 · Rê chuột luôn cho 3 sao và không bao giờ kích hoạt retry/assist — đang làm: Lane B
 
 **P1 · Effort M · Flow/Logic** · Review: A/B/C (out-of-lane), B-7  
 Files: `src/games/MouseTrailGame.tsx`
@@ -232,7 +232,7 @@ Files: `src/game/progress.ts, src/game/progress.test.ts`
 - **Fix:** Thay `isProgressState` bằng `normalizeProgress(raw)`: chỉ reject khi không phải object hoặc `version !== 1`. Với mỗi GAME_ID, giữ entry nếu hợp lệ, không thì dùng entry rỗng. `lastGameId` sai thì thành `null`.
 - **Done when:** Test: dữ liệu có 9 game hợp lệ và 1 game hỏng thì vẫn giữ được 9 game; test JSON hỏng cũ vẫn pass.
 
-### [~] T14 · AudioContext mới cho mỗi tone (có thể leak khi bị suspended) — đang làm: Lane A
+### [x] T14 · AudioContext mới cho mỗi tone (có thể leak khi bị suspended)
 
 **P2 · Effort S · Flow/Logic** · Review: A-3  
 Files: `src/hooks/useFeedbackTone.ts`
@@ -403,7 +403,7 @@ Files: `src/screens/ProgressScreen.tsx, src/App.tsx`
 - **Fix:** Thêm `ActionButton` "Chơi {title}" gọi `onPlay(recommended.id)` (App truyền prop này), bỏ "—", dùng `StarRating`.
 - **Done when:** `ProgressScreen.test.tsx`: bấm nút gợi ý thì `onPlay` được gọi đúng id.
 
-### [~] T29 · Desktop gate dưới 900px bị cuộn ngang — đang làm: Lane C
+### [x] T29 · Desktop gate dưới 900px bị cuộn ngang
 
 **P2 · Effort S · UI/UX** · Review: B-13  
 Files: `src/styles/app.css`
