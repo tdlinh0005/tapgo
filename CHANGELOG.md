@@ -15,6 +15,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 
 ### Changed
 
+- Feature spec matches shipped behaviour: shared `data-assist` levels, drag snap radius, `Nghe yêu cầu` and guide buttons, review rounds, parent recommendation, theme tokens, and a testing strategy that points to real test files.
 - Radii, title/prompt/target font sizes, gaps and feedback timings come from theme tokens (`--radius-sm/lg`, `--font-*`, `--space-*`, `--motion-pop/shake`); radii 18–22px become 20px and 28–36px become 32px.
 - Keyboard games share one `useKeySequence` hook and the single-key games share `KeyTargetStage`; both drag games share `useDragRound`.
 - Drag tests cover the snap distance (24px, plus 16px per assist level) and pointer cancel for both drag games.

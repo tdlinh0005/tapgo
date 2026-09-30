@@ -50,7 +50,8 @@ App
 ├── Game
 │   └── GameShell + MiniGame
 └── Progress
-    └── tổng sao + trạng thái từng game
+    ├── tổng sao + trạng thái từng game (`StarRating`)
+    └── Gợi ý cho bố mẹ: nút `Chơi <tên bài>` mở bài được gợi ý (`getRecommendedGameId`)
 ```
 
 App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì đây là single-user local app và không có nhu cầu deep-link. Game view mang thêm mode `guided | path | free-play` để Guided Play có thể dùng quick session mà không làm thay đổi độ dài đầy đủ của Lộ trình và Chơi tự do.
@@ -191,13 +192,23 @@ export type GameDefinition = {
 - round hiện tại
 - danh sách `RoundOutcome`
 - progress bar
-- nút nghe lại
+- nút nghe lại cách chơi và nút `Xem cách chơi` / `Ẩn cách chơi` (guide)
+- lượt ôn lại (review) sau khi hết lượt chính
 - phản hồi đúng/sai
 - màn hình hoàn thành
 - số sao
 - gọi lưu progress
 
 Mini-game không tự đọc/ghi localStorage và không tự điều hướng. `GameShell` giữ retry count và truyền `assistLevel` xuống mini-game để tăng trợ giúp sau lỗi mà không làm mỗi game tự xây một state machine riêng. Lượt ôn lại không được ghi thêm vào `outcomes` nên không thay đổi scoring của lượt gốc. Lượt ôn chỉ có ở Lộ trình và Chơi tự do; quick session của Guided Play (có `roundLimit`) không sinh lượt ôn để giữ đúng tối đa 5 lượt.
+
+Assist dùng một cơ chế chung cho cả 10 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
+
+- Level 0: chưa có lỗi, không trợ giúp.
+- Level 1 (sau 2 lần sai liên tiếp): target được viền nổi bật, guide tự mở và hint cụ thể được đọc bằng giọng.
+- Level 2 (sau 3 lần sai liên tiếp): target phóng to thêm.
+- Kéo thả: bán kính snap cơ bản 24 px, cộng thêm 16 px mỗi level assist.
+
+Session Guided Play 5 lượt vẫn tính là hoàn thành bài: lưu sao, đánh dấu `completed` và mở khoá bài kế trong Lộ trình như session đầy đủ.
 
 ## Star scoring
 
@@ -262,8 +273,9 @@ Dùng Web Audio API tạo tone ngắn tại runtime để tránh quản lý asse
 - Một hành động chính trên mỗi màn hình; Home ưu tiên `Chơi ngay` và màn hình kết quả ưu tiên `Bài tiếp theo`.
 - Target click/kéo nhìn thấy tối thiểu 72 x 72 CSS px; hit area có thể lớn hơn để giảm yêu cầu chính xác ở trẻ mới dùng chuột.
 - Guided Play đọc intro một lần khi vào bài; sau hai lỗi liên tiếp mở hướng dẫn và đọc lại hint cụ thể.
-- Trợ giúp tăng dần: hint → guide + speech → target/drop zone nổi bật hoặc dễ trúng hơn.
-- Font lớn; game prompt là nội dung nổi bật nhất.
+- Trợ giúp tăng dần: hint → guide + speech → target/drop zone nổi bật hoặc dễ trúng hơn (xem `data-assist` ở phần Game framework contract).
+- Font lớn; game prompt là nội dung nổi bật nhất: prompt tối thiểu 44 px, lớn hơn tiêu đề bài (28 px). Game click và rê chuột cũng có prompt.
+- Mỗi game có nút `Nghe yêu cầu` (`ListenButton`) đọc mục tiêu của lượt hiện tại; header có nút `Nghe lại cách chơi` đọc intro.
 - Không dùng màu đỏ toàn màn hình hoặc chữ “Sai”, “Thua”, “Thất bại”.
 - Copy sai dùng “Thử lại nhé!”.
 - Animation feedback dưới 700 ms.
@@ -275,7 +287,7 @@ Dùng Web Audio API tạo tone ngắn tại runtime để tránh quản lý asse
 
 MVP dùng:
 
-- một bộ design tokens duy nhất cho màu, radius, shadow, spacing, motion
+- một bộ design tokens duy nhất cho màu, radius, shadow, spacing, font size, motion, khai báo trong `src/styles/theme.css` (ví dụ `--radius-sm/lg`, `--font-title/prompt/target`, `--space-sm/md/lg`, `--motion-pop/shake`); `app.css` chỉ dùng token
 - native emoji cho nội dung động vật/đồ chơi/xe/không gian để tránh asset pipeline ở v1
 - cùng card frame và typography để emoji khác chủ đề vẫn nằm trong một style UI thống nhất
 - không thêm animation library; dùng CSS transition/keyframes ngắn
@@ -293,22 +305,33 @@ MVP dùng:
 
 ### Unit
 
-- star calculation
-- progress default/load/save/corrupt-data behavior
-- path unlock logic
-- speech fallback
-- game registry order
+- star calculation — `src/game/scoring.test.ts`
+- progress default/load/save/corrupt-data, một game key lỗi không xoá cả tiến độ, localStorage ném lỗi — `src/game/progress.test.ts`
+- path unlock logic và `getRecommendedGameId` — `src/game/path.test.ts`
+- speech fallback và cancel — `src/hooks/useSpeech.test.ts`
+- feedback tone dùng lại một AudioContext — `src/hooks/useFeedbackTone.test.ts`
+- game registry order — `src/game/registry.test.ts`
+- theme tokens và kích thước tối thiểu — `src/styles/app.test.ts`
 
 ### Component interaction
 
-Mỗi mini-game có test cho:
+Mỗi mini-game có test (`src/games/*Game.test.tsx`) cho:
 - thao tác đúng hoàn thành round
 - thao tác sai không nhảy round
 - outcome có `correct` và `attempts` chính xác
+- kéo thả: snap theo bán kính và pointer cancel đưa vật về chỗ cũ — `DragSortGame.test.tsx`, `DragMatchGame.test.tsx`
+- rê chuột sai thứ tự gọi `onRetry` — `MouseTrailGame.test.tsx`
 
-### Integration
+Framework và UI chung:
+- `data-assist` 0/1/2 trên target thật của cả 10 game — `src/games/assist.test.tsx`
+- `Nghe yêu cầu` đọc mục tiêu lượt — `src/components/ListenButton.test.tsx`
+- GameShell: assist level theo số lần sai, đọc intro/hint, guide, lượt ôn, không ôn trong quick session — `src/game/GameShell.test.tsx`
+- Progress: gợi ý `Chơi <bài>` và sao — `src/screens/ProgressScreen.test.tsx`
+
+### Integration (`src/App.test.tsx`)
 
 - Home -> Path -> game -> complete -> stars -> localStorage
+- Guided Play: quick session 1/5, `Bài tiếp theo` theo gợi ý; Lộ trình 1/10
 - Free Play mở được game chưa unlock trong Path
 - reload app khôi phục progress
 - speech API thiếu không làm crash

@@ -530,7 +530,7 @@ Files: `vite.config.ts`
 
 ## Phase 6 · Docs & QA
 
-### [ ] T40 · Đồng bộ spec với code (Testing strategy, assist, ProgressScreen, Error handling)
+### [x] T40 · Đồng bộ spec với code (Testing strategy, assist, ProgressScreen, Error handling)
 
 **P2 · Effort S · Docs** · Review: C-6, C-7  
 Files: `docs/feat/tapgo-mvp.md`
