@@ -149,11 +149,12 @@
 - Chỉ dùng CSS keyframes (nảy, vẫy), mỗi animation < 700ms, tắt khi reduced-motion. Mascot `aria-hidden`; lời thoại đã có trong bong bóng.
 - Xong khi: test component cho 3 trạng thái; mascot không che target (nằm ngoài vùng chơi); không thêm dependency.
 
-### [~] V06 · Phím mục tiêu giống phím thật — đang làm: lane-font
+### [x] V06 · Phím mục tiêu giống phím thật
 
 - `.key-target`: vẽ phím có mặt trên + cạnh dưới (box-shadow nhiều lớp) theo màu nhóm bàn phím (V02). Bỏ ý “phím lún khi bấm đúng” trên chính phím (phím bị unmount ngay khi đúng — xem Quyết định); cảm giác lún do lớp phủ V10 đảm nhận.
 - Có thể áp cùng kiểu cho ô chữ `.typing-sequence span` để game từ/chuỗi đồng bộ.
 - Xong khi: `--font-target` giữ ≥ 92px; `data-assist` vẫn nằm trên chính phím; style assist level 1/2 vẫn nhìn thấy trên phím mới.
+- Kết quả: token mới `--key-depth` 10px, `--key-depth-sm` 6px, `--shadow-key-drop`. `.key-target` = mặt trên gradient `--color-surface` → `--color-category-soft`, viền + cạnh dưới `--color-category-strong`; `.typing-sequence span` cùng kiểu (cạnh 6px: xám khi chờ, màu nhóm khi active, xanh khi done). Box-shadow của phím đè vòng assist cũ nên assist trên phím chuyển sang `outline: 8px` `--color-primary-soft` + viền `--color-primary`. Đo CDP (vite 5186, 1366×757) Gõ chữ cái: `font-size` 92px, phím 180×180, viền/cạnh `#c2410c` (keyboard-strong); assist 1 (2 lần sai) viền `#4f46e5` + outline 8px `#e8e7ff`; assist 2 (3 lần sai) thêm nền `#e8e7ff`, scale 1.08 (194×194); `data-assist` nằm trên `.key-target`. Gõ chuỗi: active/done/todo đúng màu cạnh, assist 1/2 hiện trên ô active (level 2 giữ nền `--color-primary-soft` nhờ rule riêng đặt sau `data-state`). Không có hiệu ứng lún (thuộc V10).
 
 ### [ ] V10 · Phản hồi đúng/sai giàu hình ảnh (lớp phủ ở shell)
 
