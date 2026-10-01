@@ -211,7 +211,7 @@
 - mouse-trail có điểm đầu/đích theo cặp (🐭→🧀, 🚀→🌙, 🚗→🏠); sequence gắn hình (ASDF = 🐾 bước chân).
 - Xong khi: prompt đọc đúng theo mục tiêu (`ListenButton.test` cập nhật cho click-target); `aria-label="Mục tiêu"` và kích thước 104/72px giữ nguyên (test ghim).
 
-### [ ] V14 · Mức khó theo tiến độ
+### [~] V14 · Mức khó theo tiến độ — đang làm: lane-level
 
 - Suy mức khó từ `bestStars` hiện có (không thêm trường lưu): 0–1 sao → dễ, 2 → vừa, 3 → khó. Truyền `level?: 0 | 1 | 2` qua `MiniGameProps`. `GameShell` luôn truyền mức dễ khi có `roundLimit` (Guided Play).
 - pick-picture 3→4 lựa chọn với mồi nhử cùng nhóm; drag-match bóng giống nhau hơn; sequence 3→5 phím.
