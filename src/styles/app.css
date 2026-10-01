@@ -751,6 +751,25 @@ button:disabled {
   font-weight: 900;
 }
 
+.typing-sequence[data-size="compact"] {
+  gap: var(--space-sm);
+}
+
+.typing-sequence[data-size="compact"] span {
+  width: 64px;
+  height: 80px;
+  font-size: 40px;
+}
+
+.typing-sequence span[data-key="space"] {
+  width: auto;
+  padding-inline: calc(var(--space-lg) * 2);
+}
+
+.typing-sequence[data-size="compact"] span[data-key="space"] {
+  padding-inline: var(--space-md);
+}
+
 .typing-sequence span[data-state="active"] {
   border-color: var(--color-category-strong);
   background: linear-gradient(var(--color-surface), var(--color-category-soft));

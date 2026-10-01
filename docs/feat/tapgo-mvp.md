@@ -1,10 +1,10 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-01 · 7147db8
+> updated 2026-10-01 · edcf5d3
 
 ## Goal
 
-Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 12 mini-game ngắn, vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
+Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 20 mini-game ngắn (12 bài cơ bản + 8 bộ đề gõ nâng cao), vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
 
 ## Product decisions đã chốt
 
@@ -14,7 +14,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 - Luyện gõ: A-Z, 0-9, Space/Enter khi cần, và từ tiếng Việt không dấu như `ME`, `BA`, `CON`, `MEO`, `CHO`, `NHA`, `XE`.
 - Luyện chuột: click, rê chuột, kéo thả.
 - Điều hướng học: Home ưu tiên một CTA `Chơi ngay` để vào Guided Play; vẫn có Lộ trình và Chơi tự do mở toàn bộ game.
-- Guided Play: tự chọn bài đầu tiên chưa hoàn thành, chạy quick session tối đa 5 lượt rồi ưu tiên CTA `Bài tiếp theo`. Trong Guided Play, `Bài tiếp theo` mở bài được gợi ý theo cùng logic với `Chơi ngay` (`getRecommendedGameId`), loại trừ bài vừa chơi — chơi lại đã có nút `Chơi lại`; Lộ trình và Chơi tự do giữ bài kế theo thứ tự.
+- Guided Play: tự chọn bài theo `getRecommendedGameId` (xem Learning path; xong 12 bài cơ bản thì chuyển sang bài nâng cao), chạy quick session tối đa 5 lượt rồi ưu tiên CTA `Bài tiếp theo`. Trong Guided Play, `Bài tiếp theo` mở bài được gợi ý theo cùng logic với `Chơi ngay` (`getRecommendedGameId`), loại trừ bài vừa chơi — chơi lại đã có nút `Chơi lại`; Lộ trình và Chơi tự do giữ bài kế theo thứ tự.
 - Phản hồi: hoàn thành bài là thông điệp chính; 1-3 sao là tín hiệu phụ, kèm âm thanh nhẹ và animation ngắn; không dùng thông báo thất bại nặng nề.
 - Hướng dẫn: chữ ngắn + icon + giọng đọc.
 - Speech: Web Speech API (`speechSynthesis`) với locale `vi-VN`; luôn có nút nghe lại.
@@ -26,7 +26,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 
 ### Giữ
 
-`GameShell` là đúng abstraction boundary vì cả 12 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
+`GameShell` là đúng abstraction boundary vì cả 20 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
 
 ### Sửa
 
@@ -44,9 +44,9 @@ App
 │   ├── Chơi tự do
 │   └── Tiến độ
 ├── Learning Path
-│   └── 12 bài theo thứ tự
+│   └── 20 bài theo thứ tự (12 cơ bản, rồi 8 nâng cao)
 ├── Free Play
-│   └── 12 game luôn mở
+│   └── 20 game luôn mở
 ├── Game
 │   └── GameShell + MiniGame
 └── Progress
@@ -58,7 +58,7 @@ App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì �
 
 ## Learning path
 
-Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 12 game luôn mở. Từ Home, `Chơi ngay` chọn game đầu tiên chưa hoàn thành; nếu đã hoàn thành hết thì chọn game đầu tiên chưa đạt 3 sao.
+Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 20 game luôn mở. Từ Home, `Chơi ngay` (và `Bài tiếp theo` trong Guided Play, loại trừ bài vừa chơi) chọn theo thứ tự `getRecommendedGameId` (`src/game/path.ts`): game đầu tiên chưa hoàn thành theo lộ trình (cơ bản trước, rồi nâng cao 1→8) → bài nâng cao đầu tiên chưa đạt 3 sao → game bất kỳ đầu tiên chưa đạt 3 sao → bài nâng cao đầu tiên.
 
 Thứ tự:
 
@@ -74,6 +74,16 @@ Thứ tự:
 10. Kéo thả ghép cặp
 11. Phím cách và Enter
 12. Đếm rồi bấm số
+13. Nâng cao 1 · Hàng phím giữa
+14. Nâng cao 2 · Hàng phím trên
+15. Nâng cao 3 · Hàng phím dưới
+16. Nâng cao 4 · Từ dài
+17. Nâng cao 5 · Hai từ
+18. Nâng cao 6 · Số và chữ
+19. Nâng cao 7 · Câu ngắn
+20. Nâng cao 8 · Câu dài và Enter
+
+`BASIC_GAME_IDS` (1–12) và `ADVANCED_GAME_IDS` (13–20) nằm trong `src/game/types.ts`; `GAME_IDS` = cơ bản rồi nâng cao.
 
 Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`) để không khoá lại bài của bé đang chơi dở; `normalizeProgress` điền game mới rỗng cho tiến độ cũ. Màn Lộ trình xếp 5 trạm mỗi hàng, số hàng tăng theo số game.
 
@@ -165,6 +175,25 @@ Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`) để kh
 - Sai: hint “Thử lại nhé! Đếm lại từng quả táo nhé.”. Assist mức 1 đánh số nhỏ dưới từng emoji, mức 2 hiện đáp án trên phím.
 - 9 lượt.
 
+### 13–20. Bộ đề gõ nâng cao (`drill-*`)
+
+Một component dùng chung `createTypingDrillGame(set)` (`src/games/TypingDrillGame.tsx`), dữ liệu 8 bộ trong `DRILL_SETS` (`src/games/drills.ts`). Độ khó nằm ở thứ tự bộ (chuỗi dài nhất không giảm, độ dài trung bình tăng từ bộ 1 đến bộ 8); drill bỏ qua `level`. Mỗi bộ 6 lượt, kho 11–12 mục chọn bằng `pickRound`.
+
+| # | id | Tên | Nội dung | Độ dài (kể cả Space/Enter) |
+| --- | --- | --- | --- | --- |
+| 13 | `drill-home-row` | Nâng cao 1 · Hàng phím giữa | chỉ A S D F G H J K L | 4–5 |
+| 14 | `drill-top-row` | Nâng cao 2 · Hàng phím trên | chỉ Q W E R T Y U I O P | 4–5 |
+| 15 | `drill-bottom-row` | Nâng cao 3 · Hàng phím dưới | chỉ Z X C V B N M | 4–5 |
+| 16 | `drill-long-words` | Nâng cao 4 · Từ dài | từ không dấu kèm hình (`CHUOI`, `THUYEN`) | 4–6 |
+| 17 | `drill-two-words` | Nâng cao 5 · Hai từ | hai từ cách nhau bằng phím cách (`XE DAP`) | 5–8 |
+| 18 | `drill-numbers` | Nâng cao 6 · Số và chữ | số + từ (`3 QUA TAO`) | 5–9 |
+| 19 | `drill-sentences` | Nâng cao 7 · Câu ngắn | câu ba từ (`BE DI HOC`) | 9–11 |
+| 20 | `drill-sentence-enter` | Nâng cao 8 · Câu dài và Enter | câu 3–4 từ kết thúc bằng Enter | 10–14 |
+
+- Mục `{ text, emoji, say }`: `text` là chữ in hoa không dấu / số, `' '` là phím cách, `'\n'` là Enter (chỉ bộ 8); `say` là câu có dấu để đọc. `Nghe yêu cầu` đọc “Gõ: <say>”, bộ 8 thêm “, rồi bấm phím Enter”.
+- Chuỗi hiện từng ô phím như `Gõ từ ngắn` (`data-state` done/active/todo, `data-assist` trên ô đang cần bấm); phím cách hiện `␣` (ô rộng, `data-key="space"`), Enter hiện `⏎`, cả hai `role="img"` với nhãn “phím cách” / “phím Enter”. Chuỗi từ 11 phím dùng ô nhỏ hơn (`data-size="compact"`).
+- Sai không reset chuỗi; hint gọi tên phím qua `spokenKeyName` (`src/game/retryCopy.ts`), ví dụ “Thử lại nhé! Tìm phím cách trên bàn phím nhé.”. Bấm Enter khi chuỗi có phím cách nhưng chưa tới Enter là một attempt sai.
+
 ## Game framework contract
 
 ```ts
@@ -180,7 +209,9 @@ export type GameId =
   | 'drag-sort'
   | 'drag-match'
   | 'space-enter'
-  | 'count-keys';
+  | 'count-keys'
+  | 'drill-home-row' | 'drill-top-row' | 'drill-bottom-row' | 'drill-long-words'
+  | 'drill-two-words' | 'drill-numbers' | 'drill-sentences' | 'drill-sentence-enter';
 
 export type RoundOutcome = {
   correct: number;
@@ -244,8 +275,9 @@ Kho và cách chọn mục (mọi game chọn lượt bằng `pickRound`, trừ 
 | drag-match | 20 cặp | 8 | bóng mồi theo `level` |
 | space-enter | 5 Space + 5 Enter | 10 | mỗi phím 5 lần |
 | count-keys | số lượng 1–9, 10 loại emoji | 9 | số lượng chỉ xáo thứ tự |
+| drill-* (8 bộ) | 11–12 mục mỗi bộ (`DRILL_SETS`) | 6 | không dùng `level` |
 
-Assist dùng một cơ chế chung cho cả 12 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
+Assist dùng một cơ chế chung cho cả 20 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
 
 - Level 0: chưa có lỗi, không trợ giúp.
 - Level 1 (sau 2 lần sai liên tiếp): target được viền nổi bật, guide tự mở và hint cụ thể được đọc bằng giọng.
@@ -361,7 +393,8 @@ MVP dùng:
 - path unlock logic và `getRecommendedGameId` — `src/game/path.test.ts`
 - speech fallback và cancel — `src/hooks/useSpeech.test.ts`
 - feedback tone dùng lại một AudioContext — `src/hooks/useFeedbackTone.test.ts`
-- game registry order — `src/game/registry.test.ts`
+- game registry order, drill đăng ký từ `DRILL_SETS` — `src/game/registry.test.ts`
+- kho bộ đề nâng cao: ≥ 10 mục không trùng, ký tự hợp lệ, bộ 1–3 đúng hàng phím, độ dài tăng dần, chỉ bộ 8 có Enter — `src/games/drills.test.ts`
 - theme tokens và kích thước tối thiểu — `src/styles/app.test.ts`
 
 ### Component interaction
@@ -374,7 +407,7 @@ Mỗi mini-game có test (`src/games/*Game.test.tsx`) cho:
 - rê chuột sai thứ tự gọi `onRetry` — `MouseTrailGame.test.tsx`
 
 Framework và UI chung:
-- `data-assist` 0/1/2 trên target thật của cả 12 game — `src/games/assist.test.tsx`
+- `data-assist` 0/1/2 trên target thật của cả 20 game — `src/games/assist.test.tsx`
 - `Nghe yêu cầu` đọc mục tiêu lượt — `src/components/ListenButton.test.tsx`
 - GameShell: assist level theo số lần sai, đọc intro/hint, guide, lượt ôn, không ôn trong quick session — `src/game/GameShell.test.tsx`
 - Progress: gợi ý `Chơi <bài>` và sao — `src/screens/ProgressScreen.test.tsx`
@@ -391,11 +424,11 @@ Framework và UI chung:
 
 MVP hoàn thành khi:
 
-1. Cả 12 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
+1. Cả 20 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
 2. Một session không dùng countdown; Guided Play mặc định tối đa 5 lượt, còn Lộ trình/Chơi tự do giữ số lượt đầy đủ của game.
 3. Hoàn thành game tạo 1-3 sao và lưu được vào localStorage.
 4. Reload giữ lại best stars và trạng thái hoàn thành.
-5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 12 game. Tổng sao tối đa 36 (`gameRegistry.length * 3`).
+5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 20 game. Tổng sao tối đa 60 (`gameRegistry.length * 3`).
 6. Speech có nút nghe lại và app vẫn dùng được nếu speech unavailable.
 7. Sai thao tác không đưa bé vào failure screen.
 8. Build production và toàn bộ Vitest test suite pass.

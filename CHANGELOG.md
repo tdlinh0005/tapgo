@@ -18,12 +18,15 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Correct-answer star burst over the play area, a confetti celebration on the result screen (≤ 1.5s, never blocks `Bài tiếp theo`, static with reduced motion), and decorative background emoji on wide screens.
 - Difficulty levels from best stars (0–1★ easy, 2★ medium, 3★ hard; Guided Play always easy) for pick picture, drag match and sequence typing.
 - Per-session shuffling (`sessionSeed` + `pickRound`): replays no longer repeat the same rounds, and answer positions move.
+- Eight advanced typing sets after the 12 basic games (games 13–20, `Nâng cao 1–8`): home row, top row, bottom row, long words, two words with Space, numbers with words, three-word sentences, and longer sentences ending with Enter. Each set has 11–12 items and 6 rounds, and items get longer from set to set. Space shows as ␣, Enter as ⏎, and `Nghe yêu cầu` reads the sentence with Vietnamese accents.
 
 ### Changed
 
+- `Chơi ngay` moves on to the advanced sets once the 12 basic games are done. After every game is done, it picks an advanced set under 3 stars before a basic game under 3 stars. There are now 20 games and 60 stars in total.
+- A missed Space or Enter is named in the retry hint (`Tìm phím cách…`, `Tìm phím Enter…`) by one shared helper for every round that expects them.
 - The play area always fits the screen in every game, even with the hint and guide open; the guide toggle is a round ❓ button next to the coach bubble.
 - Keyboard and mouse games have their own colours (`data-category`), a rounded self-hosted Vietnamese font (Nunito), toy-like cards and keys drawn like real keys.
-- The learning path is a winding road of stations with the mascot at the recommended one; progress is a sticker album with a star jar. Total stars are now 36.
+- The learning path is a winding road of stations with the mascot at the recommended one; progress is a sticker album with a star jar.
 - Larger content pools: letters and find key cover A–Z between them, 28 words with pictures, more sequences, pictures, trails, sort and match items; click target changes its picture each round, mouse trail has themed start/finish pairs, and sequences show a row picture.
 - `useKeySequence` accepts Enter (as `\n`) and Space only when the round expects them, and then stops them from pressing a focused button.
 - Feature spec matches shipped behaviour: shared `data-assist` levels, drag snap radius, `Nghe yêu cầu` and guide buttons, review rounds, parent recommendation, theme tokens, and a testing strategy that points to real test files.
@@ -33,7 +36,7 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Tests pin the assist thresholds (level 1 after 2 retries, level 2 after 3), the spoken intro on mount and the spoken hint on the second retry.
 - Tests cover the recommendation fallback, a throwing `localStorage`, and Path sessions of 10 rounds versus 5 in Guided Play.
 - Find-key and number games are tested for wrong keys: the round stays, and the retry hint names the key.
-- Assistance after repeated mistakes works the same way in all 10 games: the real target gets `data-assist="1"` (outline) or `"2"` (outline and enlarged), including word, sequence, key and picture games.
+- Assistance after repeated mistakes works the same way in every game: the real target gets `data-assist="1"` (outline) or `"2"` (outline and enlarged), including word, sequence, key and picture games.
 - Every game has a `Nghe yêu cầu` button that reads the goal of the current round; the header speaker button is now labelled `Nghe lại cách chơi`.
 - The round prompt is now the largest text in every game (44px+, title 28px); click and mouse-trail games show their own prompt above the play area.
 - Vitest runs in the `vmThreads` pool so jsdom setup no longer dominates test time (~2s full run).

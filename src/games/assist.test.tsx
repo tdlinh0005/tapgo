@@ -1,7 +1,8 @@
 import { render } from '@testing-library/react';
 import type { ComponentType } from 'react';
 import { describe, expect, it, vi } from 'vitest';
-import type { MiniGameProps } from '../game/types';
+import { getGameDefinition } from '../game/registry';
+import { ADVANCED_GAME_IDS, type MiniGameProps } from '../game/types';
 import ClickTargetGame from './ClickTargetGame';
 import DragMatchGame from './DragMatchGame';
 import DragSortGame from './DragSortGame';
@@ -28,6 +29,7 @@ const games: [string, ComponentType<MiniGameProps>][] = [
   ['sequence', SequenceTypingGame],
   ['space enter', SpaceEnterGame],
   ['count keys', CountKeysGame],
+  ...ADVANCED_GAME_IDS.map((id): [string, ComponentType<MiniGameProps>] => [id, getGameDefinition(id).component]),
 ];
 
 const renderGame = (Game: ComponentType<MiniGameProps>, assistLevel: 0 | 1 | 2) =>

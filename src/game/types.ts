@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react';
 
-export const GAME_IDS = [
+export const BASIC_GAME_IDS = [
   'letters',
   'numbers',
   'words',
@@ -15,6 +15,21 @@ export const GAME_IDS = [
   'count-keys',
 ] as const;
 
+export const ADVANCED_GAME_IDS = [
+  'drill-home-row',
+  'drill-top-row',
+  'drill-bottom-row',
+  'drill-long-words',
+  'drill-two-words',
+  'drill-numbers',
+  'drill-sentences',
+  'drill-sentence-enter',
+] as const;
+
+export const GAME_IDS = [...BASIC_GAME_IDS, ...ADVANCED_GAME_IDS] as const;
+
+export type BasicGameId = (typeof BASIC_GAME_IDS)[number];
+export type AdvancedGameId = (typeof ADVANCED_GAME_IDS)[number];
 export type GameId = (typeof GAME_IDS)[number];
 
 export type RoundOutcome = {

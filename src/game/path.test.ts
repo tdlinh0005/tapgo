@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createDefaultProgress, recordCompletion } from './progress';
 import { getNextGameId, getRecommendedGameId, isPathUnlocked, PATH_ORDER } from './path';
+import { BASIC_GAME_IDS } from './types';
 
 describe('path unlock', () => {
   it('unlocks the first game only by default', () => {
@@ -19,10 +20,23 @@ describe('path unlock', () => {
     expect(getRecommendedGameId(completed)).toBe('numbers');
   });
 
-  it('falls back to the first game under 3 stars, then to letters', () => {
+  it('moves on to the first drill once every basic game is completed', () => {
+    let progress = createDefaultProgress();
+    for (const gameId of BASIC_GAME_IDS) progress = recordCompletion(progress, gameId, 2);
+    expect(getRecommendedGameId(progress)).toBe('drill-home-row');
+  });
+
+  it('prefers a drill under 3 stars over a basic game under 3 stars', () => {
+    let progress = createDefaultProgress();
+    for (const gameId of PATH_ORDER) progress = recordCompletion(progress, gameId, gameId === 'words' || gameId === 'drill-numbers' ? 2 : 3);
+    expect(getRecommendedGameId(progress)).toBe('drill-numbers');
+  });
+
+  it('falls back to the first game under 3 stars, then to the first drill', () => {
     let progress = createDefaultProgress();
     for (const gameId of PATH_ORDER) progress = recordCompletion(progress, gameId, 3);
-    expect(getRecommendedGameId(progress)).toBe('letters');
+    expect(getRecommendedGameId(progress)).toBe('drill-home-row');
+    expect(getRecommendedGameId(progress, 'drill-home-row')).toBe('drill-top-row');
 
     progress = recordCompletion(createDefaultProgress(), 'letters', 3);
     for (const gameId of PATH_ORDER.slice(1)) progress = recordCompletion(progress, gameId, gameId === 'mouse-trail' ? 2 : 3);
@@ -35,7 +49,7 @@ describe('path unlock', () => {
     progress = { ...progress, games: { ...progress.games, words: { ...progress.games.words, bestStars: 2 } } };
 
     expect(getRecommendedGameId(progress)).toBe('words');
-    expect(getRecommendedGameId(progress, 'words')).toBe('letters');
+    expect(getRecommendedGameId(progress, 'words')).toBe('drill-home-row');
     expect(getRecommendedGameId(createDefaultProgress(), 'letters')).toBe('numbers');
   });
 
@@ -43,6 +57,7 @@ describe('path unlock', () => {
     expect(getNextGameId('letters')).toBe('numbers');
     expect(getNextGameId('drag-match')).toBe('space-enter');
     expect(getNextGameId('space-enter')).toBe('count-keys');
-    expect(getNextGameId('count-keys')).toBeNull();
+    expect(getNextGameId('count-keys')).toBe('drill-home-row');
+    expect(getNextGameId('drill-sentence-enter')).toBeNull();
   });
 });

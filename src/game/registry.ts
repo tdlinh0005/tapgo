@@ -10,9 +10,13 @@ import WordTypingGame from '../games/WordTypingGame';
 import MouseTrailGame from '../games/MouseTrailGame';
 import PickPictureGame from '../games/PickPictureGame';
 import SpaceEnterGame from '../games/SpaceEnterGame';
-import { GAME_IDS, type GameDefinition, type GameId } from './types';
+import { DRILL_SETS } from '../games/drills';
+import { createTypingDrillGame } from '../games/TypingDrillGame';
+import { ADVANCED_GAME_IDS, GAME_IDS, type AdvancedGameId, type BasicGameId, type GameDefinition, type GameId } from './types';
 
-const GAME_DEFINITIONS: Record<GameId, Omit<GameDefinition, 'id' | 'order'>> = {
+type GameMeta = Omit<GameDefinition, 'id' | 'order'>;
+
+const BASIC_GAME_DEFINITIONS: Record<BasicGameId, GameMeta> = {
   letters: { title: 'Gõ chữ cái', category: 'keyboard', rounds: 10, intro: 'Hãy bấm chữ đang hiện trên màn hình.', emoji: '🔤', component: LetterKeyGame },
   numbers: { title: 'Gõ số', category: 'keyboard', rounds: 10, intro: 'Hãy bấm số đang hiện trên màn hình.', emoji: '🔢', component: NumberKeyGame },
   words: { title: 'Gõ từ ngắn', category: 'keyboard', rounds: 8, intro: 'Hãy gõ từ đang hiện trên màn hình.', emoji: '📝', component: WordTypingGame },
@@ -26,6 +30,16 @@ const GAME_DEFINITIONS: Record<GameId, Omit<GameDefinition, 'id' | 'order'>> = {
   'space-enter': { title: 'Phím cách và Enter', category: 'keyboard', rounds: 10, intro: 'Hãy bấm phím cách hoặc phím Enter theo hình.', emoji: '🚀', component: SpaceEnterGame },
   'count-keys': { title: 'Đếm rồi bấm số', category: 'keyboard', rounds: 9, intro: 'Hãy đếm hình rồi bấm phím số đúng.', emoji: '🍎', component: CountKeysGame },
 };
+
+const DRILL_GAME_DEFINITIONS = Object.fromEntries(
+  ADVANCED_GAME_IDS.map((id) => {
+    const set = DRILL_SETS[id];
+    const meta: GameMeta = { title: set.title, category: 'keyboard', rounds: set.rounds, intro: set.intro, emoji: set.emoji, component: createTypingDrillGame(set) };
+    return [id, meta];
+  }),
+) as Record<AdvancedGameId, GameMeta>;
+
+const GAME_DEFINITIONS: Record<GameId, GameMeta> = { ...BASIC_GAME_DEFINITIONS, ...DRILL_GAME_DEFINITIONS };
 
 export const gameRegistry: GameDefinition[] = GAME_IDS.map((id, index) => ({
   id,

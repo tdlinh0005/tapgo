@@ -11,6 +11,7 @@ import { TRAILS } from './MouseTrailGame';
 import PickPictureGame, { PICTURE_ROUNDS } from './PickPictureGame';
 import { SEQUENCES } from './SequenceTypingGame';
 import { WORDS } from './WordTypingGame';
+import { DRILL_SETS } from './drills';
 
 const SEED = 12345;
 const baseProps = { totalRounds: 10, onRoundComplete: vi.fn(), onRetry: vi.fn(), speak: vi.fn() };
@@ -27,6 +28,7 @@ describe('seeded rounds', () => {
       'mouse-trail': TRAILS,
       'drag-sort': SORT_ROUNDS,
       'drag-match': MATCH_ROUNDS,
+      ...Object.fromEntries(Object.entries(DRILL_SETS).map(([id, set]) => [id, set.items])),
     };
     for (const [id, pool] of Object.entries(pools)) {
       const definition = gameRegistry.find((game) => game.id === id);

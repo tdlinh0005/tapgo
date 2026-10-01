@@ -56,13 +56,13 @@ describe('App navigation', () => {
     expect(screen.getByText('1 / 5')).toBeInTheDocument();
   });
 
-  it('shows all ten games in free play and does not lock them', async () => {
+  it('shows every game in free play and does not lock them', async () => {
     const user = userEvent.setup();
     render(<App />);
 
     await user.click(screen.getByRole('button', { name: 'Chơi tự do' }));
     expect(screen.getByRole('heading', { name: 'Chơi tự do' })).toBeInTheDocument();
-    expect(screen.getAllByTestId('game-card')).toHaveLength(12);
+    expect(screen.getAllByTestId('game-card')).toHaveLength(20);
     expect(screen.getByRole('button', { name: /Gõ số/ })).toBeEnabled();
   });
 
@@ -90,7 +90,7 @@ describe('App navigation', () => {
 
     render(<App />);
     await user.click(screen.getByRole('button', { name: 'Tiến độ' }));
-    expect(screen.getByText('2 / 36 sao')).toBeInTheDocument();
+    expect(screen.getByText('2 / 60 sao')).toBeInTheDocument();
   });
 });
 
