@@ -62,7 +62,7 @@ describe('App navigation', () => {
 
     await user.click(screen.getByRole('button', { name: 'Chơi tự do' }));
     expect(screen.getByRole('heading', { name: 'Chơi tự do' })).toBeInTheDocument();
-    expect(screen.getAllByTestId('game-card')).toHaveLength(20);
+    expect(screen.getAllByTestId('game-card')).toHaveLength(28);
     expect(screen.getByRole('button', { name: /Gõ số/ })).toBeEnabled();
   });
 
@@ -90,7 +90,7 @@ describe('App navigation', () => {
 
     render(<App />);
     await user.click(screen.getByRole('button', { name: 'Tiến độ' }));
-    expect(screen.getByText('2 / 60 sao')).toBeInTheDocument();
+    expect(screen.getByText('2 / 84 sao')).toBeInTheDocument();
   });
 });
 

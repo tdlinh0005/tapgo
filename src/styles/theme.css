@@ -39,6 +39,8 @@
   --key-wide-width: 560px;
   --count-item-size: 72px;
   --count-emoji-size: 56px;
+  --target-medium: 96px;
+  --target-small: 56px;
   --key-depth: 10px;
   --key-depth-sm: 6px;
   --shadow-key-drop: 0 18px 28px rgb(32 33 36 / 16%);

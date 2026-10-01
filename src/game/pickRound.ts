@@ -23,6 +23,8 @@ export function shuffleWithSeed<T>(items: readonly T[], seed: number): T[] {
   return result;
 }
 
+export const roundSeed = (roundIndex: number, sessionSeed?: number) => (sessionSeed ?? 0) + roundIndex;
+
 export function pickRound<T>(pool: readonly T[], roundIndex: number, seed?: number): T {
   const index = roundIndex % pool.length;
   if (seed === undefined) return pool[index];

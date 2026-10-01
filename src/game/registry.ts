@@ -1,3 +1,4 @@
+import type { ComponentType } from 'react';
 import ClickTargetGame from '../games/ClickTargetGame';
 import CountKeysGame from '../games/CountKeysGame';
 import DragMatchGame from '../games/DragMatchGame';
@@ -7,12 +8,16 @@ import LetterKeyGame from '../games/LetterKeyGame';
 import NumberKeyGame from '../games/NumberKeyGame';
 import SequenceTypingGame from '../games/SequenceTypingGame';
 import WordTypingGame from '../games/WordTypingGame';
-import MouseTrailGame from '../games/MouseTrailGame';
+import MouseTrailGame, { createMouseTrailGame } from '../games/MouseTrailGame';
 import PickPictureGame from '../games/PickPictureGame';
 import SpaceEnterGame from '../games/SpaceEnterGame';
 import { DRILL_SETS } from '../games/drills';
 import { createTypingDrillGame } from '../games/TypingDrillGame';
-import { ADVANCED_GAME_IDS, GAME_IDS, type AdvancedGameId, type BasicGameId, type GameDefinition, type GameId } from './types';
+import { createDoubleClickGame } from '../games/DoubleClickGame';
+import { MOUSE_DRILL_SETS, type MouseDrillSet } from '../games/mouseDrills';
+import { createMultiClickGame } from '../games/MultiClickGame';
+import { createMultiDragGame } from '../games/MultiDragGame';
+import { GAME_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS, type BasicGameId, type GameDefinition, type GameId, type MiniGameProps, type MouseDrillId, type TypingDrillId } from './types';
 
 type GameMeta = Omit<GameDefinition, 'id' | 'order'>;
 
@@ -32,14 +37,31 @@ const BASIC_GAME_DEFINITIONS: Record<BasicGameId, GameMeta> = {
 };
 
 const DRILL_GAME_DEFINITIONS = Object.fromEntries(
-  ADVANCED_GAME_IDS.map((id) => {
+  TYPING_DRILL_IDS.map((id) => {
     const set = DRILL_SETS[id];
     const meta: GameMeta = { title: set.title, category: 'keyboard', rounds: set.rounds, intro: set.intro, emoji: set.emoji, component: createTypingDrillGame(set) };
     return [id, meta];
   }),
-) as Record<AdvancedGameId, GameMeta>;
+) as Record<TypingDrillId, GameMeta>;
 
-const GAME_DEFINITIONS: Record<GameId, GameMeta> = { ...BASIC_GAME_DEFINITIONS, ...DRILL_GAME_DEFINITIONS };
+function createMouseDrillGame(set: MouseDrillSet): ComponentType<MiniGameProps> {
+  switch (set.kind) {
+    case 'multi-click': return createMultiClickGame(set);
+    case 'double-click': return createDoubleClickGame(set);
+    case 'trail': return createMouseTrailGame({ trails: set.items, checkpointSize: set.checkpointSize, hold: set.hold });
+    case 'multi-drag': return createMultiDragGame(set);
+  }
+}
+
+const MOUSE_DRILL_GAME_DEFINITIONS = Object.fromEntries(
+  MOUSE_DRILL_IDS.map((id) => {
+    const set = MOUSE_DRILL_SETS[id];
+    const meta: GameMeta = { title: set.title, category: 'mouse', rounds: set.rounds, intro: set.intro, emoji: set.emoji, component: createMouseDrillGame(set) };
+    return [id, meta];
+  }),
+) as Record<MouseDrillId, GameMeta>;
+
+const GAME_DEFINITIONS: Record<GameId, GameMeta> = { ...BASIC_GAME_DEFINITIONS, ...DRILL_GAME_DEFINITIONS, ...MOUSE_DRILL_GAME_DEFINITIONS };
 
 export const gameRegistry: GameDefinition[] = GAME_IDS.map((id, index) => ({
   id,

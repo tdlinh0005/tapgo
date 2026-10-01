@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createDefaultProgress, recordCompletion } from './progress';
 import { getNextGameId, getRecommendedGameId, isPathUnlocked, PATH_ORDER } from './path';
-import { BASIC_GAME_IDS } from './types';
+import { BASIC_GAME_IDS, TYPING_DRILL_IDS } from './types';
 
 describe('path unlock', () => {
   it('unlocks the first game only by default', () => {
@@ -24,6 +24,12 @@ describe('path unlock', () => {
     let progress = createDefaultProgress();
     for (const gameId of BASIC_GAME_IDS) progress = recordCompletion(progress, gameId, 2);
     expect(getRecommendedGameId(progress)).toBe('drill-home-row');
+  });
+
+  it('recommends the first mouse drill once every typing drill is completed', () => {
+    let progress = createDefaultProgress();
+    for (const gameId of [...BASIC_GAME_IDS, ...TYPING_DRILL_IDS]) progress = recordCompletion(progress, gameId, 2);
+    expect(getRecommendedGameId(progress)).toBe('mouse-click-many');
   });
 
   it('prefers a drill under 3 stars over a basic game under 3 stars', () => {
@@ -58,6 +64,9 @@ describe('path unlock', () => {
     expect(getNextGameId('drag-match')).toBe('space-enter');
     expect(getNextGameId('space-enter')).toBe('count-keys');
     expect(getNextGameId('count-keys')).toBe('drill-home-row');
-    expect(getNextGameId('drill-sentence-enter')).toBeNull();
+    expect(getNextGameId('drill-sentence-enter')).toBe('mouse-click-many');
+    expect(getNextGameId('mouse-drag-groups')).toBe('mouse-hold-trail');
+    expect(getNextGameId('mouse-hold-trail')).toBeNull();
+    expect(PATH_ORDER.at(-1)).toBe('mouse-hold-trail');
   });
 });

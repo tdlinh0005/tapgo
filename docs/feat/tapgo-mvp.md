@@ -1,10 +1,10 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-01 · edcf5d3
+> updated 2026-10-01 · 8f6abde
 
 ## Goal
 
-Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 20 mini-game ngắn (12 bài cơ bản + 8 bộ đề gõ nâng cao), vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
+Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 28 mini-game ngắn (12 bài cơ bản + 8 bộ đề gõ nâng cao + 8 bộ chuột nâng cao), vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
 
 ## Product decisions đã chốt
 
@@ -12,7 +12,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 - Stack: React + Vite + TypeScript.
 - Lưu tiến độ: localStorage, không tài khoản, không backend.
 - Luyện gõ: A-Z, 0-9, Space/Enter khi cần, và từ tiếng Việt không dấu như `ME`, `BA`, `CON`, `MEO`, `CHO`, `NHA`, `XE`.
-- Luyện chuột: click, rê chuột, kéo thả.
+- Luyện chuột: click, rê chuột, kéo thả; bài nâng cao thêm click nhiều hình / theo thứ tự / hình nhỏ, nháy đúp và giữ chuột kéo theo đường.
 - Điều hướng học: Home ưu tiên một CTA `Chơi ngay` để vào Guided Play; vẫn có Lộ trình và Chơi tự do mở toàn bộ game.
 - Guided Play: tự chọn bài theo `getRecommendedGameId` (xem Learning path; xong 12 bài cơ bản thì chuyển sang bài nâng cao), chạy quick session tối đa 5 lượt rồi ưu tiên CTA `Bài tiếp theo`. Trong Guided Play, `Bài tiếp theo` mở bài được gợi ý theo cùng logic với `Chơi ngay` (`getRecommendedGameId`), loại trừ bài vừa chơi — chơi lại đã có nút `Chơi lại`; Lộ trình và Chơi tự do giữ bài kế theo thứ tự.
 - Phản hồi: hoàn thành bài là thông điệp chính; 1-3 sao là tín hiệu phụ, kèm âm thanh nhẹ và animation ngắn; không dùng thông báo thất bại nặng nề.
@@ -26,7 +26,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 
 ### Giữ
 
-`GameShell` là đúng abstraction boundary vì cả 20 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
+`GameShell` là đúng abstraction boundary vì cả 28 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
 
 ### Sửa
 
@@ -44,9 +44,9 @@ App
 │   ├── Chơi tự do
 │   └── Tiến độ
 ├── Learning Path
-│   └── 20 bài theo thứ tự (12 cơ bản, rồi 8 nâng cao)
+│   └── 28 bài theo thứ tự (12 cơ bản, rồi 8 gõ nâng cao, rồi 8 chuột nâng cao)
 ├── Free Play
-│   └── 20 game luôn mở
+│   └── 28 game luôn mở
 ├── Game
 │   └── GameShell + MiniGame
 └── Progress
@@ -58,7 +58,7 @@ App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì �
 
 ## Learning path
 
-Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 20 game luôn mở. Từ Home, `Chơi ngay` (và `Bài tiếp theo` trong Guided Play, loại trừ bài vừa chơi) chọn theo thứ tự `getRecommendedGameId` (`src/game/path.ts`): game đầu tiên chưa hoàn thành theo lộ trình (cơ bản trước, rồi nâng cao 1→8) → bài nâng cao đầu tiên chưa đạt 3 sao → game bất kỳ đầu tiên chưa đạt 3 sao → bài nâng cao đầu tiên.
+Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 28 game luôn mở. Từ Home, `Chơi ngay` (và `Bài tiếp theo` trong Guided Play, loại trừ bài vừa chơi) chọn theo thứ tự `getRecommendedGameId` (`src/game/path.ts`): game đầu tiên chưa hoàn thành theo lộ trình (cơ bản trước, rồi gõ nâng cao 1→8, rồi chuột nâng cao 1→8) → bài nâng cao (gõ hoặc chuột) đầu tiên chưa đạt 3 sao → game bất kỳ đầu tiên chưa đạt 3 sao → bài nâng cao đầu tiên (`drill-home-row`).
 
 Thứ tự:
 
@@ -82,8 +82,16 @@ Thứ tự:
 18. Nâng cao 6 · Số và chữ
 19. Nâng cao 7 · Câu ngắn
 20. Nâng cao 8 · Câu dài và Enter
+21. Chuột nâng cao 1 · Click hết các hình
+22. Chuột nâng cao 2 · Click theo số
+23. Chuột nâng cao 3 · Click hình nhỏ
+24. Chuột nâng cao 4 · Nháy đúp chuột
+25. Chuột nâng cao 5 · Rê chuột đường dài
+26. Chuột nâng cao 6 · Kéo nhiều món
+27. Chuột nâng cao 7 · Phân loại hai nhóm
+28. Chuột nâng cao 8 · Giữ chuột kéo theo đường
 
-`BASIC_GAME_IDS` (1–12) và `ADVANCED_GAME_IDS` (13–20) nằm trong `src/game/types.ts`; `GAME_IDS` = cơ bản rồi nâng cao.
+`src/game/types.ts`: `BASIC_GAME_IDS` (1–12), `TYPING_DRILL_IDS` (13–20), `MOUSE_DRILL_IDS` (21–28); `ADVANCED_GAME_IDS` = gõ rồi chuột (13–28); `GAME_IDS` = cơ bản rồi nâng cao.
 
 Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`) để không khoá lại bài của bé đang chơi dở; `normalizeProgress` điền game mới rỗng cho tiến độ cũ. Màn Lộ trình xếp 5 trạm mỗi hàng, số hàng tăng theo số game.
 
@@ -194,6 +202,28 @@ Một component dùng chung `createTypingDrillGame(set)` (`src/games/TypingDrill
 - Chuỗi hiện từng ô phím như `Gõ từ ngắn` (`data-state` done/active/todo, `data-assist` trên ô đang cần bấm); phím cách hiện `␣` (ô rộng, `data-key="space"`), Enter hiện `⏎`, cả hai `role="img"` với nhãn “phím cách” / “phím Enter”. Chuỗi từ 11 phím dùng ô nhỏ hơn (`data-size="compact"`).
 - Sai không reset chuỗi; hint gọi tên phím qua `spokenKeyName` (`src/game/retryCopy.ts`), ví dụ “Thử lại nhé! Tìm phím cách trên bàn phím nhé.”. Bấm Enter khi chuỗi có phím cách nhưng chưa tới Enter là một attempt sai.
 
+### 21–28. Bộ chuột nâng cao (`mouse-*`)
+
+Dữ liệu 8 bộ trong `MOUSE_DRILL_SETS` (`src/games/mouseDrills.ts`); registry dựng component theo `kind` bằng 4 factory dùng chung: `createMultiClickGame` (bộ 1–3), `createDoubleClickGame` (bộ 4), `createMouseTrailGame` (bộ 5 và 8; bài 8 cơ bản cũng là `createMouseTrailGame({ trails: TRAILS, checkpointSize: 'medium', hold: false })`), `createMultiDragGame` (bộ 6–7, dùng `usePointerDrag` + `resolveDrop` như game 9–10). Độ khó nằm ở thứ tự bộ; bộ chuột bỏ qua `level`. Mỗi bộ 6 lượt, `category: 'mouse'`; mục của lượt chọn bằng `pickRound` / `shuffleWithSeed` theo `sessionSeed` + `roundIndex`.
+
+| # | id | Tên | Kho | Lượt chơi |
+| --- | --- | --- | --- | --- |
+| 21 | `mouse-click-many` | Chuột nâng cao 1 · Click hết các hình | 13 hình (`CLICK_TARGETS`) | 3 hình 96px, thứ tự bất kỳ |
+| 22 | `mouse-click-order` | Chuột nâng cao 2 · Click theo số | 13 hình (`CLICK_TARGETS`) | 4 / 5 hình 96px gắn số, xen kẽ theo lượt, click số 1 → N |
+| 23 | `mouse-click-small` | Chuột nâng cao 3 · Click hình nhỏ | 13 hình (`CLICK_TARGETS`) | 5 hình 56px, thứ tự bất kỳ |
+| 24 | `mouse-double-click` | Chuột nâng cao 4 · Nháy đúp chuột | 9 đồ vật (`DOUBLE_CLICK_ITEMS`) | 1 mục tiêu 96px, nháy đúp để mở |
+| 25 | `mouse-trail-long` | Chuột nâng cao 5 · Rê chuột đường dài | 8 đường (`LONG_TRAILS`) | 9–12 điểm nhỏ, không giữ nút |
+| 26 | `mouse-drag-many` | Chuột nâng cao 6 · Kéo nhiều món | 8 nhóm (`SORT_GROUPS`) | 3 món cùng nhóm vào 1 chỗ |
+| 27 | `mouse-drag-groups` | Chuột nâng cao 7 · Phân loại hai nhóm | 9 cặp nhóm (`GROUP_PAIRS`) | 4 món trộn (2 + 2) vào đúng 1 trong 2 chỗ |
+| 28 | `mouse-hold-trail` | Chuột nâng cao 8 · Giữ chuột kéo theo đường | 12 đường (`TRAILS` của game 8) | 6–8 điểm, giữ nút trái suốt đường |
+
+- **Click nhiều hình (21–23):** hình đặt vào ô khác nhau của lưới 4×2 trong `SAFE_AREA` (xáo theo seed, không chồng, tối đa 8 hình). Hình đã click chuyển `data-state="done"`; click hết thì xong lượt. Click nền là một attempt sai không kèm hint. Bộ 22: click sai số là attempt sai, hint “Thử lại nhé! Click số X trước nhé.”. Outcome `{ correct: số hình, attempts: số hình + số lần sai }`. `data-assist` trên hình kế tiếp (bộ 22: số cần click). Bộ 22 dùng các hình trong `CLICK_TARGETS` (⭐ 🦋 🍎 …) gắn số, intro “Hãy click các hình theo số, từ số 1 trở đi.”. Prompt “Click hết các hình” / “Click theo số từ 1 đến N”; `Nghe yêu cầu` đọc “Click vào từng hình: <tên các hình>” / “Click các hình theo số, từ số 1 đến số N”. Vị trí lấy từ `targetSlots` (`src/games/mouseLayout.ts`, cùng `MAX_CLICK_TARGETS`, `joinNames`); seed của lượt là `roundSeed` (`src/game/pickRound.ts`).
+- **Nháy đúp (24):** `dblclick` trên mục tiêu hoàn thành lượt, outcome `{ correct: 1, attempts: 1 + số lần sai }`; hai click của cú nháy đúp không tính sai (`event.detail > 1` bỏ qua). Click đơn: sau `DOUBLE_CLICK_WINDOW_MS` (500ms) không có click thứ hai thì tính một attempt sai, hint “Thử lại nhé! Bấm nhanh hai lần nhé.”. Click ra ngoài mục tiêu = attempt sai. Prompt “Nháy đúp để mở <tên>”.
+- **Rê đường dài (25):** luật như game 8; checkpoint cỡ nhỏ (`data-size="small"` trên `.trail-area`): vùng nhận 68px, chấm 44px (game 8: 104px / 72px).
+- **Giữ chuột kéo (28):** bắt đầu bằng nhấn nút trái trên điểm bắt đầu (`pointerdown`, `preventDefault`) hoặc đi vào điểm bắt đầu khi đang giữ nút; checkpoint chỉ tính khi `buttons & 1`. Sau khi đã bắt đầu, nhả nút ở bất kỳ đâu, kể cả ngoài khung (`pointerup` trên `window`, chỉ nghe khi đang giữa đường), hoặc đi vào checkpoint mà không giữ nút là một attempt sai (mỗi lần nhả chỉ tính một lần): tiến độ về điểm bắt đầu, hint “Thử lại nhé! Giữ chặt nút chuột nhé.”. Trước khi bắt đầu, con trỏ tự do đi qua đường không tính sai. `.trail-area[data-hold]` tắt bôi đen (`user-select: none`). Prompt “Giữ chuột kéo 🐭 tới 🧀”.
+- **Kéo nhiều món (26–27):** hàng món 96px ở trên, chỗ thả ở dưới; mỗi món thuộc đúng một nhóm (`SORT_GROUPS` không trùng emoji giữa các nhóm), số món chia đều cho các chỗ. Thả đúng: món hiện trong chỗ thả, ô cũ để trống. Thả sai hoặc ra ngoài: món về chỗ cũ, tính một attempt sai. Outcome `{ correct: số món, attempts: số lần thả }`. `data-assist` trên chỗ thả của món kế tiếp; snap theo bán kính như game 9–10. Prompt “Kéo hết vào <chỗ>” / “Kéo mỗi món vào đúng chỗ”.
+- Token kích thước trong `theme.css`: `--target-medium` 96px, `--target-small` 56px.
+
 ## Game framework contract
 
 ```ts
@@ -211,7 +241,9 @@ export type GameId =
   | 'space-enter'
   | 'count-keys'
   | 'drill-home-row' | 'drill-top-row' | 'drill-bottom-row' | 'drill-long-words'
-  | 'drill-two-words' | 'drill-numbers' | 'drill-sentences' | 'drill-sentence-enter';
+  | 'drill-two-words' | 'drill-numbers' | 'drill-sentences' | 'drill-sentence-enter'
+  | 'mouse-click-many' | 'mouse-click-order' | 'mouse-click-small' | 'mouse-double-click'
+  | 'mouse-trail-long' | 'mouse-drag-many' | 'mouse-drag-groups' | 'mouse-hold-trail';
 
 export type RoundOutcome = {
   correct: number;
@@ -276,8 +308,9 @@ Kho và cách chọn mục (mọi game chọn lượt bằng `pickRound`, trừ 
 | space-enter | 5 Space + 5 Enter | 10 | mỗi phím 5 lần |
 | count-keys | số lượng 1–9, 10 loại emoji | 9 | số lượng chỉ xáo thứ tự |
 | drill-* (8 bộ) | 11–12 mục mỗi bộ (`DRILL_SETS`) | 6 | không dùng `level` |
+| mouse-* (8 bộ) | 8–13 mục mỗi bộ (`MOUSE_DRILL_SETS`) | 6 | không dùng `level`; vị trí hình / thứ tự món xáo theo seed |
 
-Assist dùng một cơ chế chung cho cả 20 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
+Assist dùng một cơ chế chung cho cả 28 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
 
 - Level 0: chưa có lỗi, không trợ giúp.
 - Level 1 (sau 2 lần sai liên tiếp): target được viền nổi bật, guide tự mở và hint cụ thể được đọc bằng giọng.
@@ -347,7 +380,7 @@ Dùng Web Audio API tạo tone ngắn tại runtime để tránh quản lý asse
 ## UX rules
 
 - Một hành động chính trên mỗi màn hình; Home ưu tiên `Chơi ngay` và màn hình kết quả ưu tiên `Bài tiếp theo`.
-- Target click/kéo nhìn thấy tối thiểu 72 x 72 CSS px; hit area có thể lớn hơn để giảm yêu cầu chính xác ở trẻ mới dùng chuột.
+- Target click/kéo nhìn thấy tối thiểu 72 x 72 CSS px; hit area có thể lớn hơn để giảm yêu cầu chính xác ở trẻ mới dùng chuột. Ngoại lệ có chủ đích ở bộ chuột nâng cao: hình 56px (game 23) và chấm 44px trong vùng nhận 68px (game 25).
 - Guided Play đọc intro một lần khi vào bài; sau hai lỗi liên tiếp mở hướng dẫn và đọc lại hint cụ thể.
 - Trợ giúp tăng dần: hint → guide + speech → target/drop zone nổi bật hoặc dễ trúng hơn (xem `data-assist` ở phần Game framework contract).
 - Font lớn; game prompt là nội dung nổi bật nhất: prompt tối thiểu 44 px, lớn hơn tiêu đề bài (28 px). Game click và rê chuột cũng có prompt.
@@ -393,8 +426,9 @@ MVP dùng:
 - path unlock logic và `getRecommendedGameId` — `src/game/path.test.ts`
 - speech fallback và cancel — `src/hooks/useSpeech.test.ts`
 - feedback tone dùng lại một AudioContext — `src/hooks/useFeedbackTone.test.ts`
-- game registry order, drill đăng ký từ `DRILL_SETS` — `src/game/registry.test.ts`
+- game registry order, drill đăng ký từ `DRILL_SETS`, bộ chuột đăng ký từ `MOUSE_DRILL_SETS` với `category: 'mouse'` — `src/game/registry.test.ts`
 - kho bộ đề nâng cao: ≥ 10 mục không trùng, ký tự hợp lệ, bộ 1–3 đúng hàng phím, độ dài tăng dần, chỉ bộ 8 có Enter — `src/games/drills.test.ts`
+- kho bộ chuột nâng cao: tên, intro có dấu, 6 lượt, ≥ 8 mục không trùng, điểm đường nằm trong vùng chơi, nhóm kéo không chung hình, độ khó tăng từ bộ 1 đến bộ 8 — `src/games/mouseDrills.test.ts`
 - theme tokens và kích thước tối thiểu — `src/styles/app.test.ts`
 
 ### Component interaction
@@ -404,10 +438,13 @@ Mỗi mini-game có test (`src/games/*Game.test.tsx`) cho:
 - thao tác sai không nhảy round
 - outcome có `correct` và `attempts` chính xác
 - kéo thả: snap theo bán kính và pointer cancel đưa vật về chỗ cũ — `DragSortGame.test.tsx`, `DragMatchGame.test.tsx`
-- rê chuột sai thứ tự gọi `onRetry` — `MouseTrailGame.test.tsx`
+- rê chuột sai thứ tự gọi `onRetry`; đường dài; giữ chuột: nhả giữa đường (cả ngoài khung) về điểm bắt đầu — `MouseTrailGame.test.tsx`
+- click nhiều hình: ô không chồng, theo số, hint số cần click, 4/5 hình gắn số — `MultiClickGame.test.tsx`
+- nháy đúp: không tính sai hai click của cú đúp, hint click đơn, click ngoài, huỷ hint khi unmount — `DoubleClickGame.test.tsx`
+- kéo nhiều món: một chỗ / hai chỗ, thả ngoài tính sai, assist chỗ thả — `MultiDragGame.test.tsx`
 
 Framework và UI chung:
-- `data-assist` 0/1/2 trên target thật của cả 20 game — `src/games/assist.test.tsx`
+- `data-assist` 0/1/2 trên target thật của cả 28 game — `src/games/assist.test.tsx`
 - `Nghe yêu cầu` đọc mục tiêu lượt — `src/components/ListenButton.test.tsx`
 - GameShell: assist level theo số lần sai, đọc intro/hint, guide, lượt ôn, không ôn trong quick session — `src/game/GameShell.test.tsx`
 - Progress: gợi ý `Chơi <bài>` và sao — `src/screens/ProgressScreen.test.tsx`
@@ -424,11 +461,11 @@ Framework và UI chung:
 
 MVP hoàn thành khi:
 
-1. Cả 20 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
+1. Cả 28 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
 2. Một session không dùng countdown; Guided Play mặc định tối đa 5 lượt, còn Lộ trình/Chơi tự do giữ số lượt đầy đủ của game.
 3. Hoàn thành game tạo 1-3 sao và lưu được vào localStorage.
 4. Reload giữ lại best stars và trạng thái hoàn thành.
-5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 20 game. Tổng sao tối đa 60 (`gameRegistry.length * 3`).
+5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 28 game. Tổng sao tối đa 84 (`gameRegistry.length * 3`).
 6. Speech có nút nghe lại và app vẫn dùng được nếu speech unavailable.
 7. Sai thao tác không đưa bé vào failure screen.
 8. Build production và toàn bộ Vitest test suite pass.

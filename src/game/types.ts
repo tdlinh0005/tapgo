@@ -15,7 +15,7 @@ export const BASIC_GAME_IDS = [
   'count-keys',
 ] as const;
 
-export const ADVANCED_GAME_IDS = [
+export const TYPING_DRILL_IDS = [
   'drill-home-row',
   'drill-top-row',
   'drill-bottom-row',
@@ -26,9 +26,24 @@ export const ADVANCED_GAME_IDS = [
   'drill-sentence-enter',
 ] as const;
 
+export const MOUSE_DRILL_IDS = [
+  'mouse-click-many',
+  'mouse-click-order',
+  'mouse-click-small',
+  'mouse-double-click',
+  'mouse-trail-long',
+  'mouse-drag-many',
+  'mouse-drag-groups',
+  'mouse-hold-trail',
+] as const;
+
+export const ADVANCED_GAME_IDS = [...TYPING_DRILL_IDS, ...MOUSE_DRILL_IDS] as const;
+
 export const GAME_IDS = [...BASIC_GAME_IDS, ...ADVANCED_GAME_IDS] as const;
 
 export type BasicGameId = (typeof BASIC_GAME_IDS)[number];
+export type TypingDrillId = (typeof TYPING_DRILL_IDS)[number];
+export type MouseDrillId = (typeof MOUSE_DRILL_IDS)[number];
 export type AdvancedGameId = (typeof ADVANCED_GAME_IDS)[number];
 export type GameId = (typeof GAME_IDS)[number];
 

@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { ADVANCED_GAME_IDS } from '../game/types';
+import { TYPING_DRILL_IDS, type TypingDrillId } from '../game/types';
 import { DRILL_SETS, KEYBOARD_ROWS } from './drills';
 
-const sets = ADVANCED_GAME_IDS.map((id) => [id, DRILL_SETS[id]] as const);
-const lengths = (id: (typeof ADVANCED_GAME_IDS)[number]) => DRILL_SETS[id].items.map(({ text }) => text.length);
+const sets = TYPING_DRILL_IDS.map((id) => [id, DRILL_SETS[id]] as const);
+const lengths = (id: TypingDrillId) => DRILL_SETS[id].items.map(({ text }) => text.length);
 const average = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
 
 describe('drill sets', () => {
@@ -37,11 +37,11 @@ describe('drill sets', () => {
   });
 
   it('gets harder from set 1 to set 8', () => {
-    for (let index = 1; index < ADVANCED_GAME_IDS.length; index += 1) {
-      const previous = lengths(ADVANCED_GAME_IDS[index - 1]);
-      const current = lengths(ADVANCED_GAME_IDS[index]);
-      expect(Math.max(...current), ADVANCED_GAME_IDS[index]).toBeGreaterThanOrEqual(Math.max(...previous));
-      expect(average(current), ADVANCED_GAME_IDS[index]).toBeGreaterThan(average(previous));
+    for (let index = 1; index < TYPING_DRILL_IDS.length; index += 1) {
+      const previous = lengths(TYPING_DRILL_IDS[index - 1]);
+      const current = lengths(TYPING_DRILL_IDS[index]);
+      expect(Math.max(...current), TYPING_DRILL_IDS[index]).toBeGreaterThanOrEqual(Math.max(...previous));
+      expect(average(current), TYPING_DRILL_IDS[index]).toBeGreaterThan(average(previous));
     }
   });
 

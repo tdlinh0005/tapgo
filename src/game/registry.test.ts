@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { DRILL_SETS } from '../games/drills';
 import LetterKeyGame from '../games/LetterKeyGame';
-import { ADVANCED_GAME_IDS } from './types';
+import { MOUSE_DRILL_SETS } from '../games/mouseDrills';
+import { MOUSE_DRILL_IDS, TYPING_DRILL_IDS } from './types';
 import { gameRegistry } from './registry';
 
 describe('game registry', () => {
@@ -27,14 +28,32 @@ describe('game registry', () => {
       'drill-numbers',
       'drill-sentences',
       'drill-sentence-enter',
+      'mouse-click-many',
+      'mouse-click-order',
+      'mouse-click-small',
+      'mouse-double-click',
+      'mouse-trail-long',
+      'mouse-drag-many',
+      'mouse-drag-groups',
+      'mouse-hold-trail',
     ]);
   });
 
   it('registers every drill as a keyboard game built from its set', () => {
-    for (const id of ADVANCED_GAME_IDS) {
+    for (const id of TYPING_DRILL_IDS) {
       const game = gameRegistry.find((entry) => entry.id === id)!;
       expect(game.category).toBe('keyboard');
       expect(game.title).toBe(DRILL_SETS[id].title);
+      expect(game.rounds).toBe(6);
+    }
+  });
+
+  it('registers every mouse drill as a mouse game built from its set', () => {
+    for (const id of MOUSE_DRILL_IDS) {
+      const game = gameRegistry.find((entry) => entry.id === id)!;
+      expect(game.category).toBe('mouse');
+      expect(game.title).toBe(MOUSE_DRILL_SETS[id].title);
+      expect(game.intro).toBe(MOUSE_DRILL_SETS[id].intro);
       expect(game.rounds).toBe(6);
     }
   });

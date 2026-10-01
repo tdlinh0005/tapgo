@@ -1022,6 +1022,120 @@ button:disabled {
   opacity: 0.55;
 }
 
+.multi-click-target {
+  --multi-click-size: var(--target-medium);
+  position: absolute;
+  width: var(--multi-click-size);
+  height: var(--multi-click-size);
+  display: grid;
+  place-items: center;
+  transform: translate(-50%, -50%);
+  border: 4px solid var(--color-category-strong);
+  border-radius: 50%;
+  padding: 0;
+  background: var(--color-category-soft);
+  box-shadow: var(--shadow-card);
+  font-size: calc(var(--multi-click-size) / 2);
+  line-height: 1;
+  transition: transform var(--motion-fast) ease;
+}
+
+.multi-click-target[data-size="small"] {
+  --multi-click-size: var(--target-small);
+  border-width: 3px;
+}
+
+.multi-click-target[data-state="done"] {
+  border-color: var(--color-success);
+  background: var(--color-success-soft);
+  box-shadow: none;
+  opacity: 0.6;
+}
+
+.multi-click-target[data-assist] {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 8px var(--color-primary-soft);
+}
+
+.multi-click-target[data-assist="2"] {
+  transform: translate(-50%, -50%) scale(1.15);
+}
+
+.multi-click-number {
+  position: absolute;
+  top: calc(var(--space-sm) * -1);
+  right: calc(var(--space-sm) * -1);
+  display: grid;
+  place-items: center;
+  width: calc(var(--space-lg) + var(--space-sm));
+  height: calc(var(--space-lg) + var(--space-sm));
+  border-radius: 50%;
+  background: var(--color-category-strong);
+  color: var(--color-on-primary);
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.trail-area[data-hold] {
+  user-select: none;
+}
+
+.trail-area[data-size="small"] .trail-checkpoint {
+  width: calc(var(--target-small) + var(--space-sm));
+  height: calc(var(--target-small) + var(--space-sm));
+  font-size: 18px;
+}
+
+.trail-area[data-size="small"] .trail-checkpoint > span {
+  width: calc(var(--target-small) - var(--space-sm));
+  height: calc(var(--target-small) - var(--space-sm));
+  border-width: 3px;
+}
+
+.trail-area[data-size="small"] .trail-checkpoint[data-assist="2"] > span {
+  width: var(--target-small);
+  height: var(--target-small);
+}
+
+.multi-drag-items {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+  min-height: var(--target-medium);
+}
+
+.multi-drag-item,
+.multi-drag-slot {
+  width: var(--target-medium);
+  height: var(--target-medium);
+}
+
+.multi-drag-item {
+  font-size: calc(var(--target-medium) / 2);
+}
+
+.multi-drag-zones {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(0, 1fr);
+  gap: var(--space-md);
+  width: 100%;
+}
+
+.multi-drag-zones .drop-zone {
+  min-height: calc(var(--target-medium) + var(--space-md));
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+}
+
+.multi-drag-placed {
+  font-size: 32px;
+}
+
 .game-result {
   align-items: center;
   justify-content: center;

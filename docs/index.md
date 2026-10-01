@@ -2,10 +2,11 @@
 
 ## Current product and feature specification
 
-- [TapGo MVP](feat/tapgo-mvp.md) — product scope, UX rules, game framework, 20 mini-game definitions (12 cơ bản + 8 bộ đề gõ nâng cao), progress model, speech/audio behavior, testing and acceptance criteria.
+- [TapGo MVP](feat/tapgo-mvp.md) — product scope, UX rules, game framework, 28 mini-game definitions (12 cơ bản + 8 bộ đề gõ nâng cao + 8 bộ chuột nâng cao), progress model, speech/audio behavior, testing and acceptance criteria.
 
 ## Active implementation plans
 
+- [TapGo v5 · Bài chuột nâng cao](plan/v5-mouse-drills.md) — 8 bộ chuột nâng cao (game 21–28) độ khó tăng dần: click nhiều hình / theo số / hình nhỏ, nháy đúp, rê đường dài, kéo nhiều món, phân loại hai nhóm, giữ chuột kéo theo đường; code + docs xong, còn review, commit và đo trên trình duyệt thật.
 - [TapGo v4 · Bài nâng cao sau lộ trình cơ bản](plan/v4-advanced-drills.md) — 8 bộ đề gõ nâng cao (game 13–20) độ khó tăng dần, `Chơi ngay` chuyển sang bài nâng cao sau 12 bài cơ bản; code + docs xong, còn đo trên trình duyệt thật.
 - [TapGo v3 · Giao diện hấp dẫn trẻ + bài tập phong phú](plan/v3-kid-visual-redesign.md) — 17 task (phase A–E): bố cục vùng chơi, bảng màu/font/mascot, lộ trình dạng đường đi, xáo trộn + mở rộng kho bài tập; đã rà soát với code; V01–V16 xong (game 11–12 đã thêm); V17: docs + đo CDP (12 game vừa 1366×768 / 1280×720, input thật) đã xong, còn QA người chạy trên Chrome/Edge thật (giọng `vi-VN`, quan sát bé chơi), xong thì chuyển plan sang Done plans.
 - [Fix plan từ audit sep30](plan/fix-audit-sep30.md) — 47 task fix (8 phase, 0–7; Phase 7 là bug từ QA T44) từ audit toàn repo; chỉ còn T44 (QA thủ công Chrome/Edge thật; lượt 2 qua CDP đã PASS 2026-10-01, còn giọng đọc + người chạy).

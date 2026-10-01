@@ -1,4 +1,4 @@
-import type { AdvancedGameId } from '../game/types';
+import type { TypingDrillId } from '../game/types';
 
 /** `text` is typed key by key: uppercase unaccented letters and digits, ' ' for Space, '\n' for Enter. */
 export type DrillItem = { text: string; emoji: string; say: string };
@@ -22,7 +22,7 @@ export const KEYBOARD_ROWS = {
   'drill-bottom-row': 'ZXCVBNM',
 } as const;
 
-export const DRILL_SETS: Record<AdvancedGameId, DrillSet> = {
+export const DRILL_SETS: Record<TypingDrillId, DrillSet> = {
   'drill-home-row': {
     title: 'Nâng cao 1 · Hàng phím giữa',
     intro: 'Hãy gõ các chữ ở hàng phím giữa.',
