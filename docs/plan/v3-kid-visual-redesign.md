@@ -247,7 +247,7 @@ Chung cho V15, V16:
 
 ## Phase E — Đóng
 
-### [ ] V17 · Cập nhật spec, index, CHANGELOG + QA T44/G16 lượt 2
+### [~] V17 · Cập nhật spec, index, CHANGELOG + QA T44/G16 lượt 2 — đang làm: lane-docs
 
 - `docs/feat/tapgo-mvp.md`: Visual system (token vai trò, `data-category`, font, mascot, `CoachBubble`), UX rule mới cho ăn mừng màn kết quả (V08), contract `MiniGameProps` (`sessionSeed`, `level`), định nghĩa kho/chọn mục của từng game đã đổi, “10 mini-game” → “12 mini-game” (dòng 7 và tiêu chí nghiệm thu dòng 343), tổng sao 36, Space/Enter trong `useKeySequence`, stamp `updated`.
 - `docs/index.md`: chuyển plan này sang Done plans khi đóng. `CHANGELOG.md` mục `[Unreleased]` (Added/Changed theo Keep a Changelog, không mint version).
