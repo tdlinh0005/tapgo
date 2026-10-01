@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import MouseTrailGame, { TRAILS } from './MouseTrailGame';
+import MouseTrailGame, { TRAILS, TRAIL_THEMES } from './MouseTrailGame';
 
 const firstTrailLength = TRAILS[0].length;
 
@@ -20,7 +20,19 @@ describe('MouseTrailGame', () => {
     expect(container.querySelector('.trail-guide polyline')).toHaveAttribute('points', TRAILS[2].map(([x, y]) => `${x},${y}`).join(' '));
     expect(screen.getByLabelText('Điểm bắt đầu')).toBeInTheDocument();
     expect(screen.getByLabelText('Đích')).toBeInTheDocument();
-    expect(screen.getByText('Đưa chuột qua các điểm tới 🏁')).toHaveClass('game-prompt');
+    expect(screen.getByText(`Đưa ${TRAIL_THEMES[2].start} tới ${TRAIL_THEMES[2].finish}`)).toHaveClass('game-prompt');
+    expect(screen.getByLabelText('Điểm bắt đầu')).toHaveTextContent(TRAIL_THEMES[2].start);
+    expect(screen.getByLabelText('Đích')).toHaveTextContent(TRAIL_THEMES[2].finish);
+  });
+
+  it('pairs every start with a different finish and reads the goal aloud', () => {
+    expect(TRAIL_THEMES.length).toBeGreaterThan(TRAILS.length / 2);
+    for (const theme of TRAIL_THEMES) expect(theme.start).not.toBe(theme.finish);
+
+    const speak = vi.fn();
+    render(<MouseTrailGame roundIndex={1} totalRounds={6} onRoundComplete={vi.fn()} speak={speak} />);
+    fireEvent.click(screen.getByRole('button', { name: 'Nghe yêu cầu' }));
+    expect(speak).toHaveBeenCalledWith(expect.stringContaining(TRAIL_THEMES[1].goal));
   });
 
   it('completes when checkpoints are entered in order', () => {

@@ -19,8 +19,19 @@ export const TRAILS = [
   [[14, 76], [14, 24], [38, 24], [38, 76], [62, 76], [62, 24], [88, 24]],
 ] as const;
 
+export const TRAIL_THEMES = [
+  { start: '🐭', finish: '🧀', mover: 'chú chuột', goal: 'miếng phô mai' },
+  { start: '🚀', finish: '🌙', mover: 'tên lửa', goal: 'mặt trăng' },
+  { start: '🚗', finish: '🏠', mover: 'ô tô', goal: 'ngôi nhà' },
+  { start: '🐝', finish: '🌸', mover: 'chú ong', goal: 'bông hoa' },
+  { start: '🐶', finish: '🦴', mover: 'chú chó', goal: 'khúc xương' },
+  { start: '🐰', finish: '🥕', mover: 'bạn thỏ', goal: 'củ cà rốt' },
+  { start: '🐌', finish: '🍃', mover: 'bạn ốc sên', goal: 'chiếc lá' },
+] as const;
+
 export default function MouseTrailGame({ roundIndex, sessionSeed, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
   const trail = pickRound(TRAILS, roundIndex, sessionSeed);
+  const theme = pickRound(TRAIL_THEMES, roundIndex, sessionSeed);
   const finishIndex = trail.length - 1;
   const [nextCheckpoint, setNextCheckpoint] = useState(0);
   const wrongEntries = useRef(0);
@@ -51,8 +62,8 @@ export default function MouseTrailGame({ roundIndex, sessionSeed, onRoundComplet
 
   return (
     <>
-      <p className="game-prompt">Đưa chuột qua các điểm tới 🏁</p>
-      <ListenButton text="Đưa chuột qua các điểm theo thứ tự tới lá cờ đích" speak={speak} />
+      <p className="game-prompt">Đưa {theme.start} tới {theme.finish}</p>
+      <ListenButton text={`Đưa chuột qua các điểm theo thứ tự, giúp ${theme.mover} tới đích là ${theme.goal}`} speak={speak} />
       <section className="trail-area" aria-label="Đường rê chuột">
         <svg className="trail-guide" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
           <polyline points={trail.map(([x, y]) => `${x},${y}`).join(' ')} vectorEffect="non-scaling-stroke" />
@@ -68,7 +79,7 @@ export default function MouseTrailGame({ roundIndex, sessionSeed, onRoundComplet
             role="img"
             aria-label={labelFor(index)}
           >
-            <span>{index === 0 ? '🟢' : index === finishIndex ? '🏁' : index}</span>
+            <span>{index === 0 ? theme.start : index === finishIndex ? theme.finish : index}</span>
           </div>
         ))}
       </section>

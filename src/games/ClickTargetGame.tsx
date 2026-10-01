@@ -1,12 +1,31 @@
 import { useState, type MouseEvent } from 'react';
 import ListenButton from '../components/ListenButton';
+import { pickRound } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
 
 export const SAFE_AREA = { left: [14, 80], top: [18, 72] } as const;
 
+export const CLICK_TARGETS = [
+  { emoji: '⭐', name: 'ngôi sao' },
+  { emoji: '🎈', name: 'quả bóng bay' },
+  { emoji: '🦋', name: 'con bướm' },
+  { emoji: '🐞', name: 'con bọ rùa' },
+  { emoji: '🪐', name: 'hành tinh' },
+  { emoji: '🍎', name: 'quả táo' },
+  { emoji: '🐠', name: 'con cá' },
+  { emoji: '🌸', name: 'bông hoa' },
+  { emoji: '🚀', name: 'tên lửa' },
+  { emoji: '🐝', name: 'con ong' },
+  { emoji: '🍦', name: 'cây kem' },
+  { emoji: '🎁', name: 'hộp quà' },
+  { emoji: '🐥', name: 'chú gà con' },
+] as const;
+
 const randomBetween = ([min, max]: readonly [number, number]) => min + Math.random() * (max - min);
 
-export default function ClickTargetGame({ onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
+export default function ClickTargetGame({ roundIndex, sessionSeed, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
+  const target = pickRound(CLICK_TARGETS, roundIndex, sessionSeed);
+  const prompt = `Click vào ${target.name}`;
   const [attempts, setAttempts] = useState(0);
   const [{ left, top }] = useState(() => ({ left: randomBetween(SAFE_AREA.left), top: randomBetween(SAFE_AREA.top) }));
 
@@ -22,8 +41,8 @@ export default function ClickTargetGame({ onRoundComplete, onRetry, speak, assis
 
   return (
     <>
-      <p className="game-prompt">Click vào ngôi sao</p>
-      <ListenButton text="Click vào ngôi sao" speak={speak} />
+      <p className="game-prompt">{prompt}</p>
+      <ListenButton text={prompt} speak={speak} />
       <section
         className="click-play-area"
         data-testid="play-area"
@@ -38,7 +57,7 @@ export default function ClickTargetGame({ onRoundComplete, onRetry, speak, assis
           onClick={handleTarget}
           style={{ left: `${left}%`, top: `${top}%` }}
         >
-          <span className="click-target-visual" aria-hidden="true">⭐</span>
+          <span className="click-target-visual" aria-hidden="true">{target.emoji}</span>
         </button>
       </section>
     </>

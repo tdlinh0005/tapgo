@@ -16,7 +16,7 @@ const GAME_DEFINITIONS: Record<GameId, Omit<GameDefinition, 'id' | 'order'>> = {
   words: { title: 'Gõ từ ngắn', category: 'keyboard', rounds: 8, intro: 'Hãy gõ từ đang hiện trên màn hình.', emoji: '📝', component: WordTypingGame },
   'find-key': { title: 'Tìm phím đúng', category: 'keyboard', rounds: 10, intro: 'Hãy tìm và bấm đúng phím.', emoji: '⌨️', component: FindKeyGame },
   sequence: { title: 'Gõ chuỗi phím', category: 'keyboard', rounds: 8, intro: 'Hãy gõ từng phím theo thứ tự.', emoji: '🎹', component: SequenceTypingGame },
-  'click-target': { title: 'Click mục tiêu', category: 'mouse', rounds: 12, intro: 'Hãy click vào ngôi sao.', emoji: '⭐', component: ClickTargetGame },
+  'click-target': { title: 'Click mục tiêu', category: 'mouse', rounds: 12, intro: 'Hãy click vào hình đang hiện trong khung.', emoji: '⭐', component: ClickTargetGame },
   'pick-picture': { title: 'Click đúng hình', category: 'mouse', rounds: 10, intro: 'Hãy click vào hình được yêu cầu.', emoji: '🖼️', component: PickPictureGame },
   'mouse-trail': { title: 'Rê chuột theo đường', category: 'mouse', rounds: 6, intro: 'Hãy đưa chuột theo các điểm đến đích.', emoji: '🐭', component: MouseTrailGame },
   'drag-sort': { title: 'Kéo thả phân loại', category: 'mouse', rounds: 8, intro: 'Hãy kéo đồ vật vào đúng nơi.', emoji: '🧺', component: DragSortGame },

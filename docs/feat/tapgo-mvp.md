@@ -108,12 +108,13 @@ Thứ tự:
 
 - Hiện chuỗi 3-5 ký tự, ví dụ `A S D F`.
 - Highlight vị trí đang cần bấm.
+- Chuỗi nằm trọn một hàng phím có hình minh hoạ của hàng đó (hàng giữa 🐾 bước chân, hàng trên 🚂, hàng dưới 🐛; chuỗi nhiều hàng 🌈).
 - Sai không reset toàn chuỗi; chỉ yêu cầu thử lại ký tự hiện tại.
 - 8 lượt.
 
 ### 6. Click mục tiêu lớn
 
-- Một mục tiêu lớn xuất hiện ở vị trí ngẫu nhiên an toàn trong play area.
+- Một mục tiêu lớn xuất hiện ở vị trí ngẫu nhiên an toàn trong play area; mục tiêu đổi mỗi lượt (⭐ 🎈 🦋 🐞 …, kho `CLICK_TARGETS` 13 mục chọn bằng `pickRound`), prompt và `Nghe yêu cầu` đọc “Click vào <tên mục tiêu>”.
 - Click đúng hoàn thành lượt.
 - Click nền được tính là một attempt sai nhưng không hiện hình phạt.
 - 12 lượt.
@@ -127,7 +128,7 @@ Thứ tự:
 
 ### 8. Rê chuột theo đường
 
-- Bé đưa con trỏ từ điểm bắt đầu qua 4-6 checkpoint tới đích.
+- Bé đưa con trỏ từ điểm bắt đầu qua 4-6 checkpoint tới đích. Điểm đầu/đích là một cặp theo chủ đề (🐭→🧀, 🚀→🌙, 🚗→🏠 …, `TRAIL_THEMES`), prompt “Đưa 🐭 tới 🧀”.
 - Không yêu cầu giữ chuột.
 - Ra ngoài đường không reset và không tính sai; chỉ chưa kích hoạt checkpoint tiếp theo.
 - Đi vào một checkpoint phía sau checkpoint kế tiếp (sai thứ tự) tính là một attempt sai và gọi `onRetry` kèm hint chỉ checkpoint cần tới; tiến độ không reset. Đi lại qua checkpoint đã xong không tính sai. Trước khi chạm điểm bắt đầu, đi qua checkpoint khác không tính sai (con trỏ đang nằm sẵn khi mở game, hoặc đang quay về từ đích của lượt trước). Outcome là `{ correct: số checkpoint, attempts: số checkpoint + số lần sai thứ tự }`.

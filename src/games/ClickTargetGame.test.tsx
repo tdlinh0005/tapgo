@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import ClickTargetGame, { SAFE_AREA } from './ClickTargetGame';
+import { pickRound } from '../game/pickRound';
+import ClickTargetGame, { CLICK_TARGETS, SAFE_AREA } from './ClickTargetGame';
 
 afterEach(() => {
   vi.restoreAllMocks();
@@ -10,6 +11,26 @@ afterEach(() => {
 const renderGame = () => render(<ClickTargetGame roundIndex={0} totalRounds={12} onRoundComplete={vi.fn()} speak={() => {}} />);
 
 describe('ClickTargetGame', () => {
+  it('changes the target each round and reads the matching prompt', async () => {
+    const user = userEvent.setup();
+    expect(new Set(CLICK_TARGETS.map(({ emoji }) => emoji)).size).toBe(CLICK_TARGETS.length);
+
+    const seen = new Set<string>();
+    for (let roundIndex = 0; roundIndex < 12; roundIndex += 1) {
+      const speak = vi.fn();
+      const target = pickRound(CLICK_TARGETS, roundIndex, 777);
+      const { unmount } = render(<ClickTargetGame roundIndex={roundIndex} totalRounds={12} sessionSeed={777} onRoundComplete={vi.fn()} speak={speak} />);
+      expect(screen.getByText(`Click vào ${target.name}`)).toHaveClass('game-prompt');
+      const button = screen.getByRole('button', { name: 'Mục tiêu' });
+      expect(button).toHaveTextContent(target.emoji);
+      await user.click(screen.getByRole('button', { name: 'Nghe yêu cầu' }));
+      expect(speak).toHaveBeenCalledWith(`Click vào ${target.name}`);
+      seen.add(target.emoji);
+      unmount();
+    }
+    expect(seen.size).toBe(12);
+  });
+
   it('counts background misses and completes on the target', async () => {
     const user = userEvent.setup();
     const onRoundComplete = vi.fn();

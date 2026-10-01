@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
-import SequenceTypingGame, { SEQUENCES } from './SequenceTypingGame';
+import SequenceTypingGame, { SEQUENCES, sequencePicture } from './SequenceTypingGame';
 import { WORDS } from './WordTypingGame';
 
 describe('SequenceTypingGame', () => {
@@ -13,6 +13,17 @@ describe('SequenceTypingGame', () => {
       expect(words).not.toContain(sequence);
     }
     expect(SEQUENCES.some((sequence) => sequence.length > 3)).toBe(true);
+  });
+
+  it('pictures each sequence by its keyboard row, with paw steps on the home row', () => {
+    expect(sequencePicture('ASDF')).toBe('🐾');
+    expect(sequencePicture('QWER')).toBe('🚂');
+    expect(sequencePicture('ZXCV')).toBe('🐛');
+    expect(sequencePicture('JKLM')).toBe('🌈');
+
+    const { container } = render(<SequenceTypingGame roundIndex={0} totalRounds={8} onRoundComplete={vi.fn()} speak={() => {}} />);
+    expect(container.querySelector('.typing-picture')).toHaveTextContent('🐾');
+    expect(container.querySelector('.typing-picture')).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('advances the cursor without resetting after a wrong key', async () => {

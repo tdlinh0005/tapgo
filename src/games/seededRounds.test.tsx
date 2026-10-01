@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { pickRound, shuffleWithSeed } from '../game/pickRound';
 import { gameRegistry } from '../game/registry';
+import { CLICK_TARGETS } from './ClickTargetGame';
 import { MATCH_ROUNDS } from './DragMatchGame';
 import DragSortGame, { SORT_ROUNDS } from './DragSortGame';
 import { TARGETS } from './FindKeyGame';
@@ -21,6 +22,7 @@ describe('seeded rounds', () => {
       'find-key': TARGETS,
       words: WORDS,
       sequence: SEQUENCES,
+      'click-target': CLICK_TARGETS,
       'pick-picture': PICTURE_ROUNDS,
       'mouse-trail': TRAILS,
       'drag-sort': SORT_ROUNDS,
