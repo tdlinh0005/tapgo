@@ -12,6 +12,7 @@ export const GAME_IDS = [
   'drag-sort',
   'drag-match',
   'space-enter',
+  'count-keys',
 ] as const;
 
 export type GameId = (typeof GAME_IDS)[number];

@@ -10,7 +10,7 @@ describe('LearningPathScreen', () => {
     const onPlay = vi.fn();
     render(<LearningPathScreen progress={createDefaultProgress()} onPlay={onPlay} onHome={vi.fn()} />);
 
-    expect(screen.getAllByRole('listitem')).toHaveLength(11);
+    expect(screen.getAllByRole('listitem')).toHaveLength(12);
     expect(screen.getByRole('button', { name: 'Phím cách và Enter: xong bài trước để mở' })).toBeDisabled();
     const numbers = screen.getByRole('button', { name: 'Gõ số: xong bài trước để mở' });
     expect(numbers).toBeDisabled();

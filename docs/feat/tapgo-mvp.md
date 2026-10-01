@@ -73,6 +73,7 @@ Thứ tự:
 9. Kéo thả phân loại
 10. Kéo thả ghép cặp
 11. Phím cách và Enter
+12. Đếm rồi bấm số
 
 Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`) để không khoá lại bài của bé đang chơi dở; `normalizeProgress` điền game mới rỗng cho tiến độ cũ. Màn Lộ trình xếp 5 trạm mỗi hàng, số hàng tăng theo số game.
 
@@ -157,6 +158,13 @@ Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`) để kh
 - Bấm nhầm phím cách khi cần Enter (hoặc ngược lại) là một attempt sai, hint “Thử lại nhé! Tìm phím Enter trên bàn phím nhé.”.
 - `useKeySequence` coi Enter là ký tự `'\n'`. Space và Enter chỉ được tính khi chuỗi mong đợi có `' '` hoặc `'\n'`, khi đó cả hai bị `preventDefault` để không kích hoạt nút đang focus. Game khác: Space bị nuốt (`preventDefault`, không tính sai), Enter để nguyên cho trình duyệt.
 
+### 12. Đếm rồi bấm số (`count-keys`)
+
+- Mỗi lượt hiện 1–9 emoji cùng loại (🍎 🐟 ⭐ … kho `COUNT_ITEMS` 10 loại) xếp lưới tối đa 3 × 3, cạnh một phím `?`; bé đếm rồi bấm phím số bằng số lượng (phím số hàng trên hoặc numpad đều cho `event.key` `'1'`…`'9'`).
+- Prompt “Có mấy quả táo?”, `Nghe yêu cầu` đọc “Có mấy quả táo? Bấm số đó”. Số lượng (kho `COUNTS` 1–9 = số lượt, chỉ xáo thứ tự) và loại emoji chọn bằng `pickRound`.
+- Sai: hint “Thử lại nhé! Đếm lại từng quả táo nhé.”. Assist mức 1 đánh số nhỏ dưới từng emoji, mức 2 hiện đáp án trên phím.
+- 9 lượt.
+
 ## Game framework contract
 
 ```ts
@@ -171,7 +179,8 @@ export type GameId =
   | 'mouse-trail'
   | 'drag-sort'
   | 'drag-match'
-  | 'space-enter';
+  | 'space-enter'
+  | 'count-keys';
 
 export type RoundOutcome = {
   correct: number;

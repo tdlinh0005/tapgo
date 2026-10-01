@@ -12,6 +12,7 @@ import NumberKeyGame from './NumberKeyGame';
 import PickPictureGame from './PickPictureGame';
 import SequenceTypingGame from './SequenceTypingGame';
 import SpaceEnterGame from './SpaceEnterGame';
+import CountKeysGame from './CountKeysGame';
 import WordTypingGame from './WordTypingGame';
 
 const games: [string, ComponentType<MiniGameProps>][] = [
@@ -26,6 +27,7 @@ const games: [string, ComponentType<MiniGameProps>][] = [
   ['words', WordTypingGame],
   ['sequence', SequenceTypingGame],
   ['space enter', SpaceEnterGame],
+  ['count keys', CountKeysGame],
 ];
 
 const renderGame = (Game: ComponentType<MiniGameProps>, assistLevel: 0 | 1 | 2) =>

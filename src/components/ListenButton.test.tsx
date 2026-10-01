@@ -8,6 +8,7 @@ import MouseTrailGame from '../games/MouseTrailGame';
 import NumberKeyGame from '../games/NumberKeyGame';
 import SequenceTypingGame from '../games/SequenceTypingGame';
 import SpaceEnterGame from '../games/SpaceEnterGame';
+import CountKeysGame from '../games/CountKeysGame';
 import WordTypingGame from '../games/WordTypingGame';
 
 const cases: [string, ComponentType<MiniGameProps>, string][] = [
@@ -18,6 +19,7 @@ const cases: [string, ComponentType<MiniGameProps>, string][] = [
   ['click', ClickTargetGame, 'ngôi sao'],
   ['trail', MouseTrailGame, 'đích'],
   ['space-enter', SpaceEnterGame, 'Bấm phím cách'],
+  ['count-keys', CountKeysGame, 'Có mấy quả táo'],
 ];
 
 describe('Nghe yêu cầu', () => {

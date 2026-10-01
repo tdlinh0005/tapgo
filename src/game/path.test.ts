@@ -42,6 +42,7 @@ describe('path unlock', () => {
   it('uses the same canonical order for next-game navigation', () => {
     expect(getNextGameId('letters')).toBe('numbers');
     expect(getNextGameId('drag-match')).toBe('space-enter');
-    expect(getNextGameId('space-enter')).toBeNull();
+    expect(getNextGameId('space-enter')).toBe('count-keys');
+    expect(getNextGameId('count-keys')).toBeNull();
   });
 });

@@ -16,6 +16,7 @@ describe('game registry', () => {
       'drag-sort',
       'drag-match',
       'space-enter',
+      'count-keys',
     ]);
   });
 

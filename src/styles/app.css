@@ -699,6 +699,32 @@ button:disabled {
   min-width: var(--key-wide-width);
 }
 
+/* Count game: items and the key sit side by side so three rows of items still fit the stage. */
+.count-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.count-grid {
+  display: grid;
+  grid-template-columns: repeat(3, var(--count-item-size));
+  gap: var(--space-sm);
+}
+
+.count-item {
+  display: grid;
+  justify-items: center;
+  font-size: var(--count-emoji-size);
+  line-height: 1;
+}
+
+.count-number {
+  color: var(--color-category-strong);
+  font-size: 18px;
+  font-weight: 900;
+}
+
 .typing-picture {
   font-size: 72px;
   line-height: 1;

@@ -1,4 +1,5 @@
 import ClickTargetGame from '../games/ClickTargetGame';
+import CountKeysGame from '../games/CountKeysGame';
 import DragMatchGame from '../games/DragMatchGame';
 import DragSortGame from '../games/DragSortGame';
 import FindKeyGame from '../games/FindKeyGame';
@@ -23,6 +24,7 @@ const GAME_DEFINITIONS: Record<GameId, Omit<GameDefinition, 'id' | 'order'>> = {
   'drag-sort': { title: 'Kéo thả phân loại', category: 'mouse', rounds: 8, intro: 'Hãy kéo đồ vật vào đúng nơi.', emoji: '🧺', component: DragSortGame },
   'drag-match': { title: 'Kéo thả ghép cặp', category: 'mouse', rounds: 8, intro: 'Hãy kéo hình vào đúng cặp.', emoji: '🧩', component: DragMatchGame },
   'space-enter': { title: 'Phím cách và Enter', category: 'keyboard', rounds: 10, intro: 'Hãy bấm phím cách hoặc phím Enter theo hình.', emoji: '🚀', component: SpaceEnterGame },
+  'count-keys': { title: 'Đếm rồi bấm số', category: 'keyboard', rounds: 9, intro: 'Hãy đếm hình rồi bấm phím số đúng.', emoji: '🍎', component: CountKeysGame },
 };
 
 export const gameRegistry: GameDefinition[] = GAME_IDS.map((id, index) => ({
