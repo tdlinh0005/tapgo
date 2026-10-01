@@ -72,6 +72,9 @@ Thứ tự:
 8. Rê chuột theo đường
 9. Kéo thả phân loại
 10. Kéo thả ghép cặp
+11. Phím cách và Enter
+
+Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`) để không khoá lại bài của bé đang chơi dở; `normalizeProgress` điền game mới rỗng cho tiến độ cũ. Màn Lộ trình xếp 5 trạm mỗi hàng, số hàng tăng theo số game.
 
 ## Mini-game definitions
 
@@ -147,6 +150,13 @@ Thứ tự:
 - Dùng cùng primitive kéo thả của game 9.
 - 8 lượt.
 
+### 11. Phím cách và Enter (`space-enter`)
+
+- Mỗi lượt hiện một phím lớn: `🚀 Space` (thanh dài `--key-wide-width` 560px, ≥ 3 lần chiều cao phím) hoặc `📮 Enter`; bé bấm đúng phím. Prompt và `Nghe yêu cầu` đọc “Bấm phím cách” / “Bấm phím Enter”.
+- 10 lượt = 5 Space + 5 Enter xáo theo `sessionSeed`, nên mỗi session đủ lượt có cả hai phím (mỗi phím 5 lần).
+- Bấm nhầm phím cách khi cần Enter (hoặc ngược lại) là một attempt sai, hint “Thử lại nhé! Tìm phím Enter trên bàn phím nhé.”.
+- `useKeySequence` coi Enter là ký tự `'\n'`. Space và Enter chỉ được tính khi chuỗi mong đợi có `' '` hoặc `'\n'`, khi đó cả hai bị `preventDefault` để không kích hoạt nút đang focus. Game khác: Space bị nuốt (`preventDefault`, không tính sai), Enter để nguyên cho trình duyệt.
+
 ## Game framework contract
 
 ```ts
@@ -160,7 +170,8 @@ export type GameId =
   | 'pick-picture'
   | 'mouse-trail'
   | 'drag-sort'
-  | 'drag-match';
+  | 'drag-match'
+  | 'space-enter';
 
 export type RoundOutcome = {
   correct: number;

@@ -8,6 +8,7 @@ import SequenceTypingGame from '../games/SequenceTypingGame';
 import WordTypingGame from '../games/WordTypingGame';
 import MouseTrailGame from '../games/MouseTrailGame';
 import PickPictureGame from '../games/PickPictureGame';
+import SpaceEnterGame from '../games/SpaceEnterGame';
 import { GAME_IDS, type GameDefinition, type GameId } from './types';
 
 const GAME_DEFINITIONS: Record<GameId, Omit<GameDefinition, 'id' | 'order'>> = {
@@ -21,6 +22,7 @@ const GAME_DEFINITIONS: Record<GameId, Omit<GameDefinition, 'id' | 'order'>> = {
   'mouse-trail': { title: 'Rê chuột theo đường', category: 'mouse', rounds: 6, intro: 'Hãy đưa chuột theo các điểm đến đích.', emoji: '🐭', component: MouseTrailGame },
   'drag-sort': { title: 'Kéo thả phân loại', category: 'mouse', rounds: 8, intro: 'Hãy kéo đồ vật vào đúng nơi.', emoji: '🧺', component: DragSortGame },
   'drag-match': { title: 'Kéo thả ghép cặp', category: 'mouse', rounds: 8, intro: 'Hãy kéo hình vào đúng cặp.', emoji: '🧩', component: DragMatchGame },
+  'space-enter': { title: 'Phím cách và Enter', category: 'keyboard', rounds: 10, intro: 'Hãy bấm phím cách hoặc phím Enter theo hình.', emoji: '🚀', component: SpaceEnterGame },
 };
 
 export const gameRegistry: GameDefinition[] = GAME_IDS.map((id, index) => ({

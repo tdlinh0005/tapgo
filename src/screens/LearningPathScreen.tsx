@@ -11,15 +11,16 @@ type Props = {
 };
 
 const PATH_WIDTH = 1000;
-const PATH_HEIGHT = 420;
 const STATIONS_PER_ROW = 5;
+const ROW_GAP = 240;
+const PATH_HEIGHT = 180 + (Math.ceil(PATH_ORDER.length / STATIONS_PER_ROW) - 1) * ROW_GAP;
 
 /** Snakes the stations left-to-right then right-to-left, lifting every other column for the zigzag. */
 function stationPoint(index: number) {
   const row = Math.floor(index / STATIONS_PER_ROW);
   const column = index % STATIONS_PER_ROW;
   const slot = row % 2 === 0 ? column : STATIONS_PER_ROW - 1 - column;
-  return { x: 100 + slot * 200, y: 60 + row * 240 + (slot % 2) * 60 };
+  return { x: 100 + slot * 200, y: 60 + row * ROW_GAP + (slot % 2) * 60 };
 }
 
 function toPoints(indexes: number[]) {
@@ -41,7 +42,7 @@ export default function LearningPathScreen({ progress, onPlay, onHome }: Props) 
         <h1>Lộ trình học</h1>
       </header>
       <p>Đi từ bài dễ đến khó. Bé vẫn có thể chơi mọi bài trong Chơi tự do.</p>
-      <div className="learning-path">
+      <div className="learning-path" style={{ aspectRatio: `${PATH_WIDTH} / ${PATH_HEIGHT}` }}>
         <svg className="path-road" viewBox={`0 0 ${PATH_WIDTH} ${PATH_HEIGHT}`} preserveAspectRatio="none" aria-hidden="true">
           <polyline className="path-road-base" points={toPoints(indexes)} />
           {reached > 1 && <polyline className="path-road-reached" points={toPoints(indexes.slice(0, reached))} />}

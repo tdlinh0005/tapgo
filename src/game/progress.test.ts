@@ -64,6 +64,19 @@ describe('progress', () => {
     expect(loaded.lastGameId).toBeNull();
   });
 
+  it('keeps a saved state from before the new games and fills the new games empty', () => {
+    const ORIGINAL_GAMES = GAME_IDS.slice(0, 10);
+    let saved = createDefaultProgress();
+    for (const gameId of ORIGINAL_GAMES) saved = recordCompletion(saved, gameId, 3);
+    const raw = JSON.parse(JSON.stringify(saved));
+    for (const gameId of GAME_IDS.slice(10)) delete raw.games[gameId];
+
+    const loaded = loadProgressFrom(JSON.stringify(raw));
+    for (const gameId of ORIGINAL_GAMES) expect(loaded.games[gameId]).toEqual(saved.games[gameId]);
+    for (const gameId of GAME_IDS.slice(10)) expect(loaded.games[gameId]).toEqual(createDefaultProgress().games[gameId]);
+    expect(loaded.lastGameId).toBe('drag-match');
+  });
+
   it('rejects state from another version', () => {
     const saved = { ...recordCompletion(createDefaultProgress(), 'letters', 3), version: 2 };
     expect(loadProgressFrom(JSON.stringify(saved))).toEqual(createDefaultProgress());

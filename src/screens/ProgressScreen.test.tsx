@@ -20,7 +20,7 @@ describe('ProgressScreen', () => {
     render(<ProgressScreen progress={lettersDone()} onPlay={() => {}} onHome={() => {}} />);
 
     const list = screen.getByRole('list', { name: 'Tiến độ từng bài' });
-    expect(within(list).getAllByRole('listitem')).toHaveLength(10);
+    expect(within(list).getAllByRole('listitem')).toHaveLength(11);
 
     const letters = within(list).getByTestId('progress-letters');
     expect(within(letters).getByText('Gõ chữ cái')).toBeInTheDocument();
@@ -38,7 +38,7 @@ describe('ProgressScreen', () => {
 
     expect(screen.getByTestId('progress-letters')).toHaveAttribute('data-state', 'collected');
     expect(screen.getByTestId('progress-numbers')).toHaveAttribute('data-state', 'missing');
-    expect(screen.getByText('3 / 30 sao')).toBeInTheDocument();
+    expect(screen.getByText('3 / 33 sao')).toBeInTheDocument();
   });
 
   it('plays the recommended game from the parent suggestion', async () => {

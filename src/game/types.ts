@@ -11,6 +11,7 @@ export const GAME_IDS = [
   'mouse-trail',
   'drag-sort',
   'drag-match',
+  'space-enter',
 ] as const;
 
 export type GameId = (typeof GAME_IDS)[number];

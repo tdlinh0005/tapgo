@@ -5,6 +5,8 @@ import type { RoundOutcome } from '../game/types';
 /**
  * Listens for the keys of `sequence` in order on the physical keyboard.
  * Returns the index of the next expected key. A single key is a sequence of length 1.
+ * Enter is the character '\n'. Space and Enter count only when the sequence expects one of them;
+ * otherwise Space is swallowed and Enter is left to the browser.
  */
 export function useKeySequence(
   sequence: string,
@@ -17,13 +19,16 @@ export function useKeySequence(
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || event.key.length !== 1) return;
+      const key = event.key === 'Enter' ? '\n' : event.key;
+      if (event.repeat || event.ctrlKey || event.altKey || event.metaKey || key.length !== 1) return;
+      const expectsSpaceOrEnter = sequence.includes(' ') || sequence.includes('\n');
+      if (key === '\n' && !expectsSpaceOrEnter) return;
       event.preventDefault();
       const expected = sequence[index];
-      if (event.key === ' ' && expected !== ' ') return;
+      if (key === ' ' && !expectsSpaceOrEnter) return;
 
       attempts.current += 1;
-      if (event.key.toUpperCase() !== expected.toUpperCase()) {
+      if (key.toUpperCase() !== expected.toUpperCase()) {
         onRetry?.(hintFor(expected));
         return;
       }

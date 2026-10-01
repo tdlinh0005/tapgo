@@ -36,6 +36,7 @@
   --font-title: clamp(34px, 4vw, 48px);
   --font-prompt: clamp(44px, 5vw, 56px);
   --font-target: 92px;
+  --key-wide-width: 560px;
   --key-depth: 10px;
   --key-depth-sm: 6px;
   --shadow-key-drop: 0 18px 28px rgb(32 33 36 / 16%);

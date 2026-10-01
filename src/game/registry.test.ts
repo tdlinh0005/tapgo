@@ -15,6 +15,7 @@ describe('game registry', () => {
       'mouse-trail',
       'drag-sort',
       'drag-match',
+      'space-enter',
     ]);
   });
 
