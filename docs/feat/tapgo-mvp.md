@@ -1,10 +1,10 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-01 · 9889653
+> updated 2026-10-01 · 7147db8
 
 ## Goal
 
-Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 10 mini-game ngắn, vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
+Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 12 mini-game ngắn, vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
 
 ## Product decisions đã chốt
 
@@ -26,7 +26,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 
 ### Giữ
 
-`GameShell` là đúng abstraction boundary vì 10 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
+`GameShell` là đúng abstraction boundary vì cả 12 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
 
 ### Sửa
 
@@ -44,9 +44,9 @@ App
 │   ├── Chơi tự do
 │   └── Tiến độ
 ├── Learning Path
-│   └── 10 bài theo thứ tự
+│   └── 12 bài theo thứ tự
 ├── Free Play
-│   └── 10 game luôn mở
+│   └── 12 game luôn mở
 ├── Game
 │   └── GameShell + MiniGame
 └── Progress
@@ -58,7 +58,7 @@ App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì �
 
 ## Learning path
 
-Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 10 game luôn mở. Từ Home, `Chơi ngay` chọn game đầu tiên chưa hoàn thành; nếu đã hoàn thành hết thì chọn game đầu tiên chưa đạt 3 sao.
+Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 12 game luôn mở. Từ Home, `Chơi ngay` chọn game đầu tiên chưa hoàn thành; nếu đã hoàn thành hết thì chọn game đầu tiên chưa đạt 3 sao.
 
 Thứ tự:
 
@@ -228,7 +228,24 @@ Mini-game không tự đọc/ghi localStorage và không tự điều hướng. 
 
 `level` (mức khó) do `GameShell` suy từ `bestStars` đã lưu của game (`levelFromStars`, `src/game/level.ts`): 0–1 sao → 0 (dễ), 2 sao → 1 (vừa), 3 sao → 2 (khó); không thêm trường lưu. Guided Play (có `roundLimit`) luôn là mức 0. Thiếu `level` = mức 0. Game dùng mức khó: Click đúng hình (mức 1: thêm 1 lựa chọn cùng chủ đề thành 4 lựa chọn; mức 2: 4 lựa chọn đều cùng chủ đề), Kéo thả ghép cặp (mức 1 đổi 1 bóng mồi khác nhóm sang cùng nhóm với hình kéo, mức 2 đổi cả hai; nhóm trong `MATCH_GROUPS`), Gõ chuỗi phím (kho riêng 3 / 4 / 5 phím theo mức, `SEQUENCES_BY_LEVEL`). Game khác bỏ qua `level`.
 
-Assist dùng một cơ chế chung cho cả 10 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
+Kho và cách chọn mục (mọi game chọn lượt bằng `pickRound`, trừ `space-enter` xáo 5 Space + 5 Enter bằng `shuffleWithSeed`):
+
+| Game | Kho | Lượt | Ghi chú |
+| --- | --- | --- | --- |
+| letters | 14 chữ (`A M S L P E B C N T I F W Z`) | 10 | rời với find-key, hợp lại đủ A–Z |
+| numbers | 10 (0–9) | 10 | chỉ xáo thứ tự |
+| words | 28 từ không dấu kèm emoji nghĩa | 8 | có từ 4 chữ |
+| find-key | 12 chữ | 10 | không trùng letters |
+| sequence | 3 kho × 12 chuỗi (3/4/5 phím theo `level`) | 8 | kèm hình theo hàng phím |
+| click-target | 13 mục tiêu (`CLICK_TARGETS`) | 12 | vị trí ngẫu nhiên trong `SAFE_AREA` |
+| pick-picture | 32 lượt / 4 chủ đề | 10 | xáo vị trí đáp án theo seed |
+| mouse-trail | 12 đường, 7 cặp điểm đầu/đích | 6 | 4–6 checkpoint giữa |
+| drag-sort | 18 | 8 | xáo thứ tự 2 zone theo seed |
+| drag-match | 20 cặp | 8 | bóng mồi theo `level` |
+| space-enter | 5 Space + 5 Enter | 10 | mỗi phím 5 lần |
+| count-keys | số lượng 1–9, 10 loại emoji | 9 | số lượng chỉ xáo thứ tự |
+
+Assist dùng một cơ chế chung cho cả 12 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
 
 - Level 0: chưa có lỗi, không trợ giúp.
 - Level 1 (sau 2 lần sai liên tiếp): target được viền nổi bật, guide tự mở và hint cụ thể được đọc bằng giọng.
@@ -306,6 +323,8 @@ Dùng Web Audio API tạo tone ngắn tại runtime để tránh quản lý asse
 - Không dùng màu đỏ toàn màn hình hoặc chữ “Sai”, “Thua”, “Thất bại”.
 - Copy sai dùng “Thử lại nhé!”.
 - Animation feedback dưới 700 ms.
+- Ăn mừng màn kết quả (confetti, sao hiện lần lượt) tổng ≤ 1.5 s, `pointer-events: none` nên không chặn `Bài tiếp theo`, và hiển thị tĩnh khi `prefers-reduced-motion`.
+- Mascot và hình trang trí không che target; trang trí nền ẩn khi viewport < 1240 px.
 - Không tự chuyển màn hình khi bé đang thao tác kéo/rê.
 - Mọi game có nút Home dễ thấy và nút nghe lại.
 - Viewport dưới 900 px hiển thị thông báo “Hãy mở TapGo trên máy tính để luyện bàn phím và chuột.” thay vì cố tối ưu touch.
@@ -318,6 +337,11 @@ MVP dùng:
 - native emoji cho nội dung động vật/đồ chơi/xe/không gian để tránh asset pipeline ở v1
 - cùng card frame và typography để emoji khác chủ đề vẫn nằm trong một style UI thống nhất
 - không thêm animation library; dùng CSS transition/keyframes ngắn
+- màu theo vai trò: `--color-keyboard` / `--color-mouse` (mỗi màu có `-soft` cho nền, `-strong` cho chữ/viền), `--color-reward` cho sao, `--color-primary` cho CTA chính; `.game-shell`, `.game-card`, trạm Lộ trình và sticker Tiến độ mang `data-category="keyboard|mouse"`, CSS chọn màu qua alias `--color-category(-soft/-strong)`; màu gốc chỉ dùng trang trí, chữ đạt tương phản ≥ 4.5:1
+- font bo tròn tự host `@fontsource-variable/nunito` (token `--font-family`, fallback system-ui), không request ra domain ngoài
+- nhân vật dẫn dắt `Mascot` (🐱 Mèo Tapi, emoji + CSS, `aria-hidden`, trạng thái `idle | cheer | encourage` do `GameShell` điều khiển) nằm trong `CoachBubble` — bong bóng lời duy nhất của màn game thay intro + hint + lượt ôn + guide (ưu tiên hint > review > guide > intro), nút ❓ `Xem cách chơi` 72 px cạnh bong bóng
+- phím mục tiêu vẽ giống phím thật (`--key-depth`), phím Space rộng `--key-wide-width`; hiệu ứng đúng là lớp phủ `.stage-burst` của `.game-stage` (≤ 600 ms)
+- vùng chơi luôn nằm trọn trong màn hình (`.game-shell:has(> .game-stage)` cao `100vh`, stage `1fr`)
 
 ## Error handling
 
@@ -350,7 +374,7 @@ Mỗi mini-game có test (`src/games/*Game.test.tsx`) cho:
 - rê chuột sai thứ tự gọi `onRetry` — `MouseTrailGame.test.tsx`
 
 Framework và UI chung:
-- `data-assist` 0/1/2 trên target thật của cả 10 game — `src/games/assist.test.tsx`
+- `data-assist` 0/1/2 trên target thật của cả 12 game — `src/games/assist.test.tsx`
 - `Nghe yêu cầu` đọc mục tiêu lượt — `src/components/ListenButton.test.tsx`
 - GameShell: assist level theo số lần sai, đọc intro/hint, guide, lượt ôn, không ôn trong quick session — `src/game/GameShell.test.tsx`
 - Progress: gợi ý `Chơi <bài>` và sao — `src/screens/ProgressScreen.test.tsx`
@@ -367,11 +391,11 @@ Framework và UI chung:
 
 MVP hoàn thành khi:
 
-1. Cả 10 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
+1. Cả 12 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
 2. Một session không dùng countdown; Guided Play mặc định tối đa 5 lượt, còn Lộ trình/Chơi tự do giữ số lượt đầy đủ của game.
 3. Hoàn thành game tạo 1-3 sao và lưu được vào localStorage.
 4. Reload giữ lại best stars và trạng thái hoàn thành.
-5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 10 game.
+5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 12 game. Tổng sao tối đa 36 (`gameRegistry.length * 3`).
 6. Speech có nút nghe lại và app vẫn dùng được nếu speech unavailable.
 7. Sai thao tác không đưa bé vào failure screen.
 8. Build production và toàn bộ Vitest test suite pass.

@@ -12,9 +12,20 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 - Review rounds: a round finished with mistakes is replayed once without changing its score.
 - Parent practice recommendation on the progress screen.
 - Child-friendly visual system: large type, 72px action buttons, soft feedback animations, and reduced-motion support.
+- Game 11 `Phím cách và Enter` (`space-enter`): a wide Space key and an Enter key, 5 rounds each, shuffled per session.
+- Game 12 `Đếm rồi bấm số` (`count-keys`): count 1–9 pictures and press that number (top row or numpad).
+- Mascot `Mèo Tapi` in a single coach bubble that replaces the intro, hint, review and guide lines; it cheers on correct answers and encourages on retries.
+- Correct-answer star burst over the play area, a confetti celebration on the result screen (≤ 1.5s, never blocks `Bài tiếp theo`, static with reduced motion), and decorative background emoji on wide screens.
+- Difficulty levels from best stars (0–1★ easy, 2★ medium, 3★ hard; Guided Play always easy) for pick picture, drag match and sequence typing.
+- Per-session shuffling (`sessionSeed` + `pickRound`): replays no longer repeat the same rounds, and answer positions move.
 
 ### Changed
 
+- The play area always fits the screen in every game, even with the hint and guide open; the guide toggle is a round ❓ button next to the coach bubble.
+- Keyboard and mouse games have their own colours (`data-category`), a rounded self-hosted Vietnamese font (Nunito), toy-like cards and keys drawn like real keys.
+- The learning path is a winding road of stations with the mascot at the recommended one; progress is a sticker album with a star jar. Total stars are now 36.
+- Larger content pools: letters and find key cover A–Z between them, 28 words with pictures, more sequences, pictures, trails, sort and match items; click target changes its picture each round, mouse trail has themed start/finish pairs, and sequences show a row picture.
+- `useKeySequence` accepts Enter (as `\n`) and Space only when the round expects them, and then stops them from pressing a focused button.
 - Feature spec matches shipped behaviour: shared `data-assist` levels, drag snap radius, `Nghe yêu cầu` and guide buttons, review rounds, parent recommendation, theme tokens, and a testing strategy that points to real test files.
 - Radii, title/prompt/target font sizes, gaps and feedback timings come from theme tokens (`--radius-sm/lg`, `--font-*`, `--space-*`, `--motion-pop/shake`); radii 18–22px become 20px and 28–36px become 32px.
 - Keyboard games share one `useKeySequence` hook and the single-key games share `KeyTargetStage`; both drag games share `useDragRound`.

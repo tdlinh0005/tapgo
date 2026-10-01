@@ -2,11 +2,11 @@
 
 ## Current product and feature specification
 
-- [TapGo MVP](feat/tapgo-mvp.md) — product scope, UX rules, game framework, 10 mini-game definitions, progress model, speech/audio behavior, testing and acceptance criteria.
+- [TapGo MVP](feat/tapgo-mvp.md) — product scope, UX rules, game framework, 12 mini-game definitions, progress model, speech/audio behavior, testing and acceptance criteria.
 
 ## Active implementation plans
 
-- [TapGo v3 · Giao diện hấp dẫn trẻ + bài tập phong phú](plan/v3-kid-visual-redesign.md) — 17 task (phase A–E): bố cục vùng chơi, bảng màu/font/mascot, lộ trình dạng đường đi, xáo trộn + mở rộng kho bài tập; đã rà soát với code; owner đã chốt làm phase D (game 11–12: Space/Enter tên lửa, Đếm rồi bấm số); **dev bắt đầu từ đây**.
+- [TapGo v3 · Giao diện hấp dẫn trẻ + bài tập phong phú](plan/v3-kid-visual-redesign.md) — 17 task (phase A–E): bố cục vùng chơi, bảng màu/font/mascot, lộ trình dạng đường đi, xáo trộn + mở rộng kho bài tập; đã rà soát với code; V01–V16 xong (game 11–12 đã thêm); còn V17: QA thủ công T44/G16 lượt 2 trên Chrome/Edge thật + đo runtime các mục `unverified`, xong thì chuyển plan sang Done plans.
 - [Fix plan từ audit sep30](plan/fix-audit-sep30.md) — 47 task fix (8 phase, 0–7; Phase 7 là bug từ QA T44) từ audit toàn repo; chỉ còn T44 (QA thủ công Chrome/Edge thật), dời sang sau phase B của v3.
 - [TapGo v2 · Guided Play Plan](plan/v2-guided-play.md) — toàn bộ việc guided play (đã làm + còn lại), gồm checklist manual QA cho guided và kết quả QA T44.
 

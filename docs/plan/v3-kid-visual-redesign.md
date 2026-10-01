@@ -247,12 +247,13 @@ Chung cho V15, V16:
 
 ## Phase E — Đóng
 
-### [~] V17 · Cập nhật spec, index, CHANGELOG + QA T44/G16 lượt 2 — đang làm: lane-docs
+### [ ] V17 · Cập nhật spec, index, CHANGELOG + QA T44/G16 lượt 2
 
 - `docs/feat/tapgo-mvp.md`: Visual system (token vai trò, `data-category`, font, mascot, `CoachBubble`), UX rule mới cho ăn mừng màn kết quả (V08), contract `MiniGameProps` (`sessionSeed`, `level`), định nghĩa kho/chọn mục của từng game đã đổi, “10 mini-game” → “12 mini-game” (dòng 7 và tiêu chí nghiệm thu dòng 343), tổng sao 36, Space/Enter trong `useKeySequence`, stamp `updated`.
 - `docs/index.md`: chuyển plan này sang Done plans khi đóng. `CHANGELOG.md` mục `[Unreleased]` (Added/Changed theo Keep a Changelog, không mint version).
 - Chạy T44/G16 lượt 2 (QA thủ công Chrome/Edge thật) trên giao diện mới; đóng T44 trong `fix-audit-sep30.md` và G16 trong `v2-guided-play.md`.
 - Xong khi: `npm run build` + toàn bộ test pass; ảnh CDP sau/trước đính vào plan; plan chuyển sang `docs/plan/done/`.
+- Kết quả (một phần — phần docs xong, task vẫn mở): spec `tapgo-mvp.md` (stamp `2026-10-01 · 7147db8`) — “10” → “12 mini-game” ở Goal, Review, IA, Learning path, assist, testing, tiêu chí nghiệm thu 1 và 5 (thêm tổng sao 36); bảng kho + cách chọn mục 12 game trong contract (`sessionSeed`, `level`, Space/Enter đã có từ V11/V14/V15); UX rule ăn mừng màn kết quả ≤ 1.5s không chặn nút, tĩnh khi reduced-motion + mascot/trang trí không che target; Visual system thêm token vai trò + `data-category`, font Nunito, `Mascot` + `CoachBubble`, phím thật/`.stage-burst`, vùng chơi 100vh. `CHANGELOG.md` `[Unreleased]` thêm 6 mục Added + 5 mục Changed (không mint version). `docs/index.md` cập nhật trạng thái plan (vẫn ở Active vì chưa QA). Còn lại cho owner/QA: chạy T44/G16 lượt 2 trên Chrome/Edge thật (giọng đọc vi-VN, chuột/bàn phím thật, Enter không kích hoạt nút đang focus); đo runtime các mục `unverified` của V12, V13, V14, V15, V16 ở 1366×768 và 1280×720; chụp ảnh CDP sau/trước; đóng T44 (`fix-audit-sep30.md`), G16 (`v2-guided-play.md`); rồi chuyển plan sang `docs/plan/done/` + Done plans trong index.
 
 ## Kết quả rà soát 2026-09-30
 
