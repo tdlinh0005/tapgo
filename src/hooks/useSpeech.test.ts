@@ -65,4 +65,88 @@ describe('useSpeech', () => {
 
     expect(cancel).toHaveBeenCalledOnce();
   });
+
+  describe('voice selection', () => {
+    class MockUtterance {
+      lang = '';
+      rate = 1;
+      voice: SpeechSynthesisVoice | null = null;
+      constructor(public text: string) {}
+    }
+
+    const englishVoice = { lang: 'en-US', name: 'English' } as SpeechSynthesisVoice;
+    const vietnameseVoice = { lang: 'vi-VN', name: 'Vietnamese' } as SpeechSynthesisVoice;
+
+    function installSynth(initialVoices: SpeechSynthesisVoice[]) {
+      let voices = initialVoices;
+      const listeners: Array<() => void> = [];
+      const synth = {
+        cancel: vi.fn(),
+        speak: vi.fn(),
+        getVoices: () => voices,
+        addEventListener: (_type: string, listener: () => void) => {
+          listeners.push(listener);
+        },
+      };
+      Object.defineProperty(window, 'speechSynthesis', { value: synth, configurable: true });
+      vi.stubGlobal('SpeechSynthesisUtterance', MockUtterance);
+      return {
+        synth,
+        loadVoices(next: SpeechSynthesisVoice[]) {
+          voices = next;
+          listeners.splice(0).forEach((listener) => listener());
+        },
+      };
+    }
+
+    function spokenUtterance(speak: ReturnType<typeof vi.fn>): MockUtterance {
+      return speak.mock.calls[0][0] as MockUtterance;
+    }
+
+    it('speaks with a Vietnamese voice instead of the default one', () => {
+      const { synth } = installSynth([englishVoice, vietnameseVoice]);
+
+      const { result } = renderHook(() => useSpeech());
+      result.current.speak('Hãy bấm chữ A');
+
+      expect(synth.speak).toHaveBeenCalledOnce();
+      expect(spokenUtterance(synth.speak).voice).toBe(vietnameseVoice);
+      expect(spokenUtterance(synth.speak).lang).toBe('vi-VN');
+    });
+
+    it('stays silent when no Vietnamese voice is installed', () => {
+      const { synth } = installSynth([englishVoice]);
+
+      const { result } = renderHook(() => useSpeech());
+      result.current.speak('Hãy bấm chữ A');
+
+      expect(synth.speak).not.toHaveBeenCalled();
+    });
+
+    it('waits for voices to load and speaks only the latest text', () => {
+      const { synth, loadVoices } = installSynth([]);
+
+      const { result } = renderHook(() => useSpeech());
+      result.current.speak('Câu cũ');
+      result.current.speak('Câu mới');
+      expect(synth.speak).not.toHaveBeenCalled();
+
+      loadVoices([englishVoice, vietnameseVoice]);
+
+      expect(synth.speak).toHaveBeenCalledOnce();
+      expect(spokenUtterance(synth.speak).text).toBe('Câu mới');
+      expect(spokenUtterance(synth.speak).voice).toBe(vietnameseVoice);
+    });
+
+    it('drops text waiting for voices when the hook unmounts', () => {
+      const { synth, loadVoices } = installSynth([]);
+
+      const { result, unmount } = renderHook(() => useSpeech());
+      result.current.speak('Xin chào');
+      unmount();
+      loadVoices([vietnameseVoice]);
+
+      expect(synth.speak).not.toHaveBeenCalled();
+    });
+  });
 });

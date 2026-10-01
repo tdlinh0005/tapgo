@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-01 · 8f6abde
+> updated 2026-10-01 · 6b86a08
 
 ## Goal
 
@@ -364,7 +364,9 @@ Không lưu tên, tuổi, dữ liệu cá nhân hay telemetry trong MVP.
 
 `useSpeech` dùng `window.speechSynthesis` và `SpeechSynthesisUtterance`.
 
-- `lang = 'vi-VN'`
+- `lang = 'vi-VN'` và gán `voice` là giọng tiếng Việt đầu tiên trong `getVoices()` (lang bắt đầu bằng `vi`); không gán thì Chrome/Edge đọc bằng giọng mặc định (thường là tiếng Anh)
+- danh sách giọng còn rỗng (Chrome nạp bất đồng bộ): giữ câu mới nhất, đọc khi có `voiceschanged`; unmount thì bỏ câu đang chờ
+- máy không có giọng tiếng Việt: im lặng thay vì đọc bằng giọng nước ngoài (Edge có sẵn giọng `vi-VN` online; Chrome trên Windows cần cài gói giọng nói tiếng Việt)
 - cancel câu cũ trước khi đọc câu mới
 - nếu API không có, `speak()` trở thành no-op
 - UI text và icon vẫn đủ để chơi nếu speech không hoạt động
