@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-09-30 · e9d91e6
+> updated 2026-10-01 · 9889653
 
 ## Goal
 
@@ -174,6 +174,7 @@ export type MiniGameProps = {
   speak: (text: string) => void;
   assistLevel?: 0 | 1 | 2;
   sessionSeed?: number;
+  level?: 0 | 1 | 2;
 };
 
 export type GameDefinition = {
@@ -203,6 +204,8 @@ export type GameDefinition = {
 Mini-game không tự đọc/ghi localStorage và không tự điều hướng. `GameShell` giữ retry count và truyền `assistLevel` xuống mini-game để tăng trợ giúp sau lỗi mà không làm mỗi game tự xây một state machine riêng. Lượt ôn lại không được ghi thêm vào `outcomes` nên không thay đổi scoring của lượt gốc. Lượt ôn chỉ có ở Lộ trình và Chơi tự do; quick session của Guided Play (có `roundLimit`) không sinh lượt ôn để giữ đúng tối đa 5 lượt.
 
 `GameShell` tạo `sessionSeed` (số nguyên 32-bit không dấu) một lần mỗi session và tạo seed mới khi `Chơi lại`; mở game khác cũng là session mới. Mini-game chọn mục của lượt bằng `pickRound(pool, roundIndex, sessionSeed)` (`src/game/pickRound.ts`): kho được hoán vị xác định theo seed (mulberry32) rồi lấy `perm[roundIndex % pool.length]`, nên trong một session không lặp mục khi kho ≥ số lượt. Lượt ôn nhận cùng `sessionSeed` và `roundIndex` nên dùng lại đúng mục. Thiếu seed thì `pickRound` trả `pool[roundIndex % pool.length]` như thứ tự cũ. `shuffleWithSeed(items, seed)` dùng cùng PRNG để xáo vị trí đáp án.
+
+`level` (mức khó) do `GameShell` suy từ `bestStars` đã lưu của game (`levelFromStars`, `src/game/level.ts`): 0–1 sao → 0 (dễ), 2 sao → 1 (vừa), 3 sao → 2 (khó); không thêm trường lưu. Guided Play (có `roundLimit`) luôn là mức 0. Thiếu `level` = mức 0. Game dùng mức khó: Click đúng hình (mức 1: thêm 1 lựa chọn cùng chủ đề thành 4 lựa chọn; mức 2: 4 lựa chọn đều cùng chủ đề), Kéo thả ghép cặp (mức 1 đổi 1 bóng mồi khác nhóm sang cùng nhóm với hình kéo, mức 2 đổi cả hai; nhóm trong `MATCH_GROUPS`), Gõ chuỗi phím (kho riêng 3 / 4 / 5 phím theo mức, `SEQUENCES_BY_LEVEL`). Game khác bỏ qua `level`.
 
 Assist dùng một cơ chế chung cho cả 10 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
 

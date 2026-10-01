@@ -66,6 +66,7 @@ export default function App() {
         key={`${view.mode}-${view.gameId}`}
         definition={getGameDefinition(view.gameId)}
         roundLimit={view.mode === 'guided' ? 5 : undefined}
+        bestStars={progress.games[view.gameId].bestStars}
         onComplete={handleComplete}
         onHome={goHome}
         onNext={() => openNext(view.gameId, view.mode)}

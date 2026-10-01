@@ -20,6 +20,8 @@ export type RoundOutcome = {
   attempts: number;
 };
 
+export type GameLevel = 0 | 1 | 2;
+
 export type MiniGameProps = {
   roundIndex: number;
   totalRounds: number;
@@ -28,6 +30,7 @@ export type MiniGameProps = {
   speak: (text: string) => void;
   assistLevel?: 0 | 1 | 2;
   sessionSeed?: number;
+  level?: GameLevel;
 };
 
 export type GameDefinition = {

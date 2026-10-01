@@ -211,11 +211,12 @@
 - mouse-trail có điểm đầu/đích theo cặp (🐭→🧀, 🚀→🌙, 🚗→🏠); sequence gắn hình (ASDF = 🐾 bước chân).
 - Xong khi: prompt đọc đúng theo mục tiêu (`ListenButton.test` cập nhật cho click-target); `aria-label="Mục tiêu"` và kích thước 104/72px giữ nguyên (test ghim).
 
-### [~] V14 · Mức khó theo tiến độ — đang làm: lane-level
+### [x] V14 · Mức khó theo tiến độ
 
 - Suy mức khó từ `bestStars` hiện có (không thêm trường lưu): 0–1 sao → dễ, 2 → vừa, 3 → khó. Truyền `level?: 0 | 1 | 2` qua `MiniGameProps`. `GameShell` luôn truyền mức dễ khi có `roundLimit` (Guided Play).
 - pick-picture 3→4 lựa chọn với mồi nhử cùng nhóm; drag-match bóng giống nhau hơn; sequence 3→5 phím.
 - Xong khi: test cho từng mức; test “bé chưa có sao không bao giờ gặp mức khó”; test Guided luôn mức dễ.
+- Kết quả: `src/game/level.ts` `levelFromStars` (0–1 sao → 0, 2 → 1, 3 → 2); `GameShell` nhận `bestStars` từ `App` (`progress.games[id].bestStars`), truyền `level` (luôn 0 khi có `roundLimit`); `MiniGameProps.level?: GameLevel`. pick-picture `pictureOptions`: mức 0 giữ 3 lựa chọn cũ, mức 1 thêm 1 mồi cùng chủ đề (4 lựa chọn), mức 2 là đáp án + 3 mồi cùng chủ đề (lấy từ đáp án các lượt cùng theme, xáo theo seed); drag-match `matchOptions` + `MATCH_GROUPS` (animal/vehicle/food/thing): mức 1 đổi 1, mức 2 đổi cả 2 bóng mồi khác nhóm sang cùng nhóm với hình kéo, vẫn 3 bóng, vị trí đáp án giữ nguyên; sequence `SEQUENCES_BY_LEVEL` 3 kho × 12 chuỗi (3/4/5 phím), `SEQUENCES` = hợp 3 kho (test cũ giữ nguyên, lượt 0 mức 0 vẫn `ASD`). Test: `level.test.ts`, `levels.test.tsx` (6 test: số lựa chọn + cùng chủ đề theo mức, mọi bóng có nhóm, bóng cùng nhóm theo mức, độ dài chuỗi theo mức), GameShell “derives the level from best stars and never gives a starless child the hard level” + “always plays the easy level in a guided quick session”; 159 test pass, `tsc` sạch. Spec bổ sung `level` vào contract. 4 lựa chọn × 132px + 3 khoảng 28px = 612px, chưa đo trên trình duyệt — unverified, cần đo runtime (mở `Click đúng hình` với tiến độ 2–3 sao ở 1280×720, kiểm `.picture-options` không tràn ngang và đáy `.game-stage` ≤ 720; tương tự chuỗi 5 phím ở `Gõ chuỗi phím`).
 
 ## Phase D — Game mới (owner đã chốt 2026-09-30)
 

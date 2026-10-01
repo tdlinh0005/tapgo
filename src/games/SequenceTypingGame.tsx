@@ -3,10 +3,17 @@ import { pickRound } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
 import { useKeySequence } from '../hooks/useKeySequence';
 
-export const SEQUENCES = ['ASD', 'ASDF', 'JKL', 'JKLM', 'FGH', 'ASDFG', 'QWE', 'RTYU', 'GHJ', 'UIO', 'ZXC', 'VBN', 'ZXCV', 'UIOP', 'WERT', 'HJKL'] as const;
+// Indexed by level: 3, 4, then 5 keys per sequence.
+export const SEQUENCES_BY_LEVEL = [
+  ['ASD', 'JKL', 'FGH', 'QWE', 'GHJ', 'UIO', 'ZXC', 'VBN', 'DFG', 'RTY', 'BNM', 'WER'],
+  ['ASDF', 'JKLM', 'RTYU', 'ZXCV', 'UIOP', 'WERT', 'HJKL', 'QWER', 'SDFG', 'XCVB', 'TYUI', 'FGHJ'],
+  ['ASDFG', 'QWERT', 'YUIOP', 'ZXCVB', 'HJKLM', 'SDFGH', 'ERTYU', 'CVBNM', 'GHJKL', 'TYUIO', 'WERTY', 'XCVBN'],
+] as const;
 
-export default function SequenceTypingGame({ roundIndex, sessionSeed, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
-  const sequence = pickRound(SEQUENCES, roundIndex, sessionSeed);
+export const SEQUENCES = SEQUENCES_BY_LEVEL.flat();
+
+export default function SequenceTypingGame({ roundIndex, sessionSeed, onRoundComplete, onRetry, speak, assistLevel = 0, level = 0 }: MiniGameProps) {
+  const sequence = pickRound(SEQUENCES_BY_LEVEL[level], roundIndex, sessionSeed);
   const keyIndex = useKeySequence(sequence, onRoundComplete, onRetry);
 
   return (

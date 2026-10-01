@@ -6,6 +6,7 @@ import ProgressBar from '../components/ProgressBar';
 import StarRating from '../components/StarRating';
 import { useFeedbackTone } from '../hooks/useFeedbackTone';
 import { useSpeech } from '../hooks/useSpeech';
+import { levelFromStars } from './level';
 import { createSessionSeed } from './pickRound';
 import { DEFAULT_RETRY_HINT } from './retryCopy';
 import { calculateStars } from './scoring';
@@ -21,6 +22,7 @@ const BURST = ['⭐', '✨', '🌟', '⭐', '✨', '🌟'];
 type GameShellProps = {
   definition: GameDefinition;
   roundLimit?: number;
+  bestStars?: 0 | 1 | 2 | 3;
   onComplete: (gameId: GameId, stars: 1 | 2 | 3) => void;
   onHome: () => void;
   onNext: () => void;
@@ -30,6 +32,7 @@ type GameShellProps = {
 export default function GameShell({
   definition,
   roundLimit,
+  bestStars = 0,
   onComplete,
   onHome,
   onNext,
@@ -51,6 +54,7 @@ export default function GameShell({
   const feedback = useFeedbackTone();
   const MiniGame = definition.component;
   const sessionRounds = Math.max(1, Math.min(roundLimit ?? definition.rounds, definition.rounds));
+  const level = roundLimit === undefined ? levelFromStars(bestStars) : 0;
   const assistLevel: 0 | 1 | 2 = retryCount >= 3 ? 2 : retryCount >= 2 ? 1 : 0;
   const mascotMood: MascotMood = feedbackState === 'correct' ? 'cheer' : feedbackState === 'retry' || visibleHint ? 'encourage' : 'idle';
   const guideLabel = guideOpen ? 'Ẩn cách chơi' : 'Xem cách chơi';
@@ -199,6 +203,7 @@ export default function GameShell({
           speak={speak}
           assistLevel={assistLevel}
           sessionSeed={sessionSeed}
+          level={level}
         />
         {burstKey !== null && (
           <span

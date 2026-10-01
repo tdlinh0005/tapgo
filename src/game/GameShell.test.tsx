@@ -7,10 +7,10 @@ import type { MiniGameProps } from './types';
 const speak = vi.hoisted(() => vi.fn());
 vi.mock('../hooks/useSpeech', () => ({ useSpeech: () => ({ speak, supported: true }) }));
 
-function FakeGame({ onRoundComplete, onRetry, assistLevel = 0, roundIndex, sessionSeed }: MiniGameProps) {
+function FakeGame({ onRoundComplete, onRetry, assistLevel = 0, roundIndex, sessionSeed, level }: MiniGameProps) {
   return (
     <>
-      <div data-testid="fake-target" data-assist={assistLevel || undefined} data-round={roundIndex} data-seed={sessionSeed} />
+      <div data-testid="fake-target" data-assist={assistLevel || undefined} data-round={roundIndex} data-seed={sessionSeed} data-level={level} />
       <button onClick={() => onRoundComplete({ correct: 1, attempts: 1 })}>
         Hoàn thành lượt
       </button>
@@ -347,5 +347,26 @@ describe('GameShell', () => {
     endAnimation(burst);
     expect(screen.queryByTestId('stage-burst')).not.toBeInTheDocument();
     expect(screen.getByTestId('game-stage')).toHaveAttribute('data-feedback', 'correct');
+  });
+
+  it('derives the level from best stars and never gives a starless child the hard level', () => {
+    const expected = { 0: '0', 1: '0', 2: '1', 3: '2' } as const;
+    for (const bestStars of [0, 1, 2, 3] as const) {
+      const { unmount } = render(
+        <GameShell definition={definition} bestStars={bestStars} onComplete={() => {}} onHome={() => {}} onNext={() => {}} />,
+      );
+      expect(screen.getByTestId('fake-target'), `${bestStars} stars`).toHaveAttribute('data-level', expected[bestStars]);
+      unmount();
+    }
+
+    render(<GameShell definition={definition} onComplete={() => {}} onHome={() => {}} onNext={() => {}} />);
+    expect(screen.getByTestId('fake-target')).toHaveAttribute('data-level', '0');
+  });
+
+  it('always plays the easy level in a guided quick session', () => {
+    render(
+      <GameShell definition={definition} roundLimit={5} bestStars={3} onComplete={() => {}} onHome={() => {}} onNext={() => {}} />,
+    );
+    expect(screen.getByTestId('fake-target')).toHaveAttribute('data-level', '0');
   });
 });
