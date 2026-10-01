@@ -37,7 +37,7 @@ Chi tiết từng task nằm trong `docs/plan/fix-audit-sep30.md`.
 
 - [x] **G14 · Research doc đúng schema B2 + doc kế nhiệm** (T42). Commit `835b9be`.
 - [x] **G15 · Stamp `updated` dùng commit hash** (T43). Commit `61484e8`.
-- [ ] **G16 · Manual QA trên Chrome/Edge desktop** (T44). Lượt 1 (Chromium headless) đã chạy, còn lượt người chạy trên Chrome/Edge thật — dời sang sau phase B của `v3-kid-visual-redesign.md` (đóng trong V17); kết quả ghi ở mục [Kết quả QA](#kết-quả-qa-g16--t44). Checklist gồm Step 6 của plan cũ cộng thêm:
+- [ ] **G16 · Manual QA trên Chrome/Edge desktop** (T44). Lượt 1 (Chromium headless) đã chạy, lượt 2 qua CDP với input thật 2026-10-01 đã chạy trên giao diện v3 (kết quả ở T44, `fix-audit-sep30.md`), còn lượt người chạy trên Chrome/Edge thật — dời sang sau phase B của `v3-kid-visual-redesign.md` (đóng trong V17); kết quả ghi ở mục [Kết quả QA](#kết-quả-qa-g16--t44). Checklist gồm Step 6 của plan cũ cộng thêm:
   - `Chơi ngay` mở bài gợi ý; session dừng ở 5 lượt và không có lượt ôn.
   - Sai 2 lần: guide mở, hint được đọc, target có viền; sai 3 lần: target phóng to.
   - `Nghe yêu cầu` đọc đúng mục tiêu lượt; `Nghe lại cách chơi` đọc intro.

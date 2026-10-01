@@ -622,6 +622,26 @@ Files: `—`
 
 Còn lại cho người làm: chạy lại trên Chrome và Edge thật, với chuột và bàn phím thật; nghe giọng đọc tiếng Việt; quan sát bé tự chơi (Home → Chơi ngay → hồi phục sau lỗi → Bài tiếp theo); kiểm lại T45–T47 sau khi sửa.
 
+#### Kết quả lượt 2 · 2026-10-01 · Chromium headless 151 qua CDP (giao diện v3, commit `b06928e`)
+
+Vite dev server, iframe đúng kích thước 1366×768 và 1280×720. Phím và chuột ở các dòng “input thật” gửi bằng `Input.dispatchKeyEvent` / `Input.dispatchMouseEvent` (event `isTrusted`, trình duyệt tự kích hoạt nút như bàn phím thật); các dòng khác dùng event JS.
+
+| Mục | Kết quả | Bằng chứng |
+| --- | --- | --- |
+| Vùng chơi nằm trong màn hình, cả 12 game, hint + guide mở (T47) | PASS | đáy `.game-stage` 744/768 và 696/720 ở cả 12 game, trang không cuộn dọc/ngang; 3 game chưa gây được hint bằng script (rê chuột, 2 game kéo thả) đo với guide mở |
+| Home, Chơi tự do, Tiến độ, Lộ trình | PASS | Home không cuộn (768/720); Chơi tự do 12 card (7 bàn phím, 5 chuột); Tiến độ 12 sticker, `24 / 36 sao`; Lộ trình 12 trạm 104px, cuộn dọc (937px), không tràn ngang |
+| Chơi ngay `1 / 5` → kết quả → Bài tiếp theo | PASS | Gõ chữ cái 5 lượt → “Con nhận được 3 sao”, lưu `bestStars: 3` → mở Gõ số `1 / 5` |
+| Reload giữ tiến độ | PASS | sau reload Chơi tự do vẫn `3 sao` |
+| 899 px hiện desktop gate, không cuộn ngang | PASS | `scrollWidth` 899 |
+| Enter/Space không bấm nút đang focus trong Phím cách và Enter (input thật) | PASS | focus `Nghe yêu cầu`, Enter thật: lượt 1→2, 0 lần đọc; Space thật: 2→3; Enter khi cần Space: giữ lượt, 0 lần đọc. Đối chứng Gõ chữ cái: Enter thật vẫn bấm nút (+1 lần đọc, đúng spec), Space bị nuốt |
+| Kéo thả bằng chuột thật | PASS | thả sai → về chỗ cũ + `Thử lại nhé!`; thả đúng → sang lượt (sau lượt có lỗi thì vào lượt ôn “Mình ôn lại lượt này một lần nhé!”, đúng thiết kế) |
+| Rê chuột bằng chuột thật, không giữ nút | PASS | đi qua 5 checkpoint tới đích: `1 / 6` → `2 / 6` |
+| Click mục tiêu bằng chuột thật | PASS | `1 / 12` → `2 / 12`, prompt đổi sang mục tiêu mới |
+| Sai 2 lần: hint + assist mức 1 | PASS | hint hiện trong bong bóng ở cả 9 game có thao tác sai bằng script; Đếm rồi bấm số `data-assist="1"` + số dưới cả 9 hình. Không kiểm riêng guide tự mở (script bấm ❓ nếu guide chưa mở) |
+| Giọng đọc tiếng Việt | unverified | Chromium headless có 0 voice (`getVoices()` rỗng); chỉ kiểm được lời gọi `speak` |
+
+Còn lại cho người làm (T44 vẫn mở): chạy trên Chrome và Edge thật có khung cửa sổ (viewport thấp hơn màn hình), nghe giọng `vi-VN`, quan sát bé tự chơi.
+
 ## Phase 7 · Bug từ QA T44
 
 ### [x] T45 · Rê chuột: mở game bằng chuột thì bị tính sai ngay
