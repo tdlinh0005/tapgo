@@ -1,3 +1,4 @@
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound, shuffleWithSeed } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
@@ -52,17 +53,17 @@ export default function DragSortGame({ roundIndex, sessionSeed, onRoundComplete,
           onPointerCancel={drag.onPointerCancel}
           onLostPointerCapture={drag.onLostPointerCapture}
         >
-          {round.item}
+          <Emoji char={round.item} />
         </button>
         {zoneOrder.map((zone) =>
           zone === 'correct' ? (
             <div key="correct" className="drop-zone" data-drop-result="correct" data-testid="correct-zone" data-assist={assistLevel || undefined}>
-              <span aria-hidden="true">{round.target}</span>
+              <span aria-hidden="true"><Emoji char={round.target} /></span>
               <span>{round.targetLabel}</span>
             </div>
           ) : (
             <div key="wrong" className="drop-zone" data-drop-result="wrong" data-testid="wrong-zone">
-              <span aria-hidden="true">{round.decoy}</span>
+              <span aria-hidden="true"><Emoji char={round.decoy} /></span>
               <span>{round.decoyLabel}</span>
             </div>
           ),

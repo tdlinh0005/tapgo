@@ -1,3 +1,4 @@
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound } from '../game/pickRound';
 import { RETRY_PREFIX } from '../game/retryCopy';
@@ -32,7 +33,7 @@ export default function CountKeysGame({ roundIndex, sessionSeed, onRoundComplete
         <div className="count-grid" role="img" aria-label={`${count} ${name}`}>
           {Array.from({ length: count }, (_, index) => (
             <span key={index} className="count-item" aria-hidden="true">
-              {emoji}
+              <Emoji char={emoji} />
               {assistLevel >= 1 && <span className="count-number">{index + 1}</span>}
             </span>
           ))}

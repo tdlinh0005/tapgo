@@ -1,3 +1,4 @@
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound, shuffleWithSeed } from '../game/pickRound';
 import type { GameLevel, MiniGameProps } from '../game/types';
@@ -92,7 +93,7 @@ export default function DragMatchGame({ roundIndex, sessionSeed, onRoundComplete
           onPointerCancel={drag.onPointerCancel}
           onLostPointerCapture={drag.onLostPointerCapture}
         >
-          {round.source}
+          <Emoji char={round.source} />
         </button>
         <div className="match-options">
           {options.map(([emoji, label]) => (
@@ -105,7 +106,7 @@ export default function DragMatchGame({ roundIndex, sessionSeed, onRoundComplete
               data-match-correct={label === round.answer ? 'true' : undefined}
               data-assist={label === round.answer ? assistLevel || undefined : undefined}
             >
-              <span className="match-shadow" aria-hidden="true">{emoji}</span>
+              <span className="match-shadow" aria-hidden="true"><Emoji char={emoji} /></span>
             </div>
           ))}
         </div>

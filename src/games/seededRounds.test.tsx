@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { pickRound, shuffleWithSeed } from '../game/pickRound';
 import { gameRegistry } from '../game/registry';
+import { shownText } from '../test/shownText';
 import { CLICK_TARGETS } from './ClickTargetGame';
 import { MATCH_ROUNDS } from './DragMatchGame';
 import DragSortGame, { SORT_ROUNDS } from './DragSortGame';
@@ -44,7 +45,7 @@ describe('seeded rounds', () => {
     render(<PickPictureGame {...baseProps} roundIndex={3} sessionSeed={SEED} />);
 
     expect(screen.getByText(round.prompt)).toBeInTheDocument();
-    const shown = screen.getAllByRole('button').filter((button) => button.classList.contains('picture-option')).map((button) => button.textContent);
+    const shown = screen.getAllByRole('button').filter((button) => button.classList.contains('picture-option')).map((button) => shownText(button));
     expect(shown).toEqual(shuffleWithSeed(round.options, SEED + 3));
   });
 

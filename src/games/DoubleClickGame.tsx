@@ -1,4 +1,5 @@
 import { useEffect, useRef, type ComponentType, type MouseEvent } from 'react';
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound, roundSeed } from '../game/pickRound';
 import { RETRY_PREFIX } from '../game/retryCopy';
@@ -56,7 +57,7 @@ export function createDoubleClickGame({ title, items }: DoubleClickSet): Compone
             onDoubleClick={handleDoubleClick}
             style={{ left: `${slot.left}%`, top: `${slot.top}%` }}
           >
-            <span aria-hidden="true">{item.emoji}</span>
+            <span aria-hidden="true"><Emoji char={item.emoji} /></span>
           </button>
         </section>
       </>

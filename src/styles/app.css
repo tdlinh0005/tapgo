@@ -556,6 +556,14 @@ button:disabled {
   line-height: 1;
 }
 
+/* In-play pictures replace an emoji glyph in place, so they take the glyph's em size. */
+.emoji-art {
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: -0.25em;
+}
+
 /* Sized in em so the drawn mascot scales with the emoji size each slot already sets. */
 .mascot-art {
   display: block;

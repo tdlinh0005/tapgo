@@ -1,4 +1,5 @@
 import { useRef, useState, type ComponentType } from 'react';
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound, roundSeed, shuffleWithSeed } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
@@ -32,7 +33,7 @@ function DraggablePiece({ piece, onDrop }: DraggablePieceProps) {
       onPointerCancel={drag.onPointerCancel}
       onLostPointerCapture={drag.onLostPointerCapture}
     >
-      {piece.emoji}
+      <Emoji char={piece.emoji} />
     </button>
   );
 }
@@ -83,10 +84,10 @@ export function createMultiDragGame({ title, items, itemCount }: MultiDragSet): 
               data-testid={`zone-${group.id}`}
               data-assist={group.id === nextPiece?.groupId ? assistLevel || undefined : undefined}
             >
-              <span aria-hidden="true">{group.place}</span>
+              <span aria-hidden="true"><Emoji char={group.place} /></span>
               <span>{group.label}</span>
               <span className="multi-drag-placed" aria-label={`Đã kéo vào ${group.label.toLowerCase()}`}>
-                {pieces.filter((piece) => piece.groupId === group.id && placed.includes(piece.name)).map(({ emoji }) => emoji).join(' ')}
+                {pieces.filter((piece) => piece.groupId === group.id && placed.includes(piece.name)).map(({ name, emoji }) => <Emoji key={name} char={emoji} />)}
               </span>
             </div>
           ))}

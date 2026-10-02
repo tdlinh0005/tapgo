@@ -1,4 +1,5 @@
 import ActionButton from '../components/ActionButton';
+import Emoji from '../components/Emoji';
 import Mascot from '../components/Mascot';
 
 type HomeScreenProps = {
@@ -11,7 +12,7 @@ type HomeScreenProps = {
 export default function HomeScreen({ onGuidedPlay, onPath, onFreePlay, onProgress }: HomeScreenProps) {
   return (
     <main className="home-screen">
-      <div className="home-hero" aria-hidden="true">🚀 🚗 ⭐</div>
+      <div className="home-hero" aria-hidden="true"><Emoji char="🚀" /> <Emoji char="🚗" /> <Emoji char="⭐" /></div>
       <h1>TapGo</h1>
       <div className="home-greeting">
         <Mascot mood="cheer" moving />

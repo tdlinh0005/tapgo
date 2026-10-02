@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
+import { shownText } from '../test/shownText';
 import WordTypingGame, { WORDS } from './WordTypingGame';
 
 describe('WordTypingGame', () => {
@@ -18,7 +19,7 @@ describe('WordTypingGame', () => {
   it('shows the picture of the word next to its letters', () => {
     const { container } = render(<WordTypingGame roundIndex={7} totalRounds={8} onRoundComplete={vi.fn()} speak={() => {}} />);
 
-    expect(container.querySelector('.typing-picture')).toHaveTextContent('🐟');
+    expect(shownText(container.querySelector('.typing-picture'))).toBe('🐟');
     expect(screen.getByRole('img', { name: 'CA' })).toBeInTheDocument();
   });
 

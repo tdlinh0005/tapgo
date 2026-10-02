@@ -1,9 +1,10 @@
+import type { ReactNode } from 'react';
 import ListenButton from './ListenButton';
 
 type KeyTargetStageProps = {
   label: string;
   prompt: string;
-  target: string;
+  target: ReactNode;
   /** Accessible name of the big key. Omit when the prompt already names it. */
   targetLabel?: string;
   listenText: string;

@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { shownText } from '../test/shownText';
 import { SAFE_AREA } from './ClickTargetGame';
 import { MOUSE_DRILL_SETS, type MultiClickSet } from './mouseDrills';
 import { joinNames, MAX_CLICK_TARGETS, targetSlots } from './mouseLayout';
@@ -34,7 +35,7 @@ describe('MultiClickGame', () => {
   it('lays out the same round the same way for the same session seed', () => {
     const layout = () => {
       const { container, unmount } = render(<ClickManyGame {...baseProps} roundIndex={2} sessionSeed={99} onRoundComplete={vi.fn()} />);
-      const result = targets(container).map((target) => `${target.textContent}@${target.style.left},${target.style.top}`);
+      const result = targets(container).map((target) => `${shownText(target)}@${target.style.left},${target.style.top}`);
       unmount();
       return result;
     };

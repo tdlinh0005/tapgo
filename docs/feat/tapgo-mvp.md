@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-02 · 234f6b0
+> updated 2026-10-02 · 4be8dd6
 
 ## Goal
 
@@ -401,7 +401,7 @@ Dùng Web Audio API tạo tone ngắn tại runtime để tránh quản lý asse
 MVP dùng:
 
 - một bộ design tokens duy nhất cho màu, radius, shadow, spacing, font size, motion, khai báo trong `src/styles/theme.css` (ví dụ `--radius-sm/lg`, `--font-title/prompt/target`, `--space-sm/md/lg`, `--motion-pop/shake`); `app.css` chỉ dùng token
-- native emoji cho nội dung động vật/đồ chơi/xe/không gian trong lượt chơi; riêng icon game và nhân vật dẫn dắt là ảnh vẽ phong cách đất sét (owner yêu cầu 2026-10-02): WebP 256px (mascot 320px) trong `src/assets/art/<gameId|mascot-mood>.webp`, nạp bằng `import.meta.glob` trong `src/game/art.ts`, không thêm thư viện hay bước build; tên nào không có ảnh thì giữ emoji (`GameArt`, `Mascot`). Nền ảnh: xanh pastel cho game bàn phím, cam đào pastel cho game chuột
+- icon game, nhân vật dẫn dắt và hình trong lượt chơi là ảnh vẽ phong cách đất sét (owner yêu cầu 2026-10-02), nạp bằng `import.meta.glob` trong `src/game/art.ts`, không thêm thư viện hay bước build; tên nào không có ảnh thì giữ emoji. Icon game và mascot: WebP 256px (mascot 320px) trong `src/assets/art/<gameId|mascot-mood>.webp` (`GameArt`, `Mascot`), nền xanh pastel cho game bàn phím, cam đào pastel cho game chuột. Hình trong lượt chơi: dữ liệu game vẫn ghi emoji, `Emoji` thay bằng `src/assets/art/play/e-<code point hex, bỏ FE0F>.webp` (192px, nền trong suốt, cỡ 1.2em theo font của ô, `alt` là emoji)
 - cùng card frame và typography để emoji khác chủ đề vẫn nằm trong một style UI thống nhất
 - không thêm animation library; dùng CSS transition/keyframes ngắn
 - màu theo vai trò: `--color-keyboard` / `--color-mouse` (mỗi màu có `-soft` cho nền, `-strong` cho chữ/viền), `--color-reward` cho sao, `--color-primary` cho CTA chính; `.game-shell`, `.game-card`, trạm Lộ trình và sticker Tiến độ mang `data-category="keyboard|mouse"`, CSS chọn màu qua alias `--color-category(-soft/-strong)`; màu gốc chỉ dùng trang trí, chữ đạt tương phản ≥ 4.5:1

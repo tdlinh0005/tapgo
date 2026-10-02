@@ -1,4 +1,5 @@
 import { useState, type MouseEvent } from 'react';
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
@@ -57,7 +58,7 @@ export default function ClickTargetGame({ roundIndex, sessionSeed, onRoundComple
           onClick={handleTarget}
           style={{ left: `${left}%`, top: `${top}%` }}
         >
-          <span className="click-target-visual" aria-hidden="true">{target.emoji}</span>
+          <span className="click-target-visual" aria-hidden="true"><Emoji char={target.emoji} /></span>
         </button>
       </section>
     </>

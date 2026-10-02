@@ -1,4 +1,5 @@
 import { useRef, useState, type ComponentType, type MouseEvent } from 'react';
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { roundSeed, shuffleWithSeed } from '../game/pickRound';
 import { RETRY_PREFIX } from '../game/retryCopy';
@@ -55,7 +56,7 @@ export function createMultiClickGame({ title, items, targetCounts, size, ordered
               onClick={handleTarget(index)}
               style={{ left: `${slots[index].left}%`, top: `${slots[index].top}%` }}
             >
-              <span aria-hidden="true">{picture.emoji}</span>
+              <span aria-hidden="true"><Emoji char={picture.emoji} /></span>
               {ordered && <span className="multi-click-number" aria-hidden="true">{index + 1}</span>}
             </button>
           ))}

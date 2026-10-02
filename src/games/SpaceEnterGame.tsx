@@ -1,3 +1,4 @@
+import Emoji from '../components/Emoji';
 import KeyTargetStage from '../components/KeyTargetStage';
 import { shuffleWithSeed } from '../game/pickRound';
 import { spokenKeyName } from '../game/retryCopy';
@@ -29,7 +30,7 @@ export default function SpaceEnterGame({ roundIndex, sessionSeed, onRoundComplet
     <KeyTargetStage
       label="Phím cách và Enter"
       prompt={`Bấm ${name}`}
-      target={`${emoji} ${label}`}
+      target={<><Emoji char={emoji} /> {label}</>}
       targetLabel={`Phím ${label}`}
       listenText={`Bấm ${name}`}
       speak={speak}

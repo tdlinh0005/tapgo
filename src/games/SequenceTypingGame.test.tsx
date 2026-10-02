@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
+import { shownText } from '../test/shownText';
 import SequenceTypingGame, { SEQUENCES, sequencePicture } from './SequenceTypingGame';
 import { WORDS } from './WordTypingGame';
 
@@ -22,7 +23,7 @@ describe('SequenceTypingGame', () => {
     expect(sequencePicture('JKLM')).toBe('🌈');
 
     const { container } = render(<SequenceTypingGame roundIndex={0} totalRounds={8} onRoundComplete={vi.fn()} speak={() => {}} />);
-    expect(container.querySelector('.typing-picture')).toHaveTextContent('🐾');
+    expect(shownText(container.querySelector('.typing-picture'))).toBe('🐾');
     expect(container.querySelector('.typing-picture')).toHaveAttribute('aria-hidden', 'true');
   });
 

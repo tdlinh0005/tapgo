@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound, shuffleWithSeed } from '../game/pickRound';
 import type { GameLevel, MiniGameProps } from '../game/types';
@@ -80,7 +81,7 @@ export default function PickPictureGame({ roundIndex, sessionSeed, onRoundComple
             key={option}
             onClick={() => choose(option)}
           >
-            {option}
+            <Emoji char={option} />
           </button>
         ))}
       </div>

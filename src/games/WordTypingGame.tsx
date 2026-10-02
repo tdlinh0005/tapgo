@@ -1,3 +1,4 @@
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
@@ -41,7 +42,7 @@ export default function WordTypingGame({ roundIndex, sessionSeed, onRoundComplet
   return (
     <section className="typing-game" aria-label="Gõ từ ngắn">
       <p className="game-prompt">Gõ từ này</p>
-      <span className="typing-picture" aria-hidden="true">{emoji}</span>
+      <span className="typing-picture" aria-hidden="true"><Emoji char={emoji} /></span>
       <div className="typing-sequence" role="img" aria-label={word}>
         {word.split('').map((character, index) => (
           <span

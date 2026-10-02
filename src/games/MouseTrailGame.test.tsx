@@ -1,5 +1,6 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import { shownText } from '../test/shownText';
 import { LONG_TRAILS, MOUSE_DRILL_SETS, type TrailSet } from './mouseDrills';
 import MouseTrailGame, { createMouseTrailGame, RELEASE_HINT, TRAILS, TRAIL_THEMES } from './MouseTrailGame';
 
@@ -143,9 +144,9 @@ describe('MouseTrailGame', () => {
     expect(container.querySelector('.trail-guide polyline')).toHaveAttribute('points', TRAILS[2].map(([x, y]) => `${x},${y}`).join(' '));
     expect(screen.getByLabelText('Điểm bắt đầu')).toBeInTheDocument();
     expect(screen.getByLabelText('Đích')).toBeInTheDocument();
-    expect(screen.getByText(`Đưa ${TRAIL_THEMES[2].start} tới ${TRAIL_THEMES[2].finish}`)).toHaveClass('game-prompt');
-    expect(screen.getByLabelText('Điểm bắt đầu')).toHaveTextContent(TRAIL_THEMES[2].start);
-    expect(screen.getByLabelText('Đích')).toHaveTextContent(TRAIL_THEMES[2].finish);
+    expect(shownText(container.querySelector('.game-prompt'))).toBe(`Đưa ${TRAIL_THEMES[2].start} tới ${TRAIL_THEMES[2].finish}`);
+    expect(shownText(screen.getByLabelText('Điểm bắt đầu'))).toBe(TRAIL_THEMES[2].start);
+    expect(shownText(screen.getByLabelText('Đích'))).toBe(TRAIL_THEMES[2].finish);
   });
 
   it('pairs every start with a different finish and reads the goal aloud', () => {

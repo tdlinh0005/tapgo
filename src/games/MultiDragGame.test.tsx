@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { shownText } from '../test/shownText';
 import { MOUSE_DRILL_SETS, SORT_GROUPS, type MultiDragSet } from './mouseDrills';
 import { createMultiDragGame } from './MultiDragGame';
 
@@ -45,7 +46,7 @@ describe('MultiDragGame', () => {
 
     dropOn(shown[0], zone);
     expect(pieces(container)).toHaveLength(2);
-    expect(within(zone).getByLabelText(/^Đã kéo vào/)).toHaveTextContent(shown[0].textContent!);
+    expect(shownText(within(zone).getByLabelText(/^Đã kéo vào/))).toContain(shownText(shown[0]));
 
     dropOn(shown[1], zone);
     expect(onRoundComplete).not.toHaveBeenCalled();

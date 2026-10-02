@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import { pickRound } from '../game/pickRound';
 import type { GameLevel } from '../game/types';
+import { shownText } from '../test/shownText';
 import DragMatchGame, { MATCH_ROUNDS, matchGroup, matchOptions } from './DragMatchGame';
 import PickPictureGame, { PICTURE_ROUNDS, pictureOptions } from './PickPictureGame';
 import SequenceTypingGame, { SEQUENCES_BY_LEVEL } from './SequenceTypingGame';
@@ -38,7 +39,7 @@ describe('game levels', () => {
       const { unmount } = render(<PickPictureGame {...baseProps} roundIndex={2} sessionSeed={SEED} level={level} />);
       const shown = screen.getAllByRole('button').filter((button) => button.classList.contains('picture-option'));
       expect(shown, `level ${level}`).toHaveLength(level === 0 ? 3 : 4);
-      expect(shown.map((button) => button.textContent)).toContain(pickRound(PICTURE_ROUNDS, 2, SEED).answer);
+      expect(shown.map((button) => shownText(button))).toContain(pickRound(PICTURE_ROUNDS, 2, SEED).answer);
       unmount();
     }
   });
@@ -71,7 +72,7 @@ describe('game levels', () => {
   it('renders the harder drag-match shadows', () => {
     render(<DragMatchGame {...baseProps} roundIndex={0} level={2} />);
     const zones = screen.getAllByRole('img').filter((zone) => zone.hasAttribute('data-match-label'));
-    expect(zones.map((zone) => matchGroup(zone.textContent ?? ''))).toEqual(['animal', 'animal', 'animal']);
+    expect(zones.map((zone) => matchGroup(shownText(zone)))).toEqual(['animal', 'animal', 'animal']);
   });
 
   it('sequence length grows from 3 to 5 keys with the level', () => {

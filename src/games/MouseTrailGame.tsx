@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ComponentType, type PointerEvent } from 'react';
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { RETRY_PREFIX } from '../game/retryCopy';
 import { pickRound } from '../game/pickRound';
@@ -101,7 +102,7 @@ export function createMouseTrailGame({ trails, checkpointSize, hold }: TrailGame
 
     return (
       <>
-        <p className="game-prompt">{hold ? 'Giữ chuột kéo' : 'Đưa'} {theme.start} tới {theme.finish}</p>
+        <p className="game-prompt">{hold ? 'Giữ chuột kéo' : 'Đưa'} <Emoji char={theme.start} /> tới <Emoji char={theme.finish} /></p>
         <ListenButton text={listenText} speak={speak} />
         <section
           className="trail-area"
@@ -124,7 +125,7 @@ export function createMouseTrailGame({ trails, checkpointSize, hold }: TrailGame
               role="img"
               aria-label={labelFor(index)}
             >
-              <span>{index === 0 ? theme.start : index === finishIndex ? theme.finish : index}</span>
+              <span>{index === 0 ? <Emoji char={theme.start} /> : index === finishIndex ? <Emoji char={theme.finish} /> : index}</span>
             </div>
           ))}
         </section>

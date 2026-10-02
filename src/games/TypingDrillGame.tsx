@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
 import { pickRound } from '../game/pickRound';
 import { spokenKeyName } from '../game/retryCopy';
@@ -37,7 +38,7 @@ export function createTypingDrillGame({ title, items }: DrillSet): ComponentType
     return (
       <section className="typing-game" aria-label={title}>
         <p className="game-prompt">Gõ theo thứ tự</p>
-        <span className="typing-picture" aria-hidden="true">{emoji}</span>
+        <span className="typing-picture" aria-hidden="true"><Emoji char={emoji} /></span>
         <div className="typing-sequence" data-size={text.length >= COMPACT_FROM_LENGTH ? 'compact' : undefined}>
           {text.split('').map((character, index) => (
             <KeyCell
