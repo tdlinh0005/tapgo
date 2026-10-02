@@ -227,6 +227,13 @@ button:disabled {
   font-size: 40px;
 }
 
+.game-heading > span:has(> .game-art) {
+  width: 56px;
+  height: 56px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
 .screen-shell > p {
   margin: 0 0 24px;
   color: var(--color-muted);
@@ -274,11 +281,21 @@ button:disabled {
   background: var(--color-surface-muted);
 }
 
+/* Generated illustrations fill whatever emoji slot holds them and take its rounding. */
+.game-art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
+}
+
 .game-card-emoji {
   display: grid;
   place-items: center;
   width: 64px;
   height: 64px;
+  overflow: hidden;
   border-radius: var(--radius-sm);
   background: var(--color-category-soft);
   font-size: 36px;
@@ -403,6 +420,13 @@ button:disabled {
 .path-station-emoji {
   font-size: 48px;
   line-height: 1;
+}
+
+.path-station-emoji:has(> .game-art) {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
 }
 
 .path-station-step {
@@ -530,6 +554,13 @@ button:disabled {
   display: inline-block;
   font-size: 44px;
   line-height: 1;
+}
+
+/* Sized in em so the drawn mascot scales with the emoji size each slot already sets. */
+.mascot-art {
+  display: block;
+  width: 1.25em;
+  height: 1.25em;
 }
 
 .mascot[data-moving][data-mood="cheer"] {
@@ -1334,6 +1365,7 @@ button:disabled {
   border: 5px solid var(--color-surface);
   border-radius: 50%;
   background: var(--color-category-soft);
+  overflow: hidden;
   box-shadow: var(--shadow-sticker);
   font-size: 56px;
   transform: rotate(-6deg);

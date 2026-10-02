@@ -1,4 +1,5 @@
 import ActionButton from '../components/ActionButton';
+import GameArt from '../components/GameArt';
 import StarRating from '../components/StarRating';
 import { getRecommendedGameId } from '../game/path';
 import { gameRegistry, getGameDefinition } from '../game/registry';
@@ -58,7 +59,7 @@ export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
               data-category={game.category}
               data-state={gameProgress.completed ? 'collected' : 'missing'}
             >
-              <span className="progress-sticker" aria-hidden="true">{game.emoji}</span>
+              <span className="progress-sticker" aria-hidden="true"><GameArt game={game} /></span>
               <div className="progress-game-copy">
                 <strong>{game.title}</strong>
                 <span>{gameProgress.completed ? 'Đã hoàn thành' : 'Chưa hoàn thành'}</span>

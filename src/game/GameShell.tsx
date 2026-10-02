@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import CoachBubble from '../components/CoachBubble';
 import Confetti from '../components/Confetti';
+import GameArt from '../components/GameArt';
 import Mascot, { type MascotMood } from '../components/Mascot';
 import ProgressBar from '../components/ProgressBar';
 import StarRating from '../components/StarRating';
@@ -148,7 +149,7 @@ export default function GameShell({
       <header className="game-header">
         <button type="button" onClick={onHome} aria-label="Về nhà">🏠</button>
         <div className="game-heading">
-          <span aria-hidden="true">{definition.emoji}</span>
+          <span aria-hidden="true"><GameArt game={definition} /></span>
           <h1>{definition.title}</h1>
         </div>
         <button

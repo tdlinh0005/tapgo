@@ -1,4 +1,5 @@
 import type { GameDefinition } from '../game/types';
+import GameArt from './GameArt';
 
 type GameCardProps = {
   game: GameDefinition;
@@ -10,7 +11,7 @@ type GameCardProps = {
 export default function GameCard({ game, stars, locked = false, onPlay }: GameCardProps) {
   return (
     <article className={`game-card${locked ? ' is-locked' : ''}`} data-testid="game-card" data-category={game.category}>
-      <span className="game-card-emoji" aria-hidden="true">{game.emoji}</span>
+      <span className="game-card-emoji" aria-hidden="true"><GameArt game={game} /></span>
       <div className="game-card-copy">
         <h2>{game.title}</h2>
         <span role="img" aria-label={`${stars} sao`}>{'⭐'.repeat(stars)}{'☆'.repeat(3 - stars)}</span>

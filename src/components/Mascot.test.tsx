@@ -3,16 +3,12 @@ import { describe, expect, it } from 'vitest';
 import Mascot, { type MascotMood } from './Mascot';
 
 describe('Mascot', () => {
-  it.each<[MascotMood, string]>([
-    ['idle', '🐱'],
-    ['cheer', '😸'],
-    ['encourage', '😺'],
-  ])('shows the %s mood as a hidden emoji', (mood, face) => {
+  it.each<MascotMood>(['idle', 'cheer', 'encourage'])('shows the %s mood as its hidden drawing', (mood) => {
     const { container } = render(<Mascot mood={mood} />);
     const mascot = container.querySelector('.mascot');
     expect(mascot).toHaveAttribute('data-mood', mood);
     expect(mascot).toHaveAttribute('aria-hidden', 'true');
-    expect(mascot).toHaveTextContent(face);
+    expect(mascot?.querySelector('img')?.getAttribute('src')).toContain(`mascot-${mood}`);
     expect(mascot).not.toHaveAttribute('data-moving');
   });
 

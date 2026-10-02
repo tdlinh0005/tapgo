@@ -23,6 +23,8 @@ All notable changes to TapGo are recorded here. Format follows [Keep a Changelog
 
 ### Changed
 
+- Game icons and the mascot are now clay-style illustrations instead of emoji: one drawing per game (28, on the game card, learning-path stop, progress sticker and game header) and three for `Mèo Tapi` (idle, cheer, encourage). They are 256px (mascot 320px) WebP files in `src/assets/art/`, about 140 KB in total; a game with no drawing keeps its emoji. Not yet checked in a real browser.
+
 - `Chơi ngay` moves on to the advanced sets once the 12 basic games are done: typing sets 1–8, then mouse sets 1–8. After every game is done, it picks an advanced set (typing or mouse) under 3 stars before a basic game under 3 stars. There are now 28 games and 84 stars in total.
 - `MouseTrailGame` is built by `createMouseTrailGame` (trails, checkpoint size, hold) and shared by the basic trail and mouse sets 5 and 8; the basic game behaves as before. `ADVANCED_GAME_IDS` is now `TYPING_DRILL_IDS` followed by `MOUSE_DRILL_IDS`; `roundSeed` lives in `pickRound.ts` and the mouse layout helpers (`targetSlots`, `MAX_CLICK_TARGETS`, `joinNames`) in `mouseLayout.ts`; and theme tokens `--target-medium` (96px) and `--target-small` (56px) size the new targets.
 - A missed Space or Enter is named in the retry hint (`Tìm phím cách…`, `Tìm phím Enter…`) by one shared helper for every round that expects them.

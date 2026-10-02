@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { GameDefinition } from '../game/types';
+import GameArt from './GameArt';
 import Mascot from './Mascot';
 import StarRating from './StarRating';
 
@@ -33,7 +34,7 @@ export default function PathStation({ game, step, stars, completed, locked, reco
         disabled={locked}
         aria-label={locked ? `${game.title}: xong bài trước để mở` : `Chơi ${game.title}`}
       >
-        <span className="path-station-emoji" aria-hidden="true">{locked ? '🔒' : game.emoji}</span>
+        <span className="path-station-emoji" aria-hidden="true">{locked ? '🔒' : <GameArt game={game} />}</span>
         <span className="path-station-step" aria-hidden="true">{step}</span>
       </button>
       <span className="path-station-title">{game.title}</span>

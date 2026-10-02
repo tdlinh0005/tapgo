@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-01 · 6b86a08
+> updated 2026-10-02 · 234f6b0
 
 ## Goal
 
@@ -401,12 +401,12 @@ Dùng Web Audio API tạo tone ngắn tại runtime để tránh quản lý asse
 MVP dùng:
 
 - một bộ design tokens duy nhất cho màu, radius, shadow, spacing, font size, motion, khai báo trong `src/styles/theme.css` (ví dụ `--radius-sm/lg`, `--font-title/prompt/target`, `--space-sm/md/lg`, `--motion-pop/shake`); `app.css` chỉ dùng token
-- native emoji cho nội dung động vật/đồ chơi/xe/không gian để tránh asset pipeline ở v1
+- native emoji cho nội dung động vật/đồ chơi/xe/không gian trong lượt chơi; riêng icon game và nhân vật dẫn dắt là ảnh vẽ phong cách đất sét (owner yêu cầu 2026-10-02): WebP 256px (mascot 320px) trong `src/assets/art/<gameId|mascot-mood>.webp`, nạp bằng `import.meta.glob` trong `src/game/art.ts`, không thêm thư viện hay bước build; tên nào không có ảnh thì giữ emoji (`GameArt`, `Mascot`). Nền ảnh: xanh pastel cho game bàn phím, cam đào pastel cho game chuột
 - cùng card frame và typography để emoji khác chủ đề vẫn nằm trong một style UI thống nhất
 - không thêm animation library; dùng CSS transition/keyframes ngắn
 - màu theo vai trò: `--color-keyboard` / `--color-mouse` (mỗi màu có `-soft` cho nền, `-strong` cho chữ/viền), `--color-reward` cho sao, `--color-primary` cho CTA chính; `.game-shell`, `.game-card`, trạm Lộ trình và sticker Tiến độ mang `data-category="keyboard|mouse"`, CSS chọn màu qua alias `--color-category(-soft/-strong)`; màu gốc chỉ dùng trang trí, chữ đạt tương phản ≥ 4.5:1
 - font bo tròn tự host `@fontsource-variable/nunito` (token `--font-family`, fallback system-ui), không request ra domain ngoài
-- nhân vật dẫn dắt `Mascot` (🐱 Mèo Tapi, emoji + CSS, `aria-hidden`, trạng thái `idle | cheer | encourage` do `GameShell` điều khiển) nằm trong `CoachBubble` — bong bóng lời duy nhất của màn game thay intro + hint + lượt ôn + guide (ưu tiên hint > review > guide > intro), nút ❓ `Xem cách chơi` 72 px cạnh bong bóng
+- nhân vật dẫn dắt `Mascot` (Mèo Tapi, ảnh vẽ 3 trạng thái, fallback 🐱 😸 😺, `aria-hidden`, trạng thái `idle | cheer | encourage` do `GameShell` điều khiển) nằm trong `CoachBubble` — bong bóng lời duy nhất của màn game thay intro + hint + lượt ôn + guide (ưu tiên hint > review > guide > intro), nút ❓ `Xem cách chơi` 72 px cạnh bong bóng
 - phím mục tiêu vẽ giống phím thật (`--key-depth`), phím Space rộng `--key-wide-width`; hiệu ứng đúng là lớp phủ `.stage-burst` của `.game-stage` (≤ 600 ms)
 - vùng chơi luôn nằm trọn trong màn hình (`.game-shell:has(> .game-stage)` cao `100vh`, stage `1fr`)
 
