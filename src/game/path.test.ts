@@ -66,7 +66,8 @@ describe('path unlock', () => {
     expect(getNextGameId('count-keys')).toBe('drill-home-row');
     expect(getNextGameId('drill-sentence-enter')).toBe('mouse-click-many');
     expect(getNextGameId('mouse-drag-groups')).toBe('mouse-hold-trail');
-    expect(getNextGameId('mouse-hold-trail')).toBeNull();
-    expect(PATH_ORDER.at(-1)).toBe('mouse-hold-trail');
+    expect(getNextGameId('mouse-hold-trail')).toBe('mission-park');
+    expect(getNextGameId('mission-boss')).toBeNull();
+    expect(PATH_ORDER.at(-1)).toBe('mission-boss');
   });
 });

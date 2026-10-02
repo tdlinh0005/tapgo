@@ -1,10 +1,10 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-02 · 4be8dd6
+> updated 2026-10-02 · e642109
 
 ## Goal
 
-Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 28 mini-game ngắn (12 bài cơ bản + 8 bộ đề gõ nâng cao + 8 bộ chuột nâng cao), vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
+Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 33 mini-game ngắn (12 bài cơ bản + 8 bộ đề gõ nâng cao + 8 bộ chuột nâng cao + 5 nhiệm vụ bắt trộm), vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
 
 ## Product decisions đã chốt
 
@@ -12,7 +12,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 - Stack: React + Vite + TypeScript.
 - Lưu tiến độ: localStorage, không tài khoản, không backend.
 - Luyện gõ: A-Z, 0-9, Space/Enter khi cần, và từ tiếng Việt không dấu như `ME`, `BA`, `CON`, `MEO`, `CHO`, `NHA`, `XE`.
-- Luyện chuột: click, rê chuột, kéo thả; bài nâng cao thêm click nhiều hình / theo thứ tự / hình nhỏ, nháy đúp và giữ chuột kéo theo đường.
+- Luyện chuột: click, rê chuột, kéo thả; bài nâng cao thêm click nhiều hình / theo thứ tự / hình nhỏ, nháy đúp và giữ chuột kéo theo đường; cuối lộ trình là 5 nhiệm vụ click chuột “cảnh sát nhí bắt trộm” (không bạo lực: bắt gấu mèo trộm để lấy lại đồ).
 - Điều hướng học: Home ưu tiên một CTA `Chơi ngay` để vào Guided Play; vẫn có Lộ trình và Chơi tự do mở toàn bộ game.
 - Guided Play: tự chọn bài theo `getRecommendedGameId` (xem Learning path; xong 12 bài cơ bản thì chuyển sang bài nâng cao), chạy quick session tối đa 5 lượt rồi ưu tiên CTA `Bài tiếp theo`. Trong Guided Play, `Bài tiếp theo` mở bài được gợi ý theo cùng logic với `Chơi ngay` (`getRecommendedGameId`), loại trừ bài vừa chơi — chơi lại đã có nút `Chơi lại`; Lộ trình và Chơi tự do giữ bài kế theo thứ tự.
 - Phản hồi: hoàn thành bài là thông điệp chính; 1-3 sao là tín hiệu phụ, kèm âm thanh nhẹ và animation ngắn; không dùng thông báo thất bại nặng nề.
@@ -26,7 +26,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 
 ### Giữ
 
-`GameShell` là đúng abstraction boundary vì cả 28 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
+`GameShell` là đúng abstraction boundary vì cả 33 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
 
 ### Sửa
 
@@ -44,9 +44,9 @@ App
 │   ├── Chơi tự do
 │   └── Tiến độ
 ├── Learning Path
-│   └── 28 bài theo thứ tự (12 cơ bản, rồi 8 gõ nâng cao, rồi 8 chuột nâng cao)
+│   └── 33 bài theo thứ tự (12 cơ bản, rồi 8 gõ nâng cao, rồi 8 chuột nâng cao, rồi 5 nhiệm vụ bắt trộm)
 ├── Free Play
-│   └── 28 game luôn mở
+│   └── 33 game luôn mở
 ├── Game
 │   └── GameShell + MiniGame
 └── Progress
@@ -58,7 +58,7 @@ App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì �
 
 ## Learning path
 
-Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 28 game luôn mở. Từ Home, `Chơi ngay` (và `Bài tiếp theo` trong Guided Play, loại trừ bài vừa chơi) chọn theo thứ tự `getRecommendedGameId` (`src/game/path.ts`): game đầu tiên chưa hoàn thành theo lộ trình (cơ bản trước, rồi gõ nâng cao 1→8, rồi chuột nâng cao 1→8) → bài nâng cao (gõ hoặc chuột) đầu tiên chưa đạt 3 sao → game bất kỳ đầu tiên chưa đạt 3 sao → bài nâng cao đầu tiên (`drill-home-row`).
+Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 33 game luôn mở. Từ Home, `Chơi ngay` (và `Bài tiếp theo` trong Guided Play, loại trừ bài vừa chơi) chọn theo thứ tự `getRecommendedGameId` (`src/game/path.ts`): game đầu tiên chưa hoàn thành theo lộ trình (cơ bản trước, rồi gõ nâng cao 1→8, rồi chuột nâng cao 1→8, rồi nhiệm vụ 1→5) → bài nâng cao (gõ, chuột hoặc nhiệm vụ) đầu tiên chưa đạt 3 sao → game bất kỳ đầu tiên chưa đạt 3 sao → bài nâng cao đầu tiên (`drill-home-row`).
 
 Thứ tự:
 
@@ -90,8 +90,13 @@ Thứ tự:
 26. Chuột nâng cao 6 · Kéo nhiều món
 27. Chuột nâng cao 7 · Phân loại hai nhóm
 28. Chuột nâng cao 8 · Giữ chuột kéo theo đường
+29. Nhiệm vụ 1 · Bắt trộm ở công viên
+30. Nhiệm vụ 2 · Đừng bắt nhầm bạn tốt
+31. Nhiệm vụ 3 · Tìm trộm đang trốn
+32. Nhiệm vụ 4 · Bắt trộm tí hon
+33. Nhiệm vụ 5 · Bắt trùm Gấu Mèo
 
-`src/game/types.ts`: `BASIC_GAME_IDS` (1–12), `TYPING_DRILL_IDS` (13–20), `MOUSE_DRILL_IDS` (21–28); `ADVANCED_GAME_IDS` = gõ rồi chuột (13–28); `GAME_IDS` = cơ bản rồi nâng cao.
+`src/game/types.ts`: `BASIC_GAME_IDS` (1–12), `TYPING_DRILL_IDS` (13–20), `MOUSE_DRILL_IDS` (21–28), `MISSION_IDS` (29–33); `ADVANCED_GAME_IDS` = gõ, chuột rồi nhiệm vụ (13–33); `GAME_IDS` = cơ bản rồi nâng cao.
 
 Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`) để không khoá lại bài của bé đang chơi dở; `normalizeProgress` điền game mới rỗng cho tiến độ cũ. Màn Lộ trình xếp 5 trạm mỗi hàng, số hàng tăng theo số game.
 
@@ -224,6 +229,26 @@ Dữ liệu 8 bộ trong `MOUSE_DRILL_SETS` (`src/games/mouseDrills.ts`); regist
 - **Kéo nhiều món (26–27):** hàng món 96px ở trên, chỗ thả ở dưới; mỗi món thuộc đúng một nhóm (`SORT_GROUPS` không trùng emoji giữa các nhóm), số món chia đều cho các chỗ. Thả đúng: món hiện trong chỗ thả, ô cũ để trống. Thả sai hoặc ra ngoài: món về chỗ cũ, tính một attempt sai. Outcome `{ correct: số món, attempts: số lần thả }`. `data-assist` trên chỗ thả của món kế tiếp; snap theo bán kính như game 9–10. Prompt “Kéo hết vào <chỗ>” / “Kéo mỗi món vào đúng chỗ”.
 - Token kích thước trong `theme.css`: `--target-medium` 96px, `--target-small` 56px.
 
+### 29–33. Nhiệm vụ bắt trộm (`mission-*`)
+
+Chủ đề “cảnh sát nhí”: gấu mèo đeo mặt nạ (🦝 `gấu mèo trộm`) lấy trộm đồ ăn, đồ chơi; bé click để bắt, gấu mèo bị bắt biến thành món đồ được lấy lại. Không có vũ khí, không “tiêu diệt”, không đếm giờ. Một factory `createMissionGame(set)` (`src/games/MissionGame.tsx`), dữ liệu trong `MISSION_SETS` (`src/games/missions.ts`) với kho `FRIENDS` (8 bạn tốt 🐰 🐶 🐥 …), `LOOT` (8 món 🍪 💎 🧸 …), `HIDEOUTS` (5 chỗ trốn 🌳 📦 🗑️ 🌿 🧺). Mỗi bộ 6 lượt, `category: 'mouse'`, bỏ qua `level`.
+
+| # | id | Tên | Cảnh | Lượt chơi |
+| --- | --- | --- | --- | --- |
+| 29 | `mission-park` | Nhiệm vụ 1 · Bắt trộm ở công viên | công viên | 2 / 3 gấu mèo 96px xen kẽ theo lượt |
+| 30 | `mission-market` | Nhiệm vụ 2 · Đừng bắt nhầm bạn tốt | chợ | 3 gấu mèo + 2 bạn tốt |
+| 31 | `mission-hide` | Nhiệm vụ 3 · Tìm trộm đang trốn | sân sau | 5 chỗ trốn, 2 chỗ có gấu mèo |
+| 32 | `mission-small` | Nhiệm vụ 4 · Bắt trộm tí hon | phòng đồ chơi | 4 gấu mèo 56px + 3 bạn tốt 56px |
+| 33 | `mission-boss` | Nhiệm vụ 5 · Bắt trùm Gấu Mèo | gác mái | 1 trùm 🦹 cần 3 lần trúng + 3 bạn tốt |
+
+- Vị trí: các nhân vật dùng ô đầu của `targetSlots(MAX_CLICK_TARGETS, seed + 1)`, ô còn lại là chỗ trùm nhảy tới; tổng số nhân vật + số lần nhảy ≤ 8.
+- Gấu mèo mang món đồ nhỏ ở góc (`.mission-loot`); bắt xong nút có `data-state="done"` và nhãn “Đã lấy lại <món>”. Click lại món đã lấy, chỗ trốn rỗng hoặc chỗ trốn để nhìn không tính sai.
+- Click bạn tốt là một attempt sai, hint “Thử lại nhé! Đó là <bạn>, bạn tốt đấy. Bắt gấu mèo trộm nhé.” (nhiệm vụ 5: “Bắt trùm Gấu Mèo nhé.”). Click nền là attempt sai không hint.
+- Nhiệm vụ 3: chỗ trốn (`data-kind="hideout"`, viền nét đứt, nhãn “Tìm trong <chỗ>”) click để mở; có gấu mèo thì hiện gấu mèo để click bắt, rỗng thì mờ đi (`data-state="empty"`, nhãn “<chỗ> không có ai”).
+- Nhiệm vụ 5: số trên trùm là số lần trúng còn lại; mỗi lần trúng (chưa đủ) trùm nhảy sang một ô trống khác — chỉ đổi chỗ sau click, không có hẹn giờ.
+- Outcome `{ correct: số gấu mèo × số lần trúng cần, attempts: correct + số lần sai }`. `data-assist` trên gấu mèo đang hiện chưa bắt; nhiệm vụ 3 khi chưa thấy gấu mèo thì trên chỗ trốn có gấu mèo.
+- Cảnh nền vẽ đất sét 1280×720 `src/assets/art/scene-<park|market|hide|small|boss>.webp` phủ `.click-play-area[data-scene]` (`background-size: cover`); nhân vật vẫn nằm trong đĩa tròn để nổi trên nền. Hình 🦝 🦹 🗑️ 🍪 💎 🌿 trong `src/assets/art/play/`, icon 5 bài trong `src/assets/art/mission-*.webp`.
+
 ## Game framework contract
 
 ```ts
@@ -309,8 +334,9 @@ Kho và cách chọn mục (mọi game chọn lượt bằng `pickRound`, trừ 
 | count-keys | số lượng 1–9, 10 loại emoji | 9 | số lượng chỉ xáo thứ tự |
 | drill-* (8 bộ) | 11–12 mục mỗi bộ (`DRILL_SETS`) | 6 | không dùng `level` |
 | mouse-* (8 bộ) | 8–13 mục mỗi bộ (`MOUSE_DRILL_SETS`) | 6 | không dùng `level`; vị trí hình / thứ tự món xáo theo seed |
+| mission-* (5 bộ) | 8 bạn tốt, 8 món đồ, 5 chỗ trốn (`MISSION_SETS`) | 6 | không dùng `level`; vị trí, bạn tốt, món đồ xáo theo seed |
 
-Assist dùng một cơ chế chung cho cả 28 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
+Assist dùng một cơ chế chung cho cả 33 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
 
 - Level 0: chưa có lỗi, không trợ giúp.
 - Level 1 (sau 2 lần sai liên tiếp): target được viền nổi bật, guide tự mở và hint cụ thể được đọc bằng giọng.
@@ -382,7 +408,7 @@ Dùng Web Audio API tạo tone ngắn tại runtime để tránh quản lý asse
 ## UX rules
 
 - Một hành động chính trên mỗi màn hình; Home ưu tiên `Chơi ngay` và màn hình kết quả ưu tiên `Bài tiếp theo`.
-- Target click/kéo nhìn thấy tối thiểu 72 x 72 CSS px; hit area có thể lớn hơn để giảm yêu cầu chính xác ở trẻ mới dùng chuột. Ngoại lệ có chủ đích ở bộ chuột nâng cao: hình 56px (game 23) và chấm 44px trong vùng nhận 68px (game 25).
+- Target click/kéo nhìn thấy tối thiểu 72 x 72 CSS px; hit area có thể lớn hơn để giảm yêu cầu chính xác ở trẻ mới dùng chuột. Ngoại lệ có chủ đích ở bộ chuột nâng cao: hình 56px (game 23 và 32) và chấm 44px trong vùng nhận 68px (game 25).
 - Guided Play đọc intro một lần khi vào bài; sau hai lỗi liên tiếp mở hướng dẫn và đọc lại hint cụ thể.
 - Trợ giúp tăng dần: hint → guide + speech → target/drop zone nổi bật hoặc dễ trúng hơn (xem `data-assist` ở phần Game framework contract).
 - Font lớn; game prompt là nội dung nổi bật nhất: prompt tối thiểu 44 px, lớn hơn tiêu đề bài (28 px). Game click và rê chuột cũng có prompt.
@@ -446,7 +472,8 @@ Mỗi mini-game có test (`src/games/*Game.test.tsx`) cho:
 - kéo nhiều món: một chỗ / hai chỗ, thả ngoài tính sai, assist chỗ thả — `MultiDragGame.test.tsx`
 
 Framework và UI chung:
-- `data-assist` 0/1/2 trên target thật của cả 28 game — `src/games/assist.test.tsx`
+- nhiệm vụ bắt trộm: số nhân vật vừa ô, có cảnh và hình vẽ, bắt trộm → món đồ, bạn tốt tính sai kèm hint, mở chỗ trốn không tính sai, trùm nhảy 3 chỗ khác nhau — `src/games/MissionGame.test.tsx`
+- `data-assist` 0/1/2 trên target thật của cả 33 game — `src/games/assist.test.tsx`
 - `Nghe yêu cầu` đọc mục tiêu lượt — `src/components/ListenButton.test.tsx`
 - GameShell: assist level theo số lần sai, đọc intro/hint, guide, lượt ôn, không ôn trong quick session — `src/game/GameShell.test.tsx`
 - Progress: gợi ý `Chơi <bài>` và sao — `src/screens/ProgressScreen.test.tsx`
@@ -463,11 +490,11 @@ Framework và UI chung:
 
 MVP hoàn thành khi:
 
-1. Cả 28 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
+1. Cả 33 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
 2. Một session không dùng countdown; Guided Play mặc định tối đa 5 lượt, còn Lộ trình/Chơi tự do giữ số lượt đầy đủ của game.
 3. Hoàn thành game tạo 1-3 sao và lưu được vào localStorage.
 4. Reload giữ lại best stars và trạng thái hoàn thành.
-5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 28 game. Tổng sao tối đa 84 (`gameRegistry.length * 3`).
+5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 33 game. Tổng sao tối đa 99 (`gameRegistry.length * 3`).
 6. Speech có nút nghe lại và app vẫn dùng được nếu speech unavailable.
 7. Sai thao tác không đưa bé vào failure screen.
 8. Build production và toàn bộ Vitest test suite pass.

@@ -17,7 +17,9 @@ import { createDoubleClickGame } from '../games/DoubleClickGame';
 import { MOUSE_DRILL_SETS, type MouseDrillSet } from '../games/mouseDrills';
 import { createMultiClickGame } from '../games/MultiClickGame';
 import { createMultiDragGame } from '../games/MultiDragGame';
-import { GAME_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS, type BasicGameId, type GameDefinition, type GameId, type MiniGameProps, type MouseDrillId, type TypingDrillId } from './types';
+import { MISSION_SETS } from '../games/missions';
+import { createMissionGame } from '../games/MissionGame';
+import { GAME_IDS, MISSION_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS, type BasicGameId, type GameDefinition, type GameId, type MiniGameProps, type MissionId, type MouseDrillId, type TypingDrillId } from './types';
 
 type GameMeta = Omit<GameDefinition, 'id' | 'order'>;
 
@@ -61,7 +63,15 @@ const MOUSE_DRILL_GAME_DEFINITIONS = Object.fromEntries(
   }),
 ) as Record<MouseDrillId, GameMeta>;
 
-const GAME_DEFINITIONS: Record<GameId, GameMeta> = { ...BASIC_GAME_DEFINITIONS, ...DRILL_GAME_DEFINITIONS, ...MOUSE_DRILL_GAME_DEFINITIONS };
+const MISSION_GAME_DEFINITIONS = Object.fromEntries(
+  MISSION_IDS.map((id) => {
+    const set = MISSION_SETS[id];
+    const meta: GameMeta = { title: set.title, category: 'mouse', rounds: set.rounds, intro: set.intro, emoji: set.emoji, component: createMissionGame(set) };
+    return [id, meta];
+  }),
+) as Record<MissionId, GameMeta>;
+
+const GAME_DEFINITIONS: Record<GameId, GameMeta> = { ...BASIC_GAME_DEFINITIONS, ...DRILL_GAME_DEFINITIONS, ...MOUSE_DRILL_GAME_DEFINITIONS, ...MISSION_GAME_DEFINITIONS };
 
 export const gameRegistry: GameDefinition[] = GAME_IDS.map((id, index) => ({
   id,

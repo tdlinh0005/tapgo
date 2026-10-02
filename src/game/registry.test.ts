@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { DRILL_SETS } from '../games/drills';
 import LetterKeyGame from '../games/LetterKeyGame';
 import { MOUSE_DRILL_SETS } from '../games/mouseDrills';
-import { MOUSE_DRILL_IDS, TYPING_DRILL_IDS } from './types';
+import { MISSION_SETS } from '../games/missions';
+import { MISSION_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS } from './types';
 import { gameRegistry } from './registry';
 
 describe('game registry', () => {
@@ -36,6 +37,11 @@ describe('game registry', () => {
       'mouse-drag-many',
       'mouse-drag-groups',
       'mouse-hold-trail',
+      'mission-park',
+      'mission-market',
+      'mission-hide',
+      'mission-small',
+      'mission-boss',
     ]);
   });
 
@@ -54,6 +60,15 @@ describe('game registry', () => {
       expect(game.category).toBe('mouse');
       expect(game.title).toBe(MOUSE_DRILL_SETS[id].title);
       expect(game.intro).toBe(MOUSE_DRILL_SETS[id].intro);
+      expect(game.rounds).toBe(6);
+    }
+  });
+
+  it('registers every police mission as a mouse game built from its set', () => {
+    for (const id of MISSION_IDS) {
+      const game = gameRegistry.find((entry) => entry.id === id)!;
+      expect(game.category).toBe('mouse');
+      expect(game.title).toBe(MISSION_SETS[id].title);
       expect(game.rounds).toBe(6);
     }
   });
