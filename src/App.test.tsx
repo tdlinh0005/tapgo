@@ -62,7 +62,7 @@ describe('App navigation', () => {
 
     await user.click(screen.getByRole('button', { name: 'Chơi tự do' }));
     expect(screen.getByRole('heading', { name: 'Chơi tự do' })).toBeInTheDocument();
-    expect(screen.getAllByTestId('game-card')).toHaveLength(43);
+    expect(screen.getAllByTestId('game-card')).toHaveLength(48);
     expect(screen.getByRole('button', { name: /Gõ số/ })).toBeEnabled();
   });
 
@@ -90,7 +90,7 @@ describe('App navigation', () => {
 
     render(<App />);
     await user.click(screen.getByRole('button', { name: 'Tiến độ' }));
-    expect(screen.getByText('2 / 129 sao')).toBeInTheDocument();
+    expect(screen.getByText('2 / 144 sao')).toBeInTheDocument();
   });
 
   it('resets saved progress from the progress screen after a confirm', async () => {
@@ -102,7 +102,7 @@ describe('App navigation', () => {
     await user.click(screen.getByRole('button', { name: /Bắt đầu lại từ đầu/ }));
     await user.click(screen.getByRole('button', { name: 'Xoá hết, bắt đầu lại' }));
 
-    expect(screen.getByText('0 / 129 sao')).toBeInTheDocument();
+    expect(screen.getByText('0 / 144 sao')).toBeInTheDocument();
     expect(JSON.parse(localStorage.getItem(PROGRESS_KEY)!)).toEqual(createDefaultProgress());
 
     await user.click(screen.getByRole('button', { name: 'Về nhà' }));

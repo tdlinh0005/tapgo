@@ -31,7 +31,39 @@ export type PaintColor = { id: string; name: string; fill: string };
 export type PaintRegion = { name: string; color: string; d: string };
 export type PaintPicture = { name: string; regions: readonly PaintRegion[]; details?: readonly string[] };
 export type PaintSet = FunMeta & { kind: 'paint'; scene: string; colors: readonly PaintColor[]; pictures: readonly PaintPicture[] };
-export type FunSet = PopKeysSet | MemorySet | PuzzleSet | MultiDragSet | PianoSet | TrainSet | MoleSet | ShadowSet | PaintSet;
+/** A text box holds the name with wrong letters at the end; Backspace erases them, and from round `retype` true the child types the rest again. */
+export type EraserSet = FunMeta & {
+  kind: 'eraser';
+  scene: string;
+  pools: readonly (readonly TrainWord[])[];
+  wrongCounts: readonly number[];
+  retype: readonly boolean[];
+};
+export type ScrollStart = 'top' | 'bottom';
+/** A sea taller than its box; the child scrolls `depths[round]` screens to find one friend among `decoys[round]` others. */
+export type ScrollSet = FunMeta & {
+  kind: 'scroll';
+  friends: readonly NamedPicture[];
+  depths: readonly number[];
+  decoys: readonly number[];
+  starts: readonly ScrollStart[];
+};
+export type GridCell = readonly [column: number, row: number];
+export type ArrowMaze = { start: GridCell; goal: GridCell; trees: readonly GridCell[] };
+/** Arrow keys walk a mover across a grid to its goal, around trees. */
+export type ArrowsSet = FunMeta & { kind: 'arrows'; scene: string; columns: number; rows: number; mazes: readonly ArrowMaze[] };
+export type WindowSize = 'medium' | 'small';
+/** Pop-up windows cover a picture; clicking each ✕ closes it. Overlapping windows close from the top one down. */
+export type CloseSet = FunMeta & {
+  kind: 'close';
+  pictures: readonly PuzzlePicture[];
+  windowCounts: readonly number[];
+  sizes: readonly WindowSize[];
+  overlaps: readonly boolean[];
+};
+/** A real search box: click into it, type the name, press Enter. */
+export type SearchSet = FunMeta & { kind: 'search'; scene: string; pools: readonly (readonly TrainWord[])[] };
+export type FunSet = PopKeysSet | MemorySet | PuzzleSet | MultiDragSet | PianoSet | TrainSet | MoleSet | ShadowSet | PaintSet | EraserSet | ScrollSet | ArrowsSet | CloseSet | SearchSet;
 
 const FUN_ROUNDS = 6;
 
@@ -214,6 +246,35 @@ export const PAINT_PICTURES = [
   },
 ] as const satisfies readonly PaintPicture[];
 
+/** The red wrong letters; each round only uses the ones its word does not contain. */
+export const ERASER_WRONG_LETTERS = ['X', 'Q', 'Z', 'K', 'P', 'Y'] as const;
+
+export const SEA_FRIENDS = [
+  { emoji: '🐟', name: 'bạn cá' },
+  { emoji: '🐠', name: 'bạn cá sọc' },
+  { emoji: '🐡', name: 'bạn cá nóc' },
+  { emoji: '🐙', name: 'bạn bạch tuộc' },
+  { emoji: '🦀', name: 'bạn cua' },
+  { emoji: '🐬', name: 'bạn cá heo' },
+  { emoji: '🐢', name: 'bạn rùa' },
+] as const satisfies readonly NamedPicture[];
+
+export const ARROW_MAZES = [
+  { start: [0, 1], goal: [3, 1], trees: [] },
+  { start: [2, 0], goal: [2, 3], trees: [] },
+  { start: [0, 0], goal: [3, 2], trees: [] },
+  { start: [5, 3], goal: [2, 0], trees: [] },
+  { start: [0, 2], goal: [4, 2], trees: [[2, 2]] },
+  { start: [0, 0], goal: [5, 3], trees: [[1, 0], [1, 1], [3, 2], [3, 3]] },
+] as const satisfies readonly ArrowMaze[];
+
+export const SEARCH_TWO_WORDS = [
+  { word: 'GA CON', emoji: '🐥', name: 'gà con' },
+  { word: 'MEO CON', emoji: '🐱', name: 'mèo con' },
+  { word: 'CHO CON', emoji: '🐶', name: 'chó con' },
+  { word: 'CA VANG', emoji: '🐠', name: 'cá vàng' },
+] as const satisfies readonly TrainWord[];
+
 export const FUN_SETS: Record<FunId, FunSet> = {
   'fun-balloon': {
     kind: 'pop-keys',
@@ -322,5 +383,58 @@ export const FUN_SETS: Record<FunId, FunSet> = {
     scene: 'paint',
     colors: PAINT_COLORS,
     pictures: PAINT_PICTURES,
+  },
+  'fun-eraser': {
+    kind: 'eraser',
+    title: 'Vui chơi 11 · Xoá chữ gõ nhầm',
+    intro: 'Ô chữ bị gõ nhầm rồi! Bấm phím Backspace ← để xoá chữ sai màu đỏ, rồi gõ lại cho đúng nhé.',
+    emoji: '⌫',
+    rounds: FUN_ROUNDS,
+    scene: 'memory',
+    pools: [TRAIN_WORDS_3, TRAIN_WORDS_3, TRAIN_WORDS_2, TRAIN_WORDS_3, TRAIN_WORDS_3, TRAIN_WORDS_4],
+    wrongCounts: [1, 2, 1, 1, 2, 2],
+    retype: [false, false, true, true, true, true],
+  },
+  'fun-scroll': {
+    kind: 'scroll',
+    title: 'Vui chơi 12 · Lặn biển tìm bạn',
+    intro: 'Biển sâu lắm! Lăn bánh xe chuột để lặn xuống tìm bạn, thấy bạn thì click vào nhé.',
+    emoji: '🐠',
+    rounds: FUN_ROUNDS,
+    friends: SEA_FRIENDS,
+    depths: [1, 2, 2, 2, 3, 3],
+    decoys: [0, 0, 1, 1, 2, 2],
+    starts: ['top', 'top', 'top', 'bottom', 'top', 'bottom'],
+  },
+  'fun-arrows': {
+    kind: 'arrows',
+    title: 'Vui chơi 13 · Mũi tên dẫn đường',
+    intro: 'Bấm các phím mũi tên ← ↑ → ↓ để dẫn bạn nhỏ đi tới đích, nhớ tránh cây nhé!',
+    emoji: '🧭',
+    rounds: FUN_ROUNDS,
+    scene: 'garden',
+    columns: 6,
+    rows: 4,
+    mazes: ARROW_MAZES,
+  },
+  'fun-close': {
+    kind: 'close',
+    title: 'Vui chơi 14 · Đóng cửa sổ',
+    intro: 'Cửa sổ che mất bức tranh rồi! Click vào dấu ✕ ở góc trên để đóng từng cửa sổ nhé.',
+    emoji: '🪟',
+    rounds: FUN_ROUNDS,
+    pictures: PUZZLE_PICTURES,
+    windowCounts: [1, 2, 2, 3, 3, 4],
+    sizes: ['medium', 'medium', 'small', 'medium', 'small', 'small'],
+    overlaps: [false, false, false, true, true, true],
+  },
+  'fun-search': {
+    kind: 'search',
+    title: 'Vui chơi 15 · Ô tìm kiếm',
+    intro: 'Click vào ô tìm kiếm, gõ tên bạn thú rồi bấm Enter để tìm nhé!',
+    emoji: '🔍',
+    rounds: FUN_ROUNDS,
+    scene: 'park',
+    pools: [TRAIN_WORDS_2, TRAIN_WORDS_2, TRAIN_WORDS_3, TRAIN_WORDS_3, TRAIN_WORDS_4, SEARCH_TWO_WORDS],
   },
 };

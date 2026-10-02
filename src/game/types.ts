@@ -56,6 +56,11 @@ export const FUN_IDS = [
   'fun-mole',
   'fun-shadow',
   'fun-paint',
+  'fun-eraser',
+  'fun-scroll',
+  'fun-arrows',
+  'fun-close',
+  'fun-search',
 ] as const;
 
 export const ADVANCED_GAME_IDS = [...TYPING_DRILL_IDS, ...MOUSE_DRILL_IDS, ...MISSION_IDS, ...FUN_IDS] as const;

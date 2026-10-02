@@ -53,6 +53,11 @@ describe('game registry', () => {
       'fun-mole',
       'fun-shadow',
       'fun-paint',
+      'fun-eraser',
+      'fun-scroll',
+      'fun-arrows',
+      'fun-close',
+      'fun-search',
     ]);
   });
 
@@ -84,14 +89,14 @@ describe('game registry', () => {
     }
   });
 
-  it('registers fun park games as keyboard for keys, piano and train and mouse for the rest', () => {
+  it('registers fun park games as keyboard for keys, piano, train, eraser, arrows and search and mouse for the rest', () => {
     for (const id of FUN_IDS) {
       const game = gameRegistry.find((entry) => entry.id === id)!;
       expect(game.category).toBe(KEYBOARD_FUN_KINDS.includes(FUN_SETS[id].kind) ? 'keyboard' : 'mouse');
       expect(game.title).toBe(FUN_SETS[id].title);
       expect(game.rounds).toBe(6);
     }
-    expect(gameRegistry.filter((game) => FUN_IDS.includes(game.id as never) && game.category === 'keyboard').map((game) => game.id)).toEqual(['fun-balloon', 'fun-fishing', 'fun-piano', 'fun-train']);
+    expect(gameRegistry.filter((game) => FUN_IDS.includes(game.id as never) && game.category === 'keyboard').map((game) => game.id)).toEqual(['fun-balloon', 'fun-fishing', 'fun-piano', 'fun-train', 'fun-eraser', 'fun-arrows', 'fun-search']);
   });
 
   it('uses the real letter game for the first entry', () => {

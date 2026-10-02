@@ -69,7 +69,8 @@ describe('path unlock', () => {
     expect(getNextGameId('mouse-hold-trail')).toBe('mission-park');
     expect(getNextGameId('mission-boss')).toBe('fun-balloon');
     expect(getNextGameId('fun-puzzle')).toBe('fun-piano');
-    expect(getNextGameId('fun-paint')).toBeNull();
-    expect(PATH_ORDER.at(-1)).toBe('fun-paint');
+    expect(getNextGameId('fun-paint')).toBe('fun-eraser');
+    expect(getNextGameId('fun-search')).toBeNull();
+    expect(PATH_ORDER.at(-1)).toBe('fun-search');
   });
 });

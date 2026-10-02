@@ -11,6 +11,8 @@
   --color-muted: #687078;
   --color-border: #cfd3dc;
   --color-focus: #f59e0b;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fee2e2;
   --color-keyboard: #fb923c;
   --color-keyboard-soft: #ffedd5;
   --color-keyboard-strong: #c2410c;
@@ -44,6 +46,7 @@
   --key-depth: 10px;
   --key-depth-sm: 6px;
   --shadow-key-drop: 0 18px 28px rgb(32 33 36 / 16%);
+  --space-xs: 6px;
   --space-sm: 12px;
   --space-md: 24px;
   --space-lg: 32px;
