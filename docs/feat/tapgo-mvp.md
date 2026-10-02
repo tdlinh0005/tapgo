@@ -1,10 +1,10 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-02 · f544718
+> updated 2026-10-02 · fb481d8
 
 ## Goal
 
-Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 38 mini-game ngắn (12 bài cơ bản + 8 bộ đề gõ nâng cao + 8 bộ chuột nâng cao + 5 nhiệm vụ bắt trộm + 5 trò vui chơi), vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
+Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen với bàn phím và chuột thông qua 43 mini-game ngắn (12 bài cơ bản + 8 bộ đề gõ nâng cao + 8 bộ chuột nâng cao + 5 nhiệm vụ bắt trộm + 10 trò vui chơi), vui, ít chữ, phản hồi tích cực và không gây áp lực thời gian.
 
 ## Product decisions đã chốt
 
@@ -26,7 +26,7 @@ Tạo một web app desktop đơn giản cho trẻ khoảng 6 tuổi làm quen v
 
 ### Giữ
 
-`GameShell` là đúng abstraction boundary vì cả 38 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
+`GameShell` là đúng abstraction boundary vì cả 43 game đều cần chung hướng dẫn, tiến độ lượt, phản hồi đúng/sai, tính sao, hoàn thành và lưu tiến độ.
 
 ### Sửa
 
@@ -44,9 +44,9 @@ App
 │   ├── Chơi tự do
 │   └── Tiến độ
 ├── Learning Path
-│   └── 38 bài theo thứ tự (12 cơ bản, rồi 8 gõ nâng cao, rồi 8 chuột nâng cao, rồi 5 nhiệm vụ bắt trộm, rồi 5 trò vui chơi)
+│   └── 43 bài theo thứ tự (12 cơ bản, rồi 8 gõ nâng cao, rồi 8 chuột nâng cao, rồi 5 nhiệm vụ bắt trộm, rồi 10 trò vui chơi)
 ├── Free Play
-│   └── 38 game luôn mở
+│   └── 43 game luôn mở
 ├── Game
 │   └── GameShell + MiniGame
 └── Progress
@@ -59,7 +59,7 @@ App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì �
 
 ## Learning path
 
-Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 38 game luôn mở. Từ Home, `Chơi ngay` (và `Bài tiếp theo` trong Guided Play, loại trừ bài vừa chơi) chọn theo thứ tự `getRecommendedGameId` (`src/game/path.ts`): game đầu tiên chưa hoàn thành theo lộ trình (cơ bản trước, rồi gõ nâng cao 1→8, rồi chuột nâng cao 1→8, rồi nhiệm vụ 1→5, rồi vui chơi 1→5) → bài nâng cao (gõ, chuột, nhiệm vụ hoặc vui chơi) đầu tiên chưa đạt 3 sao → game bất kỳ đầu tiên chưa đạt 3 sao → bài nâng cao đầu tiên (`drill-home-row`).
+Trong màn hình Lộ trình, game 1 mở sẵn. Game N được mở khi game N-1 đã hoàn thành ít nhất một lần. Trong Chơi tự do, cả 43 game luôn mở. Từ Home, `Chơi ngay` (và `Bài tiếp theo` trong Guided Play, loại trừ bài vừa chơi) chọn theo thứ tự `getRecommendedGameId` (`src/game/path.ts`): game đầu tiên chưa hoàn thành theo lộ trình (cơ bản trước, rồi gõ nâng cao 1→8, rồi chuột nâng cao 1→8, rồi nhiệm vụ 1→5, rồi vui chơi 1→10) → bài nâng cao (gõ, chuột, nhiệm vụ hoặc vui chơi) đầu tiên chưa đạt 3 sao → game bất kỳ đầu tiên chưa đạt 3 sao → bài nâng cao đầu tiên (`drill-home-row`).
 
 Thứ tự:
 
@@ -101,10 +101,15 @@ Thứ tự:
 36. Vui chơi 3 · Lật thẻ tìm cặp
 37. Vui chơi 4 · Cho thú ăn
 38. Vui chơi 5 · Ghép tranh
+39. Vui chơi 6 · Đàn piano nhí
+40. Vui chơi 7 · Tàu chở chữ
+41. Vui chơi 8 · Chuột chũi ló đầu
+42. Vui chơi 9 · Tìm bóng con vật
+43. Vui chơi 10 · Tô màu tranh
 
-`src/game/types.ts`: `BASIC_GAME_IDS` (1–12), `TYPING_DRILL_IDS` (13–20), `MOUSE_DRILL_IDS` (21–28), `MISSION_IDS` (29–33), `FUN_IDS` (34–38); `ADVANCED_GAME_IDS` = gõ, chuột, nhiệm vụ rồi vui chơi (13–38); `GAME_IDS` = cơ bản rồi nâng cao.
+`src/game/types.ts`: `BASIC_GAME_IDS` (1–12), `TYPING_DRILL_IDS` (13–20), `MOUSE_DRILL_IDS` (21–28), `MISSION_IDS` (29–33), `FUN_IDS` (34–43); `ADVANCED_GAME_IDS` = gõ, chuột, nhiệm vụ rồi vui chơi (13–43); `GAME_IDS` = cơ bản rồi nâng cao.
 
-Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`) để không khoá lại bài của bé đang chơi dở; `normalizeProgress` điền game mới rỗng cho tiến độ cũ. Màn Lộ trình xếp 5 trạm mỗi hàng, số hàng tăng theo số game.
+Game mới chỉ nối vào cuối `GAME_IDS` (`PATH_ORDER = GAME_IDS`, hiện kết thúc ở `fun-paint`) để không khoá lại bài của bé đang chơi dở; `normalizeProgress` điền game mới rỗng cho tiến độ cũ. Màn Lộ trình xếp 5 trạm mỗi hàng, số hàng tăng theo số game.
 
 ## Mini-game definitions
 
@@ -255,9 +260,9 @@ Chủ đề “cảnh sát nhí”: gấu mèo đeo mặt nạ (🦝 `gấu mèo
 - Outcome `{ correct: số gấu mèo × số lần trúng cần, attempts: correct + số lần sai }`. `data-assist` trên gấu mèo đang hiện chưa bắt; nhiệm vụ 3 khi chưa thấy gấu mèo thì trên chỗ trốn có gấu mèo.
 - Cảnh nền vẽ đất sét 1280×720 `src/assets/art/scene-<park|market|hide|small|boss>.webp` phủ `.click-play-area[data-scene]` (`background-size: cover`); nhân vật vẫn nằm trong đĩa tròn để nổi trên nền. Hình 🦝 🦹 🗑️ 🍪 💎 🌿 trong `src/assets/art/play/`, icon 5 bài trong `src/assets/art/mission-*.webp`.
 
-### 34–38. Công viên vui chơi (`fun-*`)
+### 34–43. Công viên vui chơi (`fun-*`)
 
-Năm trò chơi vui, mỗi trò có cảnh nền đất sét riêng, không đếm giờ. Dữ liệu trong `FUN_SETS` (`src/games/funGames.ts`); mỗi bộ 6 lượt, bỏ qua `level`. Registry chọn factory theo `kind`: `pop-keys` → `createPopKeysGame` (`category: 'keyboard'`), `memory` → `createMemoryGame`, `puzzle` → `createPuzzleGame`, `multi-drag` → `createMultiDragGame` (`category: 'mouse'`).
+Mười trò chơi vui, mỗi trò có cảnh nền đất sét riêng, không đếm giờ. Dữ liệu trong `FUN_SETS` (`src/games/funGames.ts`); mỗi bộ 6 lượt, bỏ qua `level`. Registry chọn factory theo `kind`: `pop-keys` → `createPopKeysGame`, `piano` → `createPianoGame`, `train` → `createTrainGame` (`category: 'keyboard'`, `KEYBOARD_FUN_KINDS`); `memory` → `createMemoryGame`, `puzzle` → `createPuzzleGame`, `multi-drag` → `createMultiDragGame`, `mole` → `createMoleGame`, `shadow` → `createShadowGame`, `paint` → `createPaintGame` (`category: 'mouse'`).
 
 | # | id | Tên | Cảnh | Lượt chơi |
 | --- | --- | --- | --- | --- |
@@ -266,12 +271,22 @@ Năm trò chơi vui, mỗi trò có cảnh nền đất sét riêng, không đ�
 | 36 | `fun-memory` | Vui chơi 3 · Lật thẻ tìm cặp | bàn chơi | 3 / 4 cặp thẻ (6 / 8 thẻ) từ 10 bạn thú `MEMORY_ITEMS` |
 | 37 | `fun-feed` | Vui chơi 4 · Cho thú ăn | trang trại | 4 món ăn cho 2 bạn thú (`FEED_GROUPS`, 6 cặp `FEED_PAIRS`) |
 | 38 | `fun-puzzle` | Vui chơi 5 · Ghép tranh | — | 4 mảnh của 1 trong 6 tranh `PUZZLE_PICTURES` |
+| 39 | `fun-piano` | Vui chơi 6 · Đàn piano nhí | sân khấu (`stage`) | 1 trong 6 bài `PIANO_TUNES` (6–8 nốt) trên 7 phím A S D F G H J (`PIANO_NOTES`, Đô → Si) |
+| 40 | `fun-train` | Vui chơi 7 · Tàu chở chữ | đường ray (`rail`) | 1 tên con vật viết không dấu, mỗi toa một chữ: lượt 1–2 hai chữ (`TRAIN_WORDS_2`, 5 từ), lượt 3–5 ba chữ (`TRAIN_WORDS_3`, 12 từ), lượt 6 bốn chữ (`TRAIN_WORDS_4`, 3 từ) |
+| 41 | `fun-mole` | Vui chơi 8 · Chuột chũi ló đầu | khu vườn (`garden`) | 6 hang; lượt 1–6 lần lượt 3, 4, 4, 5, 5, 5 chuột chũi; bạn thỏ từ lượt 3 |
+| 42 | `fun-shadow` | Vui chơi 9 · Tìm bóng con vật | `shadow` | 3 bạn thú (lượt 1–3) / 4 bạn thú (lượt 4–6) từ 12 `SHADOW_ITEMS` |
+| 43 | `fun-paint` | Vui chơi 10 · Tô màu tranh | `paint` | 1 trong 6 tranh nét `PAINT_PICTURES` (3–4 vùng), bảng 8 màu `PAINT_COLORS` |
 
 - **Bóng bay / câu cá (34–35):** hình nổi nhẹ lên xuống (`tapgo-float`, đứng yên khi giảm chuyển động) tại ô `targetSlots`, mỗi hình mang một phím (`.pop-key`); bóng đổi màu bằng `hue-rotate`. Bấm phím có trên hình (không phân biệt hoa/thường, theo thứ tự bất kỳ) thì hình đổi thành ✨ / 🪣. Phím không có trên hình là một attempt sai, hint “Thử lại nhé! Bấm một chữ có trên quả bóng nhé.”; bấm lại phím đã xong và phím cách không tính. Outcome `{ correct: số hình, attempts: số hình + số lần sai }`; `data-assist` trên hình đầu tiên chưa xong.
 - **Lật thẻ (36):** thẻ úp mặt sau `play/card-back`; click lật hai thẻ, giống nhau thì thành `data-state="matched"`. Cặp sai vẫn mở cho tới click kế tiếp (không hẹn giờ). Outcome `memoryOutcome(cặp, lần sai)` = `{ correct: cặp, attempts: cặp + max(0, lần sai − cặp) }` vì bé cần lật thử để nhớ; hint “Nhớ chỗ các hình đã lật nhé.” chỉ khi số lần sai vượt số cặp. `data-assist` trên thẻ cùng cặp với thẻ đang mở, hoặc thẻ đầu tiên chưa ghép.
 - **Cho thú ăn (37):** dùng lại `MultiDragGame` với `prompt` “Cho mỗi bạn món bạn thích” và `scene: 'farm'` (`.drag-game[data-scene]`); luật thả như game 27.
 - **Ghép tranh (38):** khay 2×2 mảnh (mỗi mảnh một góc tranh 640×640, `background-size: 200%`) xáo theo seed; khung 2×2 có tranh mờ (`.puzzle-ghost`, opacity 0.25). Thả đúng ô thì mảnh nằm vào khung, sai thì về khay, hint “Thử lại nhé! Nhìn hình mờ để tìm chỗ của mảnh này nhé.”; snap theo bán kính như game 9–10. Outcome `{ correct: 4, attempts: số lần thả }`; `data-assist` trên ô của mảnh kế tiếp trong khay.
-- Hình vẽ: cảnh 1280×720 `src/assets/art/scene-<sky|pond|farm|memory>.webp`, 6 tranh 640×640 `src/assets/art/puzzle-1..6.webp`, icon `src/assets/art/fun-*.webp`, hình trong lượt 🥬 🍖 🍯 🌾 ✨ 🪣 🐡 🎣 và mặt sau thẻ trong `src/assets/art/play/`.
+- **Đàn piano (39):** 7 phím trên màn hình, mỗi phím có chữ, tên nốt và dải màu riêng (`hue-rotate` 45° mỗi phím); dải nốt phía trên hiện chữ của cả bài, nốt đã đàn màu xanh, nốt kế tiếp và phím của nó sáng. Bấm phím đang sáng (không phân biệt hoa/thường) thì phát nốt đó (`playNote`, một tiếng 420ms, im lặng khi không có audio) và 🎵 bay lên từ phím vừa bấm. Phím đàn chưa sáng chỉ phát nốt của nó cho bé thử, không tính sai và không tiến bài; phím một ký tự ngoài 7 phím đàn là một attempt sai, hint “Thử lại nhé! Bấm phím X đang sáng nhé.”; phím cách, giữ phím (repeat) và tổ hợp Ctrl/Alt/Meta bị bỏ qua. Assist mức 2 phóng to phím đang sáng và tô nền `--color-primary-soft`. Outcome `{ correct: số nốt, attempts: số nốt + số lần sai }`; `data-assist` trên phím đang sáng.
+- **Tàu chở chữ (40):** đầu tàu 🚂 với một toa (`play/wagon`) cho mỗi chữ, bạn thú ngồi trên tàu; prompt “Gõ tên con …”, `Nghe yêu cầu` đọc tên rồi từng chữ. Gõ lần lượt từng chữ (không phân biệt hoa/thường) qua `useKeySequence`; toa đã gõ thành `data-state="done"` màu xanh, toa kế tiếp sáng. Gõ sai chữ là một attempt sai, hint “Thử lại nhé! Gõ chữ X trên toa đang sáng nhé.”; phím cách bị nuốt, không tính sai. Outcome `{ correct: số chữ, attempts: số chữ + số lần sai }`; `data-assist` trên toa kế tiếp.
+- **Chuột chũi (41):** 6 hang xếp 3×2; mỗi lúc chỉ một chuột chũi ló đầu và chờ tới khi được click (không hẹn giờ); click trúng thì hang đó hiện ⭐ và chuột chũi ló ở hang kế tiếp (`moleLayout` xáo theo seed, không lặp hang). Từ lượt 3 (`friendFrom: 2`), bạn thỏ 🐰 ló ở một hang mà chuột chũi không bao giờ tới và đổi hang sau mỗi lần bắt (lượt có 5 chuột chũi chỉ còn 1 hang trống nên bạn thỏ đứng yên). Click bạn thỏ là sai, hint “Thử lại nhé! Đó là bạn thỏ. Click bạn chuột chũi nhé.”; click hang trống là sai, hint “Thử lại nhé! Click bạn chuột chũi đang ló đầu nhé.”; click hang đã có sao không tính. Outcome `{ correct: số chuột chũi, attempts: số chuột chũi + số lần sai }`; `data-assist` trên chuột chũi đang ló.
+- **Tìm bóng (42):** khay các bạn thú và một hàng bóng (chính hình đó với `brightness(0)`, opacity 0.3) xếp theo thứ tự xáo khác. Kéo bạn thú vào đúng bóng thì bóng hiện hình màu, khay để lại ô trống cùng cỡ (`multi-drag-slot`, như game 26–27); thả vào bóng khác hoặc ra ngoài thì về khay, hint “Thử lại nhé! Nhìn hình dáng của <tên> để tìm đúng cái bóng nhé.”; snap theo bán kính như game 9–10. Outcome `{ correct: số bạn thú, attempts: số lần thả }`; `data-assist` trên bóng của bạn thú đầu tiên còn trong khay.
+- **Tô màu (43):** tranh nét SVG 200×200 để trắng cạnh hình mẫu nhỏ đã tô màu, bảng 8 màu. Click một màu để chọn (`aria-pressed`), rồi click một vùng: đúng màu mẫu thì vùng được tô; sai màu là một attempt sai, hint “Thử lại nhé! Nhìn hình mẫu nhé: <vùng> màu <màu>.”. Click vùng khi chưa chọn màu chỉ gọi `onRetry` với hint “Thử lại nhé! Click chọn một màu trước nhé.”, không tính vào attempts. Tô theo thứ tự bất kỳ; vùng đã tô bỏ qua click; nét chi tiết (mắt cá, dây bóng) không nhận click; mỗi vùng focus được bằng Tab và tô bằng Enter/Space. Outcome `{ correct: số vùng, attempts: số vùng + số lần sai }`; `data-assist` trên màu của vùng chưa tô đầu tiên, khi đã chọn đúng màu đó thì chuyển sang chính vùng ấy.
+- Hình vẽ: cảnh 1280×720 `src/assets/art/scene-<sky|pond|farm|memory|stage|rail|garden|shadow|paint>.webp`, 6 tranh 640×640 `src/assets/art/puzzle-1..6.webp`, icon `src/assets/art/fun-*.webp`, hình trong lượt 🥬 🍖 🍯 🌾 ✨ 🪣 🐡 🎣 🎵 🐧 🦁 🦓 🦛, mặt sau thẻ, chuột chũi, hang và toa tàu (`play/card-back`, `play/mole`, `play/mole-hole`, `play/wagon`) trong `src/assets/art/play/`.
 
 ## Game framework contract
 
@@ -294,7 +309,8 @@ export type GameId =
   | 'mouse-click-many' | 'mouse-click-order' | 'mouse-click-small' | 'mouse-double-click'
   | 'mouse-trail-long' | 'mouse-drag-many' | 'mouse-drag-groups' | 'mouse-hold-trail'
   | 'mission-park' | 'mission-market' | 'mission-hide' | 'mission-small' | 'mission-boss'
-  | 'fun-balloon' | 'fun-fishing' | 'fun-memory' | 'fun-feed' | 'fun-puzzle';
+  | 'fun-balloon' | 'fun-fishing' | 'fun-memory' | 'fun-feed' | 'fun-puzzle'
+  | 'fun-piano' | 'fun-train' | 'fun-mole' | 'fun-shadow' | 'fun-paint';
 
 export type RoundOutcome = {
   correct: number;
@@ -361,9 +377,9 @@ Kho và cách chọn mục (mọi game chọn lượt bằng `pickRound`, trừ 
 | drill-* (8 bộ) | 11–12 mục mỗi bộ (`DRILL_SETS`) | 6 | không dùng `level` |
 | mouse-* (8 bộ) | 8–13 mục mỗi bộ (`MOUSE_DRILL_SETS`) | 6 | không dùng `level`; vị trí hình / thứ tự món xáo theo seed |
 | mission-* (5 bộ) | 8 bạn tốt, 8 món đồ, 5 chỗ trốn (`MISSION_SETS`) | 6 | không dùng `level`; vị trí, bạn tốt, món đồ xáo theo seed |
-| fun-* (5 bộ) | 19 chữ, 9 số, 10 bạn thú, 6 cặp thú ăn, 6 tranh (`FUN_SETS`) | 6 | không dùng `level`; phím, vị trí, thẻ, mảnh tranh xáo theo seed |
+| fun-* (10 bộ) | 19 chữ, 9 số, 10 bạn thú, 6 cặp thú ăn, 6 tranh ghép, 6 bài đàn, 20 tên con vật cho tàu, 12 bạn thú có bóng, 6 tranh tô (`FUN_SETS`) | 6 | không dùng `level`; phím, vị trí, thẻ, mảnh tranh, bài đàn, tên con vật, hang chuột chũi, bạn thú và tranh tô xáo theo seed |
 
-Assist dùng một cơ chế chung cho cả 38 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
+Assist dùng một cơ chế chung cho cả 43 game: mỗi game gắn `data-assist="1"` hoặc `data-assist="2"` lên chính target thật (phím/ký tự đích, mục tiêu click, hình đúng, checkpoint kế tiếp, drop zone đúng). CSS chung trong `app.css` vẽ trợ giúp theo attribute này.
 
 - Level 0: chưa có lỗi, không trợ giúp.
 - Level 1 (sau 2 lần sai liên tiếp): target được viền nổi bật, guide tự mở và hint cụ thể được đọc bằng giọng.
@@ -502,8 +518,8 @@ Mỗi mini-game có test (`src/games/*Game.test.tsx`) cho:
 
 Framework và UI chung:
 - nhiệm vụ bắt trộm: số nhân vật vừa ô, có cảnh và hình vẽ, bắt trộm → món đồ, bạn tốt tính sai kèm hint, mở chỗ trốn không tính sai, trùm nhảy 3 chỗ khác nhau — `src/games/MissionGame.test.tsx`
-- công viên vui chơi: nổ bóng theo thứ tự bất kỳ, phím không có trên bóng tính sai kèm hint, câu cá bằng số — `PopKeysGame.test.tsx`; cặp sai mở tới click kế tiếp, `memoryOutcome`, hint chỉ khi sai quá số cặp — `MemoryGame.test.tsx`; ghép 4 mảnh, thả sai ô về khay — `PuzzleGame.test.tsx`; registry theo `kind` và đủ hình vẽ cho mọi cảnh, tranh, hình trong lượt — `src/games/funGames.test.ts`, `src/game/registry.test.ts`
-- `data-assist` 0/1/2 trên target thật của cả 38 game — `src/games/assist.test.tsx`
+- công viên vui chơi: nổ bóng theo thứ tự bất kỳ, phím không có trên bóng tính sai kèm hint, câu cá bằng số — `PopKeysGame.test.tsx`; cặp sai mở tới click kế tiếp, `memoryOutcome`, hint chỉ khi sai quá số cặp — `MemoryGame.test.tsx`; ghép 4 mảnh, thả sai ô về khay — `PuzzleGame.test.tsx`; đàn theo phím đang sáng, phím đàn chưa sáng và phím cách không tính sai, phím ngoài đàn tính sai kèm tên phím đúng, gõ tàu từng toa, phím cách không tính sai, lượt cuối tên 4 chữ — `PianoTrainGame.test.tsx`; bạn thỏ không bao giờ ở hang chuột chũi tới, mỗi lúc một chuột chũi chờ và để lại sao, bạn thỏ từ lượt 3, kéo bạn thú vào đúng bóng, 4 bạn thú ở lượt sau, tô từng vùng theo màu mẫu, assist chỉ màu rồi tới vùng — `MoleShadowPaintGame.test.tsx`; registry theo `kind` (piano và tàu là bàn phím), bài đàn chỉ dùng 7 phím, tên trên tàu đúng độ dài, màu tô có trong bảng màu và đủ hình vẽ cho mọi cảnh, tranh, hình trong lượt — `src/games/funGames.test.ts`, `src/game/registry.test.ts`
+- `data-assist` 0/1/2 trên target thật của cả 43 game — `src/games/assist.test.tsx`
 - `Nghe yêu cầu` đọc mục tiêu lượt — `src/components/ListenButton.test.tsx`
 - GameShell: assist level theo số lần sai, đọc intro/hint, guide, lượt ôn, không ôn trong quick session — `src/game/GameShell.test.tsx`
 - Progress: gợi ý `Chơi <bài>`, sao, reset phải xác nhận / huỷ được / tắt khi chưa chơi — `src/screens/ProgressScreen.test.tsx`; reset xoá localStorage và khoá lại Lộ trình — `src/App.test.tsx`
@@ -520,11 +536,11 @@ Framework và UI chung:
 
 MVP hoàn thành khi:
 
-1. Cả 38 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
+1. Cả 43 mini-game chơi được trên Chrome/Edge desktop bằng chuột và bàn phím thật.
 2. Một session không dùng countdown; Guided Play mặc định tối đa 5 lượt, còn Lộ trình/Chơi tự do giữ số lượt đầy đủ của game.
 3. Hoàn thành game tạo 1-3 sao và lưu được vào localStorage.
 4. Reload giữ lại best stars và trạng thái hoàn thành.
-5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 38 game. Tổng sao tối đa 114 (`gameRegistry.length * 3`).
+5. Lộ trình unlock tuần tự; Chơi tự do luôn mở cả 43 game. Tổng sao tối đa 129 (`gameRegistry.length * 3`).
 6. Speech có nút nghe lại và app vẫn dùng được nếu speech unavailable.
 7. Sai thao tác không đưa bé vào failure screen.
 8. Build production và toàn bộ Vitest test suite pass.

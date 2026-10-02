@@ -14,6 +14,11 @@ function getAudioContext(): AudioContext | null {
   return sharedContext;
 }
 
+/** One soft piano-like note; silent when audio is unavailable. */
+export function playNote(frequency: number): void {
+  playTone(frequency, 420);
+}
+
 function playTone(frequency: number, durationMs: number, delayMs = 0): void {
   try {
     const context = getAudioContext();

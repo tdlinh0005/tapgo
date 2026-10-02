@@ -23,6 +23,11 @@ import { FUN_SETS, type FunSet } from '../games/funGames';
 import { createPopKeysGame } from '../games/PopKeysGame';
 import { createMemoryGame } from '../games/MemoryGame';
 import { createPuzzleGame } from '../games/PuzzleGame';
+import { createPianoGame } from '../games/PianoGame';
+import { createTrainGame } from '../games/TrainGame';
+import { createMoleGame } from '../games/MoleGame';
+import { createShadowGame } from '../games/ShadowGame';
+import { createPaintGame } from '../games/PaintGame';
 import { FUN_IDS, GAME_IDS, MISSION_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS, type BasicGameId, type FunId, type GameDefinition, type GameId, type MiniGameProps, type MissionId, type MouseDrillId, type TypingDrillId } from './types';
 
 type GameMeta = Omit<GameDefinition, 'id' | 'order'>;
@@ -81,13 +86,20 @@ function createFunGame(set: FunSet): ComponentType<MiniGameProps> {
     case 'memory': return createMemoryGame(set);
     case 'puzzle': return createPuzzleGame(set);
     case 'multi-drag': return createMultiDragGame(set);
+    case 'piano': return createPianoGame(set);
+    case 'train': return createTrainGame(set);
+    case 'mole': return createMoleGame(set);
+    case 'shadow': return createShadowGame(set);
+    case 'paint': return createPaintGame(set);
   }
 }
+
+export const KEYBOARD_FUN_KINDS: readonly FunSet['kind'][] = ['pop-keys', 'piano', 'train'];
 
 const FUN_GAME_DEFINITIONS = Object.fromEntries(
   FUN_IDS.map((id) => {
     const set = FUN_SETS[id];
-    const meta: GameMeta = { title: set.title, category: set.kind === 'pop-keys' ? 'keyboard' : 'mouse', rounds: set.rounds, intro: set.intro, emoji: set.emoji, component: createFunGame(set) };
+    const meta: GameMeta = { title: set.title, category: KEYBOARD_FUN_KINDS.includes(set.kind) ? 'keyboard' : 'mouse', rounds: set.rounds, intro: set.intro, emoji: set.emoji, component: createFunGame(set) };
     return [id, meta];
   }),
 ) as Record<FunId, GameMeta>;

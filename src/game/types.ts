@@ -51,6 +51,11 @@ export const FUN_IDS = [
   'fun-memory',
   'fun-feed',
   'fun-puzzle',
+  'fun-piano',
+  'fun-train',
+  'fun-mole',
+  'fun-shadow',
+  'fun-paint',
 ] as const;
 
 export const ADVANCED_GAME_IDS = [...TYPING_DRILL_IDS, ...MOUSE_DRILL_IDS, ...MISSION_IDS, ...FUN_IDS] as const;

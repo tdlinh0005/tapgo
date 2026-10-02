@@ -2,7 +2,7 @@
 
 ## Current product and feature specification
 
-- [TapGo MVP](feat/tapgo-mvp.md) — product scope, UX rules, game framework, 28 mini-game definitions (12 cơ bản + 8 bộ đề gõ nâng cao + 8 bộ chuột nâng cao), progress model, speech/audio behavior, testing and acceptance criteria.
+- [TapGo MVP](feat/tapgo-mvp.md) — product scope, UX rules, game framework, 43 mini-game definitions (12 cơ bản + 8 bộ đề gõ nâng cao + 8 bộ chuột nâng cao + 5 nhiệm vụ bắt trộm + 10 trò vui chơi), progress model, speech/audio behavior, testing and acceptance criteria.
 
 ## Active implementation plans
 
