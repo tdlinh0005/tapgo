@@ -3,7 +3,7 @@ import type { ComponentType } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import type { MiniGameProps } from '../game/types';
 import { ARROW_KEYS, ARROWS_ONLY_HINT, createArrowsGame, shortestPath } from './ArrowsGame';
-import { createCloseWindowGame } from './CloseWindowGame';
+import { createCloseWindowGame, windowLayout } from './CloseWindowGame';
 import { BACKSPACE_HINT, createEraserGame, eraserStart } from './EraserGame';
 import { ARROW_MAZES, FUN_SETS, SEA_FRIENDS, SEARCH_TWO_WORDS, TRAIN_WORDS_2, TRAIN_WORDS_3, type ArrowsSet, type CloseSet, type EraserSet, type ScrollSet, type SearchSet } from './funGames';
 import { createScrollGame } from './ScrollGame';
@@ -135,6 +135,15 @@ describe('ArrowsGame', () => {
 });
 
 describe('CloseWindowGame', () => {
+  it('cascades overlapping windows up and to the right so each one covers the ✕ corner of the one under it', () => {
+    const spots = windowLayout(4, true, 1);
+    spots.slice(1).forEach((spot, index) => {
+      const under = spots[index];
+      expect(spot.left).toBeGreaterThan(under.left);
+      expect(spot.top).toBeLessThan(under.top);
+    });
+  });
+
   it('closes side-by-side windows in any order', () => {
     const { onRoundComplete, onRetry } = renderGame(CloseWindowGame, 1);
     expect(screen.getAllByRole('group', { name: /^Cửa sổ/ })).toHaveLength(2);

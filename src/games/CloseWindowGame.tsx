@@ -7,14 +7,14 @@ import { RETRY_PREFIX } from '../game/retryCopy';
 import type { MiniGameProps } from '../game/types';
 import type { CloseSet } from './funGames';
 
-/** Side-by-side windows take one quarter each; overlapping ones cascade so every ✕ stays in sight. */
+/** Side-by-side windows take one quarter each; overlapping ones cascade up and to the right, so each window hides the ✕ of the one under it as on a real desktop. */
 const QUARTERS = [[4, 6], [52, 6], [4, 52], [52, 52]] as const;
 export const WINDOW_TREATS = ['🎈', '🎁', '⭐', '🍦'] as const;
 
 export type WindowSpot = { left: number; top: number };
 
 export function windowLayout(count: number, overlap: boolean, seed: number): WindowSpot[] {
-  if (overlap) return Array.from({ length: count }, (_, index) => ({ left: 12 + index * 9, top: 6 + index * 9 }));
+  if (overlap) return Array.from({ length: count }, (_, index) => ({ left: 12 + index * 9, top: 6 + (count - 1 - index) * 9 }));
   return shuffleWithSeed(QUARTERS, seed).slice(0, count).map(([left, top]) => ({ left, top }));
 }
 

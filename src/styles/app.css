@@ -700,7 +700,6 @@ button:disabled {
 .eraser-key[data-assist="2"],
 .arrow-key[data-assist="2"],
 .sea-friend[data-assist="2"],
-.popup-close[data-assist="2"],
 .search-input[data-assist="2"],
 [data-match-label][data-assist="2"] {
   background: var(--color-primary-soft);
@@ -1779,8 +1778,10 @@ button:disabled {
   box-shadow: var(--shadow-card);
 }
 
+/* Board and key pad sit side by side so the 4-row board fits the play area on a 768px-tall screen. */
 .arrows-area {
-  --arrow-cell: calc(var(--target-medium) * 0.8);
+  --arrow-cell: calc(var(--target-medium) * 0.66);
+  flex-direction: row;
 }
 
 .arrow-cell {
@@ -1916,6 +1917,11 @@ button:disabled {
   color: var(--color-on-primary);
   font-size: 24px;
   font-weight: 900;
+}
+
+/* The red ✕ keeps its colour under assist so it never looks paler than the covered ones. */
+.popup-close[data-assist="2"] {
+  transform: scale(1.08);
 }
 
 .popup-window[data-size="small"] .popup-close {
