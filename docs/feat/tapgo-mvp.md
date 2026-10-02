@@ -1,6 +1,6 @@
 # TapGo MVP Feature Specification
 
-> updated 2026-10-02 · e642109
+> updated 2026-10-02 · f7a32c1
 
 ## Goal
 
@@ -51,7 +51,8 @@ App
 │   └── GameShell + MiniGame
 └── Progress
     ├── tổng sao + trạng thái từng game (`StarRating`)
-    └── Gợi ý cho bố mẹ: nút `Chơi <tên bài>` mở bài được gợi ý (`getRecommendedGameId`)
+    ├── Gợi ý cho bố mẹ: nút `Chơi <tên bài>` mở bài được gợi ý (`getRecommendedGameId`)
+    └── `Bắt đầu lại từ đầu` (cuối trang, cho bố mẹ): hỏi lại một lần rồi xoá hết tiến độ
 ```
 
 App không cần URL routing trong MVP. `App` giữ một view state nhỏ vì đây là single-user local app và không có nhu cầu deep-link. Game view mang thêm mode `guided | path | free-play` để Guided Play có thể dùng quick session mà không làm thay đổi độ dài đầy đủ của Lộ trình và Chơi tự do.
@@ -268,7 +269,8 @@ export type GameId =
   | 'drill-home-row' | 'drill-top-row' | 'drill-bottom-row' | 'drill-long-words'
   | 'drill-two-words' | 'drill-numbers' | 'drill-sentences' | 'drill-sentence-enter'
   | 'mouse-click-many' | 'mouse-click-order' | 'mouse-click-small' | 'mouse-double-click'
-  | 'mouse-trail-long' | 'mouse-drag-many' | 'mouse-drag-groups' | 'mouse-hold-trail';
+  | 'mouse-trail-long' | 'mouse-drag-many' | 'mouse-drag-groups' | 'mouse-hold-trail'
+  | 'mission-park' | 'mission-market' | 'mission-hide' | 'mission-small' | 'mission-boss';
 
 export type RoundOutcome = {
   correct: number;
@@ -382,6 +384,8 @@ export type ProgressState = {
 
 Nếu dữ liệu localStorage bị hỏng hoặc parse thất bại, app dùng state mặc định mới thay vì crash.
 
+Reset: ở cuối màn Tiến độ, khung “Dành cho bố mẹ” có nút `🔄 Bắt đầu lại từ đầu` (bị tắt khi chưa có game nào được chơi, tức mọi `plays` = 0). Bấm nút mở bước xác nhận “Xoá hết sao và bài đã hoàn thành? Xoá rồi không lấy lại được.” với `Không xoá` (được focus sẵn, quay lại) và `Xoá hết, bắt đầu lại`. Xác nhận thì `App` đặt progress về `createDefaultProgress()` (effect lưu đè `tapgo.progress.v1`), màn Tiến độ hiện 0 sao và báo “Đã xoá tiến độ. Bé bắt đầu lại từ bài 1 nhé.” (`role="status"`); Lộ trình khoá lại từ game 2.
+
 Không lưu tên, tuổi, dữ liệu cá nhân hay telemetry trong MVP.
 
 ## Speech and sound
@@ -476,7 +480,7 @@ Framework và UI chung:
 - `data-assist` 0/1/2 trên target thật của cả 33 game — `src/games/assist.test.tsx`
 - `Nghe yêu cầu` đọc mục tiêu lượt — `src/components/ListenButton.test.tsx`
 - GameShell: assist level theo số lần sai, đọc intro/hint, guide, lượt ôn, không ôn trong quick session — `src/game/GameShell.test.tsx`
-- Progress: gợi ý `Chơi <bài>` và sao — `src/screens/ProgressScreen.test.tsx`
+- Progress: gợi ý `Chơi <bài>`, sao, reset phải xác nhận / huỷ được / tắt khi chưa chơi — `src/screens/ProgressScreen.test.tsx`; reset xoá localStorage và khoá lại Lộ trình — `src/App.test.tsx`
 
 ### Integration (`src/App.test.tsx`)
 

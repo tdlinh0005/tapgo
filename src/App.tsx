@@ -5,6 +5,7 @@ import GameShell from './game/GameShell';
 import { getNextGameId, getRecommendedGameId } from './game/path';
 import { getGameDefinition } from './game/registry';
 import {
+  createDefaultProgress,
   loadProgress,
   recordCompletion,
   saveProgress,
@@ -59,7 +60,7 @@ export default function App() {
   } else if (view.name === 'free-play') {
     content = <FreePlayScreen progress={progress} onPlay={(gameId) => openGame(gameId, 'free-play')} onHome={goHome} />;
   } else if (view.name === 'progress') {
-    content = <ProgressScreen progress={progress} onPlay={(gameId) => openGame(gameId, 'guided')} onHome={goHome} />;
+    content = <ProgressScreen progress={progress} onPlay={(gameId) => openGame(gameId, 'guided')} onHome={goHome} onReset={() => setProgress(createDefaultProgress())} />;
   } else if (view.name === 'game') {
     content = (
       <GameShell

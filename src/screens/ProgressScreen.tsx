@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import ActionButton from '../components/ActionButton';
 import GameArt from '../components/GameArt';
 import StarRating from '../components/StarRating';
@@ -10,9 +11,11 @@ type Props = {
   progress: ProgressState;
   onPlay: (gameId: GameId) => void;
   onHome: () => void;
+  onReset: () => void;
 };
 
-export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
+export default function ProgressScreen({ progress, onPlay, onHome, onReset }: Props) {
+  const [resetStep, setResetStep] = useState<'idle' | 'confirm' | 'done'>('idle');
   const totalStars = gameRegistry.reduce(
     (sum, game) => sum + progress.games[game.id].bestStars,
     0,
@@ -21,6 +24,12 @@ export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
   const totalPossibleStars = gameRegistry.length * 3;
   const jarFill = `${Math.round((totalStars / totalPossibleStars) * 100)}%`;
   const recommended = getGameDefinition(getRecommendedGameId(progress));
+  const hasProgress = gameRegistry.some((game) => progress.games[game.id].plays > 0);
+
+  const confirmReset = () => {
+    onReset();
+    setResetStep('done');
+  };
 
   return (
     <main className="screen-shell">
@@ -69,6 +78,24 @@ export default function ProgressScreen({ progress, onPlay, onHome }: Props) {
           );
         })}
       </ul>
+      <section className="progress-reset" aria-label="Bắt đầu lại" data-step={resetStep}>
+        {resetStep === 'confirm' ? (
+          <>
+            <p>Xoá hết sao và bài đã hoàn thành? Xoá rồi không lấy lại được.</p>
+            <div className="progress-reset-actions">
+              <button type="button" className="progress-reset-keep" onClick={() => setResetStep('idle')} autoFocus>Không xoá</button>
+              <button type="button" className="progress-reset-confirm" onClick={confirmReset}>Xoá hết, bắt đầu lại</button>
+            </div>
+          </>
+        ) : (
+          <>
+            <p role="status">{resetStep === 'done' ? 'Đã xoá tiến độ. Bé bắt đầu lại từ bài 1 nhé.' : 'Dành cho bố mẹ: xoá hết tiến độ để bé chơi lại từ đầu.'}</p>
+            <button type="button" className="progress-reset-open" onClick={() => setResetStep('confirm')} disabled={!hasProgress}>
+              <span aria-hidden="true">🔄</span> Bắt đầu lại từ đầu
+            </button>
+          </>
+        )}
+      </section>
     </main>
   );
 }

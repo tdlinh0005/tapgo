@@ -1377,6 +1377,64 @@ button:disabled {
   font-weight: 650;
 }
 
+/* Parent-only reset sits below the sticker album and needs a second, explicit click. */
+.progress-reset {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-card);
+  padding: 18px 22px;
+  background: var(--color-surface);
+}
+
+.progress-reset[data-step="confirm"] {
+  border-style: solid;
+  border-color: var(--color-keyboard-strong);
+  background: var(--color-keyboard-soft);
+}
+
+.progress-reset p {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.progress-reset[data-step="confirm"] p {
+  color: var(--color-text);
+}
+
+.progress-reset-actions {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.progress-reset button {
+  min-height: 72px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.progress-reset .progress-reset-keep {
+  border-color: var(--color-primary);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.progress-reset .progress-reset-confirm {
+  border-color: var(--color-keyboard-strong);
+  color: var(--color-keyboard-strong);
+}
+
 .progress-list {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
