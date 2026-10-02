@@ -19,7 +19,11 @@ import { createMultiClickGame } from '../games/MultiClickGame';
 import { createMultiDragGame } from '../games/MultiDragGame';
 import { MISSION_SETS } from '../games/missions';
 import { createMissionGame } from '../games/MissionGame';
-import { GAME_IDS, MISSION_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS, type BasicGameId, type GameDefinition, type GameId, type MiniGameProps, type MissionId, type MouseDrillId, type TypingDrillId } from './types';
+import { FUN_SETS, type FunSet } from '../games/funGames';
+import { createPopKeysGame } from '../games/PopKeysGame';
+import { createMemoryGame } from '../games/MemoryGame';
+import { createPuzzleGame } from '../games/PuzzleGame';
+import { FUN_IDS, GAME_IDS, MISSION_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS, type BasicGameId, type FunId, type GameDefinition, type GameId, type MiniGameProps, type MissionId, type MouseDrillId, type TypingDrillId } from './types';
 
 type GameMeta = Omit<GameDefinition, 'id' | 'order'>;
 
@@ -71,7 +75,24 @@ const MISSION_GAME_DEFINITIONS = Object.fromEntries(
   }),
 ) as Record<MissionId, GameMeta>;
 
-const GAME_DEFINITIONS: Record<GameId, GameMeta> = { ...BASIC_GAME_DEFINITIONS, ...DRILL_GAME_DEFINITIONS, ...MOUSE_DRILL_GAME_DEFINITIONS, ...MISSION_GAME_DEFINITIONS };
+function createFunGame(set: FunSet): ComponentType<MiniGameProps> {
+  switch (set.kind) {
+    case 'pop-keys': return createPopKeysGame(set);
+    case 'memory': return createMemoryGame(set);
+    case 'puzzle': return createPuzzleGame(set);
+    case 'multi-drag': return createMultiDragGame(set);
+  }
+}
+
+const FUN_GAME_DEFINITIONS = Object.fromEntries(
+  FUN_IDS.map((id) => {
+    const set = FUN_SETS[id];
+    const meta: GameMeta = { title: set.title, category: set.kind === 'pop-keys' ? 'keyboard' : 'mouse', rounds: set.rounds, intro: set.intro, emoji: set.emoji, component: createFunGame(set) };
+    return [id, meta];
+  }),
+) as Record<FunId, GameMeta>;
+
+const GAME_DEFINITIONS: Record<GameId, GameMeta> = { ...BASIC_GAME_DEFINITIONS, ...DRILL_GAME_DEFINITIONS, ...MOUSE_DRILL_GAME_DEFINITIONS, ...MISSION_GAME_DEFINITIONS, ...FUN_GAME_DEFINITIONS };
 
 export const gameRegistry: GameDefinition[] = GAME_IDS.map((id, index) => ({
   id,

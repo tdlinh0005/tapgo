@@ -1,6 +1,7 @@
 import { useRef, useState, type ComponentType } from 'react';
 import Emoji from '../components/Emoji';
 import ListenButton from '../components/ListenButton';
+import { artUrl } from '../game/art';
 import { pickRound, roundSeed, shuffleWithSeed } from '../game/pickRound';
 import type { MiniGameProps } from '../game/types';
 import { resolveDrop, usePointerDrag } from '../hooks/usePointerDrag';
@@ -38,7 +39,8 @@ function DraggablePiece({ piece, onDrop }: DraggablePieceProps) {
   );
 }
 
-export function createMultiDragGame({ title, items, itemCount }: MultiDragSet): ComponentType<MiniGameProps> {
+export function createMultiDragGame({ title, items, itemCount, prompt: setPrompt, scene }: MultiDragSet): ComponentType<MiniGameProps> {
+  const sceneUrl = scene ? artUrl(`scene-${scene}`) : undefined;
   return function MultiDragGame({ roundIndex, sessionSeed, onRoundComplete, onRetry, speak, assistLevel = 0 }: MiniGameProps) {
     const seed = roundSeed(roundIndex, sessionSeed);
     const groups = shuffleWithSeed(pickRound(items, roundIndex, sessionSeed), seed);
@@ -46,7 +48,7 @@ export function createMultiDragGame({ title, items, itemCount }: MultiDragSet): 
     const [placed, setPlaced] = useState<readonly string[]>([]);
     const attempts = useRef(0);
     const nextPiece = pieces.find(({ name }) => !placed.includes(name));
-    const prompt = groups.length === 1 ? `Kéo hết vào ${groups[0].label.toLowerCase()}` : 'Kéo mỗi món vào đúng chỗ';
+    const prompt = setPrompt ?? (groups.length === 1 ? `Kéo hết vào ${groups[0].label.toLowerCase()}` : 'Kéo mỗi món vào đúng chỗ');
     const listenText = `Kéo ${joinNames(groups.map(({ kind, label }) => `${kind} vào ${label.toLowerCase()}`))}`;
 
     const dropPiece = (piece: DragPiece) => (clientX: number, clientY: number) => {
@@ -65,7 +67,7 @@ export function createMultiDragGame({ title, items, itemCount }: MultiDragSet): 
     };
 
     return (
-      <section className="drag-game" aria-label={title}>
+      <section className="drag-game" aria-label={title} data-scene={scene} style={sceneUrl ? { backgroundImage: `url(${sceneUrl})` } : undefined}>
         <p className="game-prompt">{prompt}</p>
         <ListenButton text={listenText} speak={speak} />
         <div className="multi-drag-items">

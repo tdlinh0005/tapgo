@@ -45,7 +45,15 @@ export const MISSION_IDS = [
   'mission-boss',
 ] as const;
 
-export const ADVANCED_GAME_IDS = [...TYPING_DRILL_IDS, ...MOUSE_DRILL_IDS, ...MISSION_IDS] as const;
+export const FUN_IDS = [
+  'fun-balloon',
+  'fun-fishing',
+  'fun-memory',
+  'fun-feed',
+  'fun-puzzle',
+] as const;
+
+export const ADVANCED_GAME_IDS = [...TYPING_DRILL_IDS, ...MOUSE_DRILL_IDS, ...MISSION_IDS, ...FUN_IDS] as const;
 
 export const GAME_IDS = [...BASIC_GAME_IDS, ...ADVANCED_GAME_IDS] as const;
 
@@ -53,6 +61,7 @@ export type BasicGameId = (typeof BASIC_GAME_IDS)[number];
 export type TypingDrillId = (typeof TYPING_DRILL_IDS)[number];
 export type MouseDrillId = (typeof MOUSE_DRILL_IDS)[number];
 export type MissionId = (typeof MISSION_IDS)[number];
+export type FunId = (typeof FUN_IDS)[number];
 export type AdvancedGameId = (typeof ADVANCED_GAME_IDS)[number];
 export type GameId = (typeof GAME_IDS)[number];
 

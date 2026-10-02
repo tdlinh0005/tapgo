@@ -13,7 +13,7 @@ export type MultiClickSet = MouseDrillMeta & { kind: 'multi-click'; items: reado
 export type DoubleClickSet = MouseDrillMeta & { kind: 'double-click'; items: readonly NamedPicture[] };
 export type TrailSet = MouseDrillMeta & { kind: 'trail'; items: readonly Trail[]; checkpointSize: TargetSize; hold: boolean };
 /** Each item is one round: the zones shown, with `itemCount` pictures split evenly across them. */
-export type MultiDragSet = MouseDrillMeta & { kind: 'multi-drag'; items: readonly (readonly SortGroup[])[]; itemCount: number };
+export type MultiDragSet = MouseDrillMeta & { kind: 'multi-drag'; items: readonly (readonly SortGroup[])[]; itemCount: number; prompt?: string; scene?: string };
 export type MouseDrillSet = MultiClickSet | DoubleClickSet | TrailSet | MultiDragSet;
 
 const MOUSE_DRILL_ROUNDS = 6;

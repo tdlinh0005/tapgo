@@ -3,7 +3,8 @@ import { DRILL_SETS } from '../games/drills';
 import LetterKeyGame from '../games/LetterKeyGame';
 import { MOUSE_DRILL_SETS } from '../games/mouseDrills';
 import { MISSION_SETS } from '../games/missions';
-import { MISSION_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS } from './types';
+import { FUN_SETS } from '../games/funGames';
+import { FUN_IDS, MISSION_IDS, MOUSE_DRILL_IDS, TYPING_DRILL_IDS } from './types';
 import { gameRegistry } from './registry';
 
 describe('game registry', () => {
@@ -42,6 +43,11 @@ describe('game registry', () => {
       'mission-hide',
       'mission-small',
       'mission-boss',
+      'fun-balloon',
+      'fun-fishing',
+      'fun-memory',
+      'fun-feed',
+      'fun-puzzle',
     ]);
   });
 
@@ -71,6 +77,16 @@ describe('game registry', () => {
       expect(game.title).toBe(MISSION_SETS[id].title);
       expect(game.rounds).toBe(6);
     }
+  });
+
+  it('registers fun park games as keyboard for key popping and mouse for the rest', () => {
+    for (const id of FUN_IDS) {
+      const game = gameRegistry.find((entry) => entry.id === id)!;
+      expect(game.category).toBe(FUN_SETS[id].kind === 'pop-keys' ? 'keyboard' : 'mouse');
+      expect(game.title).toBe(FUN_SETS[id].title);
+      expect(game.rounds).toBe(6);
+    }
+    expect(gameRegistry.filter((game) => FUN_IDS.includes(game.id as never) && game.category === 'keyboard').map((game) => game.id)).toEqual(['fun-balloon', 'fun-fishing']);
   });
 
   it('uses the real letter game for the first entry', () => {
